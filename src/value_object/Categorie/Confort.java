@@ -1,10 +1,12 @@
-package value_object;
+package value_object.Categorie;
 
+import value_object.ICategorie;
+import value_object.Voiture;
 import value_object.model.Enumeration;
 
 import java.util.List;
 
-public class Confort implements ICategorie{
+public class Confort implements ICategorie {
     private static Enumeration.Categorie name;
     private static int price;
     private static int caution;
