@@ -1,19 +1,21 @@
-package value_object;
+package value_object.Categorie;
 
+import value_object.ICategorie;
+import value_object.Voiture;
 import value_object.model.Enumeration;
 
 import java.util.List;
 
-public class Luxe implements ICategorie{
+public class Confort implements ICategorie {
     private static Enumeration.Categorie name;
     private static int price;
     private static int caution;
     private List<Voiture> voiture;
 
-    public Luxe(){
-        name = Enumeration.Categorie.Luxe;
-        price = 100;
-        caution = 1000;
+    public Confort(){
+        name = Enumeration.Categorie.Confort;
+        price = 75;
+        caution = 750;
     }
 
     public List<Voiture> getVoiture() {
@@ -36,5 +38,4 @@ public class Luxe implements ICategorie{
     public int getTarif() {
         return price;
     }
-
 }

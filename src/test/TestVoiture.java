@@ -1,7 +1,7 @@
 package test;
 
 import value_object.ICategorie;
-import value_object.Luxe;
+import value_object.Categorie.Luxe;
 import value_object.Voiture;
 import value_object.model.Enumeration;
 
