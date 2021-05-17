@@ -7,7 +7,7 @@ public class Devis {
     private final Voiture voiture;
     private final Client client;
 
-    Devis(Voiture voiture, Client client, Date duree){
+    public Devis(Voiture voiture, Client client, Date duree){
         this.duree = duree;
         this.voiture = voiture;
         this.client = client;

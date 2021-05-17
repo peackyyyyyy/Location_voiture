@@ -9,7 +9,7 @@ public class Personne {
     private final String phone;
 
 
-    Personne(String name, String surname, String email, Adresse adresse, String phone){
+    public Personne(String name, String surname, String email, Adresse adresse, String phone){
             this.name = name;
             this.surname = surname;
             this.email = email;

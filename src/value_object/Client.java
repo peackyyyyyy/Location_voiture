@@ -5,7 +5,7 @@ public class Client extends Personne{
     private Voiture location;
     private Fidelite fidelite;
 
-    Client(String name, String surname, String email, Adresse adresse, String phone){
+    public Client(String name, String surname, String email, Adresse adresse, String phone){
         super(name, surname, email, adresse, phone);
     }
 

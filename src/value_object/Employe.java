@@ -4,7 +4,7 @@ public class Employe extends Personne{
     private String login;
     private String mdp;
 
-    Employe(String name, String surname, String email, Adresse adresse, String phone){
+    public Employe(String name, String surname, String email, Adresse adresse, String phone){
         super(name, surname, email, adresse, phone);
     }
 

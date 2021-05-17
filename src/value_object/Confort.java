@@ -4,16 +4,16 @@ import value_object.model.Enumeration;
 
 import java.util.List;
 
-public class Categorie {
-    private final Enumeration.Categorie name;
-    private final int price;
-    private final int caution;
+public class Confort implements ICategorie{
+    private static Enumeration.Categorie name;
+    private static int price;
+    private static int caution;
     private List<Voiture> voiture;
 
-    Categorie(Enumeration.Categorie name, int price, int caution){
-        this.name = name;
-        this.price = price;
-        this.caution = caution;
+    public Confort(){
+        name = Enumeration.Categorie.Confort;
+        price = 75;
+        caution = 750;
     }
 
     public List<Voiture> getVoiture() {
@@ -36,6 +36,4 @@ public class Categorie {
     public int getTarif() {
         return price;
     }
-
-
 }

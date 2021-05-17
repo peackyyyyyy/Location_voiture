@@ -8,12 +8,12 @@ public class Voiture {
     private int kilometers;
     private final boolean vitesse;
     private final boolean clim;
-    private final Categorie categorie;
+    private final ICategorie categorie;
     private final Enumeration.Carburant carburant;
     private boolean reservation;
     private boolean location;
 
-    Voiture(String marque, String model, int kilometers, Categorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant){
+    public Voiture(String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant){
         this.marque = marque;
         this.model = model;
         this.kilometers = kilometers;
@@ -36,7 +36,7 @@ public class Voiture {
         return carburant;
     }
 
-    public Categorie getCategorie() {
+    public ICategorie getCategorie() {
         return categorie;
     }
 
