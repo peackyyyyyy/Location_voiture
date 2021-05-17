@@ -3,15 +3,15 @@ package value_object;
 import value_object.model.Enumeration;
 
 public class Voiture {
-    protected String marque;
-    protected String model;
-    protected int kilometers;
-    protected boolean vitesse;
-    protected boolean clim;
-    protected Categorie categorie;
-    protected Enumeration.Carburant carburant;
-    protected boolean reservation;
-    protected boolean location;
+    private final String marque;
+    private final String model;
+    private int kilometers;
+    private final boolean vitesse;
+    private final boolean clim;
+    private final Categorie categorie;
+    private final Enumeration.Carburant carburant;
+    private boolean reservation;
+    private boolean location;
 
     Voiture(String marque, String model, int kilometers, Categorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant){
         this.marque = marque;
@@ -54,6 +54,14 @@ public class Voiture {
 
     public void setKilometers(int kilometers) {
         this.kilometers = kilometers;
+    }
+
+    public boolean isLocation() {
+        return location;
+    }
+
+    public boolean isReservation() {
+        return reservation;
     }
 
     public void setReservation(boolean reservation) {

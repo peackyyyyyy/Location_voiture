@@ -2,11 +2,11 @@ package value_object;
 
 public class Personne {
 
-    protected String name;
-    protected String surname;
-    protected String email;
-    protected Adresse adresse;
-    protected String phone;
+    private final String name;
+    private final String surname;
+    private final String email;
+    private final Adresse adresse;
+    private final String phone;
 
 
     Personne(String name, String surname, String email, Adresse adresse, String phone){

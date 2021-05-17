@@ -1,13 +1,12 @@
 package value_object;
 
 public class Client extends Personne{
-    protected int id;
-    protected Voiture location;
-    protected Fidelite fidelite;
+    private int id;
+    private Voiture location;
+    private Fidelite fidelite;
 
-    Client(int id, String name, String surname, String email, Adresse adresse, String phone){
+    Client(String name, String surname, String email, Adresse adresse, String phone){
         super(name, surname, email, adresse, phone);
-        this.id = id;
     }
 
     public void setLocation(Voiture location) {
@@ -20,6 +19,14 @@ public class Client extends Personne{
 
     public Voiture getLocation() {
         return location;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Fidelite getFidelite() {

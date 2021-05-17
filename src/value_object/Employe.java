@@ -1,8 +1,8 @@
 package value_object;
 
 public class Employe extends Personne{
-    protected String login;
-    protected String mdp;
+    private String login;
+    private String mdp;
 
     Employe(String name, String surname, String email, Adresse adresse, String phone){
         super(name, surname, email, adresse, phone);

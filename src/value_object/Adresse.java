@@ -1,9 +1,9 @@
 package value_object;
 
 public class Adresse {
-    protected String rue;
-    protected String ville;
-    protected int codepostal;
+    private final String rue;
+    private final String ville;
+    private final int codepostal;
 
     Adresse(String rue, String ville, int codepostal){
         this.rue = rue;

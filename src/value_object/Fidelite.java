@@ -1,13 +1,14 @@
 package value_object;
+import java.util.Date;
 
 public class Fidelite {
-    protected String date;
-    protected int duree;
-    protected String description;
-    protected int price;
-    protected float reduction;
+    private Date date;
+    private final int duree;
+    private final String description;
+    private final int price;
+    private final float reduction;
 
-    Fidelite(String date, int duree, String description, int price, float reduction){
+    public Fidelite(Date date, int duree, String description, int price, float reduction){
         this.date = date;
         this.duree = duree;
         this.description = description;
@@ -27,7 +28,7 @@ public class Fidelite {
         return price;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -35,7 +36,7 @@ public class Fidelite {
         return description;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }
