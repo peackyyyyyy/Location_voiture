@@ -71,4 +71,8 @@ public class Voiture {
     public void setLocation(boolean location) {
         this.location = location;
     }
+    @Override
+    public String toString() {
+    	return "marque: "+ marque+", model : "+  model+", kilometers : "+ kilometers+", categorie : "+categorie+", vitesse : "+vitesse+", clim : "+clim+", carburant : " +carburant;
+    }
 }

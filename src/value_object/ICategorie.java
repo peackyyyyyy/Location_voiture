@@ -11,6 +11,6 @@ public interface ICategorie{
     Enumeration.Categorie getName();
     int getCaution();
     int getTarif();
-
+    String toString();
 
 }
