@@ -3,15 +3,15 @@ package value_object;
 public class Adresse {
     private final String rue;
     private final String ville;
-    private final int codepostal;
+    private final String codepostal;
 
-    public Adresse(String rue, String ville, int codepostal){
+    public Adresse(String rue, String ville, String codepostal){
         this.rue = rue;
         this.ville = ville;
         this.codepostal = codepostal;
     }
 
-    public int getCodepostal() {
+    public String getCodepostal() {
         return codepostal;
     }
 
@@ -21,5 +21,14 @@ public class Adresse {
 
     public String getVille() {
         return ville;
+    }
+
+    @Override
+    public String toString() {
+        return "Adresse{" +
+                "rue='" + rue + '\'' +
+                ", ville='" + ville + '\'' +
+                ", codepostal=" + codepostal +
+                '}';
     }
 }

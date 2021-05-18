@@ -48,4 +48,15 @@ public class Devis {
     public Voiture getVoiture() {
         return voiture;
     }
+
+    @Override
+    public String toString() {
+        return "Devis{" +
+                "id=" + id +
+                ", debut=" + debut +
+                ", fin=" + fin +
+                ", voiture=" + voiture +
+                ", client=" + client +
+                '}';
+    }
 }
