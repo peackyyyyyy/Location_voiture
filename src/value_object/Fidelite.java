@@ -2,18 +2,24 @@ package value_object;
 import java.util.Date;
 
 public class Fidelite {
+    private final int id;
     private Date date;
     private final int duree;
     private final String description;
     private final int price;
     private final float reduction;
 
-    public Fidelite(Date date, int duree, String description, int price, float reduction){
+    public Fidelite(Date date, int duree, String description, int price, float reduction, int id){
+        this.id = id;
         this.date = date;
         this.duree = duree;
         this.description = description;
         this.price = price;
         this.reduction = reduction;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public float getReduction() {

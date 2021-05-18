@@ -23,4 +23,12 @@ public class Employe extends Personne{
     public void setMdp(String mdp) {
         this.mdp = mdp;
     }
+
+    @Override
+    public String toString() {
+        return "Employe{" +
+                "login='" + login + '\'' +
+                ", mdp='" + mdp + '\'' +
+                '}';
+    }
 }

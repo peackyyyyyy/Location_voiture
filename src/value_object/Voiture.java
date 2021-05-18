@@ -10,21 +10,24 @@ public class Voiture {
     private boolean endommage;
     private final boolean vitesse;
     private final boolean clim;
-    private final ICategorie categorie;
+    private ICategorie categorie;
     private final Enumeration.Carburant carburant;
     private boolean reservation;
     private boolean location;
 
-    public Voiture(int id, String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage){
+    public Voiture(int id, String marque, String model, int kilometers, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage){
         this.id = id;
         this.marque = marque;
         this.model = model;
         this.kilometers = kilometers;
-        this.categorie = categorie;
         this.vitesse = vitesse;
         this.clim = clim;
         this.carburant = carburant;
         this.endommage = endommage;
+    }
+
+    public void setCategorie(ICategorie categorie) {
+        this.categorie = categorie;
     }
 
     public int getId() {
