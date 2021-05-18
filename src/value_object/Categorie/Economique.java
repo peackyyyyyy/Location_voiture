@@ -10,7 +10,6 @@ public class Economique implements ICategorie {
     private static Enumeration.Categorie name;
     private static int price;
     private static int caution;
-    private List<Voiture> voiture;
 
     public Economique(){
         name = Enumeration.Categorie.Economique;
@@ -18,13 +17,6 @@ public class Economique implements ICategorie {
         caution = 500;
     }
 
-    public List<Voiture> getVoiture() {
-        return voiture;
-    }
-
-    public void setVoiture(List<Voiture> voiture) {
-        this.voiture = voiture;
-    }
 
     public Enumeration.Categorie getName() {
         return name;

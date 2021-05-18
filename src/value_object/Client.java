@@ -34,6 +34,7 @@ public class Client extends Personne{
     public String toString() {
         return "Client{" +
                 "id=" + id +
+                super.toString() +
                 ", location=" + location +
                 ", fidelite=" + fidelite +
                 '}';
