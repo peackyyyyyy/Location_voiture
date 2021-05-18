@@ -38,6 +38,6 @@ public class Confort implements ICategorie{
     }
     @Override
     public String toString() {
-    	return "Confort ";
+    	return "Confort  ";
     }
 }
