@@ -27,6 +27,18 @@ public class Voiture {
         this.endommage = endommage;
     }
 
+    public Voiture(int id, String marque, String model, int kilometers, boolean vitesse, boolean clim, boolean endommage){
+        this.id = id;
+        this.marque = marque;
+        this.model = model;
+        this.kilometers = kilometers;
+        this.vitesse = vitesse;
+        this.clim = clim;
+        this.endommage = endommage;
+        this.categorie = null;
+        this. carburant = null;
+    }
+
     public int getId() {
         return id;
     }
@@ -86,4 +98,22 @@ public class Voiture {
     public void setLocation(boolean location) {
         this.location = location;
     }
+
+    @Override
+    public String toString() {
+        return "Voiture{" +
+                "id=" + id +
+                ", marque='" + marque + '\'' +
+                ", model='" + model + '\'' +
+                ", kilometers=" + kilometers +
+                ", endommage=" + endommage +
+                ", vitesse=" + vitesse +
+                ", clim=" + clim +
+                ", categorie=" + categorie +
+                ", carburant=" + carburant.toString() +
+                ", reservation=" + reservation +
+                ", location=" + location +
+                '}';
+    }
+
 }

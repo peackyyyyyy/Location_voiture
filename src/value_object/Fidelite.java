@@ -2,13 +2,15 @@ package value_object;
 import java.util.Date;
 
 public class Fidelite {
+    private int id;
     private Date date;
     private final int duree;
     private final String description;
     private final int price;
     private final float reduction;
 
-    public Fidelite(Date date, int duree, String description, int price, float reduction){
+    public Fidelite(int id,Date date, int duree, String description, int price, float reduction){
+        this.id = id;
         this.date = date;
         this.duree = duree;
         this.description = description;
@@ -38,5 +40,17 @@ public class Fidelite {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "Fidelite{" +
+                "id=" + id +
+                ", date=" + date +
+                ", duree=" + duree +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", reduction=" + reduction +
+                '}';
     }
 }

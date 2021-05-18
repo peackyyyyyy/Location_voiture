@@ -8,6 +8,11 @@ public class Client extends Personne{
     public Client(String name, String surname, String email, Adresse adresse, String phone){
         super(name, surname, email, adresse, phone);
     }
+    public Client(String name, String surname, String email, Adresse adresse, String phone,Voiture voiture, Fidelite fidelite){
+        super(name, surname, email, adresse, phone);
+        this.location = voiture;
+        this.fidelite = fidelite;
+    }
 
     public void setLocation(Voiture location) {
         this.location = location;
@@ -31,5 +36,14 @@ public class Client extends Personne{
 
     public Fidelite getFidelite() {
         return fidelite;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", location=" + location +
+                ", fidelite=" + fidelite +
+                '}';
     }
 }

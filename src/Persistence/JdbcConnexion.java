@@ -1,0 +1,38 @@
+package Persistence;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class JdbcConnexion implements IConnexion{
+
+
+
+    protected Statement conn;
+
+    public JdbcConnexion() throws ClassNotFoundException, SQLException {
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+            Connection con = DriverManager.
+                    getConnection("jdbc:mariadb://achetez.ml:3306/rentacar"
+                            , "hugo", "labibine");
+            Statement stmt = con.createStatement();
+            System.out.println("Created DB Connection....");
+            conn = stmt;
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    public Statement getConn() {
+        return conn;
+    }
+
+    public void setConn(Statement conn) {
+        this.conn = conn;
+    }
+}
