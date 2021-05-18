@@ -38,6 +38,7 @@ public class Economique implements ICategorie {
     public int getTarif() {
         return price;
     }
+
     @Override
     public String toString() {
     	return "Economique";
