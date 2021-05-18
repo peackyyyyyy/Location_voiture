@@ -11,7 +11,7 @@ public class TestVoiture {
 
     public static void main(String[] args) {
         ICategorie luxe = new Luxe();
-        Voiture voiture1 = new Voiture("BMW", "A1", 15, luxe, false, true, Enumeration.Carburant.SP95);
+        Voiture voiture1 = new Voiture(1,"BMW", "A1", 15, luxe, false, true, Enumeration.Carburant.SP95,true);
 
         int tarif = voiture1.getCategorie().getTarif();
         if (tarif==100){
