@@ -2,31 +2,47 @@ package value_object;
 import java.util.Date;
 
 public class Devis {
-    private final Date duree;
-    private float price;
+    private int id;
+    private Date debut;
+    private Date fin;
     private final Voiture voiture;
     private final Client client;
 
-    public Devis(Voiture voiture, Client client, Date duree){
-        this.duree = duree;
+    public Devis(Voiture voiture, Client client, Date debut, Date fin, int id){
+        this.id = id;
+        this.fin = fin;
+        this.debut = debut;
         this.voiture = voiture;
         this.client = client;
     }
 
-    public float getPrice() {
-        return price;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setPrice(float price) {
-        this.price = price;
+    public int getId() {
+        return id;
     }
+
+    public Date getFin() {
+        return fin;
+    }
+
+    public void setDebut(Date debut) {
+        this.debut = debut;
+    }
+
+    public void setFin(Date fin) {
+        this.fin = fin;
+    }
+
 
     public Client getClient() {
         return client;
     }
 
-    public Date getDuree() {
-        return duree;
+    public Date getDebut() {
+        return debut;
     }
 
     public Voiture getVoiture() {

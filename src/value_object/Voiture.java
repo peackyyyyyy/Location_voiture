@@ -3,9 +3,11 @@ package value_object;
 import value_object.model.Enumeration;
 
 public class Voiture {
+    private final int id;
     private final String marque;
     private final String model;
     private int kilometers;
+    private boolean endommage;
     private final boolean vitesse;
     private final boolean clim;
     private final ICategorie categorie;
@@ -13,7 +15,8 @@ public class Voiture {
     private boolean reservation;
     private boolean location;
 
-    public Voiture(String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant){
+    public Voiture(int id, String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage){
+        this.id = id;
         this.marque = marque;
         this.model = model;
         this.kilometers = kilometers;
@@ -21,8 +24,20 @@ public class Voiture {
         this.vitesse = vitesse;
         this.clim = clim;
         this.carburant = carburant;
+        this.endommage = endommage;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public boolean isEndommage() {
+        return endommage;
+    }
+
+    public void setEndommage(boolean endommage) {
+        this.endommage = endommage;
+    }
 
     public boolean isClim() {
         return clim;
