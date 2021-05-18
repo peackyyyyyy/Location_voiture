@@ -38,8 +38,9 @@ public class Confort implements ICategorie {
     public int getTarif() {
         return price;
     }
+}
+
     @Override
     public String toString() {
     	return "Confort ";
     }
-}
