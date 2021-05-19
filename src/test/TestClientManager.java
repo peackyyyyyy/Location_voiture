@@ -1,15 +1,8 @@
 package test;
-
 import business.ClientManager;
 import value_object.Adresse;
 import value_object.Client;
-import value_object.Personne;
-import value_object.Voiture;
-
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
 
 public class TestClientManager {
     public static void main(String[] args) {
