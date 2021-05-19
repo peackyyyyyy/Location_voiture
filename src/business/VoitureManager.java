@@ -52,25 +52,24 @@ public class VoitureManager {
         }
     }
 
-    public void update_voiture_location_by_id(int id, boolean location) {
+    public void update_voiture_state_by_id(int id, Enumeration.State state) {
         for (Voiture voiture : this.voitures) {
             if (voiture.getId() == id) {
-                voiture.setLocation(location);
+                voiture.setState(state);
             }
         }
     }
 
-    public void update_voiture_reservation_by_id(int id, boolean reservation) {
-        for (Voiture voiture : this.voitures) {
-            if (voiture.getId() == id) {
-                voiture.setReservation(reservation);
-            }
-        }
-    }
 
 
     public List<Voiture> getVoiture() {
         return voitures;
     }
 
+    @Override
+    public String toString() {
+        return "VoitureManager{" +
+                "voitures=" + voitures +
+                '}';
+    }
 }

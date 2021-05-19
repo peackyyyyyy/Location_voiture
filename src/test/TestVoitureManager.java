@@ -17,9 +17,12 @@ public class TestVoitureManager {
         voitureManager.add_voiture("marque", "model", 15, luxe, false, true, Enumeration.Carburant.SP95, 2, false);
         voitureManager.add_voiture("marque", "model", 15, luxe, false, true, Enumeration.Carburant.SP95, 3, false);
         voitureManager.delete_voiture_by_id(2);
+        voitureManager.update_voiture_state_by_id(1, Enumeration.State.Louer);
+        voitureManager.update_voiture_state_by_id(3, Enumeration.State.Reserver);
         for (Voiture voiture : voitureArrayList) {
-            System.out.println(voiture.getId());
+            System.out.println(voiture);
         }
+
 
     }
 
