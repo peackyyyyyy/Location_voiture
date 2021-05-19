@@ -1,19 +1,27 @@
 package value_object;
-
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.Date;
 
 public class Facture {
     private final int price;
-    private final float reduction;
+    private float reduction;
     private final int duree;
     private float finalprice;
 
-    public Facture(int price, float reduction, Date debut, Date fin){
-        this.duree = fin.compareTo(debut);
+    public Facture(int price, Date debut, Date fin){
+        this.duree = (int) ChronoUnit.DAYS.between(debut.toInstant(), fin.toInstant());
         this.price = price;
-        this.reduction = reduction;
+        this.reduction = 1;
         this.finalprice = price*duree*reduction;
     }
+    public Facture(int price, Date debut, Date fin, float reduction){
+        this.duree = (int) ChronoUnit.DAYS.between(debut.toInstant(), fin.toInstant());
+        this.price = price;
+        this.finalprice = price*duree*reduction;
+    }
+
+
 
     public int getPrice() {
         return price;
@@ -35,6 +43,9 @@ public class Facture {
         return reduction;
     }
 
+    public void setReduction(float reduction) {
+        this.reduction = reduction;
+    }
 
     @Override
     public String toString() {

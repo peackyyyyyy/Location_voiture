@@ -26,13 +26,24 @@ public class DevisManager {
         this.devis.removeIf(devis -> devis.getId() == id);
     }
 
-    public Facture generate_facture_by_id(int id){
+    public void generate_facture_by_id(int id){
+        int temp;
         for (Devis devi : this.devis) {
             if (devi.getId() == id) {
-                return new Facture(devi.getVoiture().getCategorie().getTarif(), devi.getClient().getFidelite().getReduction(), devi.getDebut(), devi.getFin());
+                try {
+                    temp = devi.getClient().getFidelite().getFin().compareTo(new Date()); //check if the end of the subscription
+                }
+                catch (Exception ignored){
+                    temp = -1;
+                }
+                if(temp>0){
+                    devi.setFacture(new Facture(devi.getVoiture().getCategorie().getTarif(), devi.getDebut(), devi.getFin(), devi.getClient().getFidelite().getReduction()));
+                }
+                else {
+                    devi.setFacture(new Facture(devi.getVoiture().getCategorie().getTarif(), devi.getDebut(), devi.getFin()));
+                }
             }
         }
-        return null;
     }
 
     public void update_fin_devis_by_id(int id, Date fin) {
