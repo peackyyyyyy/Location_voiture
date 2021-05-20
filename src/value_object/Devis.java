@@ -16,6 +16,7 @@ public class Devis {
         this.client = client;
     }
 
+
     public void setId(int id) {
         this.id = id;
     }

@@ -11,6 +11,10 @@ public class JdbcConnexion implements IConnexion{
 
     protected Statement conn;
 
+
+
+    protected Connection connexion;
+
     public JdbcConnexion() throws ClassNotFoundException, SQLException {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
@@ -34,5 +38,13 @@ public class JdbcConnexion implements IConnexion{
 
     public void setConn(Statement conn) {
         this.conn = conn;
+    }
+
+    public Connection getConnexion() {
+        return connexion;
+    }
+
+    public void setConnexion(Connection connexion) {
+        this.connexion = connexion;
     }
 }

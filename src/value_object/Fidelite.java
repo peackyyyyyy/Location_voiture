@@ -9,7 +9,15 @@ public class Fidelite {
     private final int price;
     private final float reduction;
 
-    public Fidelite(int id,Date date, int duree, String description, int price, float reduction){
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Fidelite(int id, Date date, int duree, String description, int price, float reduction){
         this.id = id;
         this.date = date;
         this.duree = duree;
