@@ -12,7 +12,7 @@ public class DevisPersistence extends JdbcConnexion{
     private VoiturePersistence vp;
     private ClientPersistence cp;
 
-    public DevisPersistence(Statement conn, Connection connexion, VoiturePersistence vp, ClientPersistence cp) throws ClassNotFoundException, SQLException {
+    public DevisPersistence(Connection connexion, Statement conn, VoiturePersistence vp, ClientPersistence cp) throws ClassNotFoundException, SQLException {
         this.conn = conn;
         this.connexion = connexion;
         this.vp = vp;
@@ -21,7 +21,8 @@ public class DevisPersistence extends JdbcConnexion{
 
     public Devis getDevisWithId(int id) throws SQLException, ParseException {
         ResultSet rs = conn.executeQuery("Select * from devis where id = "+id);
-        rs.next();
+        if(rs.next() == false)
+            return null;
         return createDevis(rs);
     }
     public ArrayList<Devis> getDevis() throws SQLException, ParseException {
@@ -49,7 +50,7 @@ public class DevisPersistence extends JdbcConnexion{
         ps.setInt(4,devis.getClient().getId());
         return ps.execute();
     }
-    public boolean updateDevis(Devis devis, int id) throws SQLException {
+    public boolean updateDevis(int id,Devis devis) throws SQLException {
         PreparedStatement ps = connexion.prepareStatement("update devis set debut = ? ,fin = ? ,voiture_id = ? ,client_id = ? where id = ?");
         ps.setString(1,Utilities.dateToString(devis.getDebut()));
         ps.setString(2,Utilities.dateToString(devis.getFin()));

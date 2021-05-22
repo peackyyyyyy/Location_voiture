@@ -7,12 +7,7 @@ import java.sql.Statement;
 
 public class JdbcConnexion implements IConnexion{
 
-
-
     protected Statement conn;
-
-
-
     protected Connection connexion;
 
     public JdbcConnexion() throws ClassNotFoundException, SQLException {
@@ -21,14 +16,15 @@ public class JdbcConnexion implements IConnexion{
             Connection con = DriverManager.
                     getConnection("jdbc:mariadb://achetez.ml:3306/rentacar"
                             , "hugo", "labibine");
+            this.connexion = con;
             Statement stmt = con.createStatement();
             System.out.println("Created DB Connection....");
             conn = stmt;
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
+
             e.printStackTrace();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
+
             e.printStackTrace();
         }
     }

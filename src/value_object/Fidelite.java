@@ -17,6 +17,15 @@ public class Fidelite {
         this.id = id;
     }
 
+    public Fidelite(Date date, int duree, String description, int price, float reduction){
+        this.id = id;
+        this.date = date;
+        this.duree = duree;
+        this.description = description;
+        this.price = price;
+        this.reduction = reduction;
+    }
+
     public Fidelite(int id, Date date, int duree, String description, int price, float reduction){
         this.id = id;
         this.date = date;

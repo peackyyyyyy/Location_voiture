@@ -39,6 +39,18 @@ public class Voiture {
         this. carburant = null;
     }
 
+    public Voiture(String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage){
+        this.id = -1;
+        this.marque = marque;
+        this.model = model;
+        this.kilometers = kilometers;
+        this.categorie = categorie;
+        this.vitesse = vitesse;
+        this.clim = clim;
+        this.carburant = carburant;
+        this.endommage = endommage;
+    }
+
     public int getId() {
         return id;
     }

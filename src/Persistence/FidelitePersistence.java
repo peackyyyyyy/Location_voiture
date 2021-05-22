@@ -31,10 +31,9 @@ public class FidelitePersistence extends JdbcConnexion {
     }
 
     public Fidelite getFideliteAvecId(Integer id) throws SQLException, ParseException {
-        if(id == 0)
-            return null;
         ResultSet rs = conn.executeQuery("Select * from fidelite where id="+id);
-        rs.next();
+        if(rs.next() == false)
+            return null;
         return createFidelite(rs);
     }
 

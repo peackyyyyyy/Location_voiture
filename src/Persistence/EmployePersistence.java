@@ -17,6 +17,7 @@ public class EmployePersistence extends JdbcConnexion {
 
     private Employe createEmploye(ResultSet rs) throws SQLException {
         return new Employe(
+                rs.getInt("id"),
                 rs.getString("name"),
                 rs.getString("surname"),
                 rs.getString("email"),
@@ -29,6 +30,8 @@ public class EmployePersistence extends JdbcConnexion {
         if(id == 0)
             return null;
         ResultSet rs = conn.executeQuery("Select * from employe where id="+id);
+        if(rs.next() == false)
+            return null;
         return  createEmploye(rs);
     }
     public ArrayList<Employe> getEmployes() throws SQLException {
@@ -38,7 +41,7 @@ public class EmployePersistence extends JdbcConnexion {
             liste.add(createEmploye(rs));
         return liste;
     }
-    public boolean createEmploye(Employe emp) throws SQLException {
+    public boolean insertEmploye(Employe emp) throws SQLException {
         PreparedStatement ps = connexion.prepareStatement("insert into employe (name,surname,email,adresse,phone,login,mdp) values (?,?,?,?,?,?,?)");
         ps.setString(1,emp.getName());
         ps.setString(2,emp.getSurname());
@@ -51,7 +54,7 @@ public class EmployePersistence extends JdbcConnexion {
         return ps.execute();
     }
     public int updateEmploye(int id, Employe emp) throws SQLException {
-        PreparedStatement ps = connexion.prepareStatement("insert into employe name = ? , surname = ? ,email = ? ,adresse = ? ,phone = ? ,login = ? ,mdp = ? where id = ?");
+        PreparedStatement ps = connexion.prepareStatement("update employe set name = ? , surname = ? ,email = ? ,adresse = ? ,phone = ? ,login = ? ,mdp = ? where id = ?");
         ps.setString(1,emp.getName());
         ps.setString(2,emp.getSurname());
         ps.setString(3,emp.getEmail());

@@ -7,7 +7,7 @@ import java.util.Date;
 public class Utilities {
 
     public static Date strToDate(String str) throws ParseException {
-        SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-ddd");
         return sp.parse(str);
     }
 

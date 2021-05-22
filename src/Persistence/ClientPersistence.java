@@ -41,6 +41,7 @@ public class ClientPersistence extends JdbcConnexion{
 
     public Client createClient(ResultSet rs ) throws SQLException, ParseException {
         return new Client(
+                rs.getInt("id"),
                 rs.getString("name"),
                 rs.getString("surname"),
                 rs.getString("email"),
@@ -53,7 +54,8 @@ public class ClientPersistence extends JdbcConnexion{
 
     public Client getClientWithId(int id) throws SQLException, ParseException {
         ResultSet rs = conn.executeQuery("Select * from client where id="+id);
-        rs.next();
+        if(rs.next() == false)
+            return null;
         return createClient(rs);
     }
 
@@ -72,10 +74,16 @@ public class ClientPersistence extends JdbcConnexion{
         Adresse ad = client.getAdresse();
         ps.setString(4,ad.getRue()+";"+ad.getVille()+";"+ad.getCodepostal());
         ps.setString(5,client.getPhone());
-        Integer vtid = client.getLocation() == null? -1:client.getLocation().getId();
-        ps.setInt(6,vtid);
-        Integer fid = client.getFidelite() == null? -1:client.getFidelite().getId();
-        ps.setInt(7,fid);
+        if (client.getLocation() != null) {
+            ps.setInt(6, client.getLocation().getId());
+        } else {
+            ps.setNull(6, Types.INTEGER);
+        }
+        if (client.getFidelite() != null) {
+            ps.setInt(7, client.getFidelite().getId());
+        } else {
+            ps.setNull(7, Types.INTEGER);
+        }
         return ps.execute();
     }
     public int updateClient(int id, Client client) throws SQLException {
@@ -86,10 +94,16 @@ public class ClientPersistence extends JdbcConnexion{
         Adresse ad = client.getAdresse();
         ps.setString(4,ad.getRue()+";"+ad.getVille()+";"+ad.getCodepostal());
         ps.setString(5,client.getPhone());
-        Integer vtid = client.getLocation() == null? -1:client.getLocation().getId();
-        ps.setInt(6,vtid);
-        Integer fid = client.getFidelite() == null? -1:client.getFidelite().getId();
-        ps.setInt(7,fid);
+        if (client.getLocation() != null) {
+            ps.setInt(6, client.getLocation().getId());
+        } else {
+            ps.setNull(6, Types.INTEGER);
+        }
+        if (client.getFidelite() != null) {
+            ps.setInt(7, client.getFidelite().getId());
+        } else {
+            ps.setNull(7, Types.INTEGER);
+        }
         ps.setInt(8,id);
         return ps.executeUpdate();
     }

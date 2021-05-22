@@ -15,6 +15,12 @@ public class Devis {
         this.voiture = voiture;
         this.client = client;
     }
+    public Devis(Voiture voiture, Client client, Date debut, Date fin){
+        this.fin = fin;
+        this.debut = debut;
+        this.voiture = voiture;
+        this.client = client;
+    }
 
 
     public void setId(int id) {
@@ -48,5 +54,16 @@ public class Devis {
 
     public Voiture getVoiture() {
         return voiture;
+    }
+
+    @Override
+    public String toString() {
+        return "Devis{" +
+                "id=" + id +
+                ", debut=" + debut +
+                ", fin=" + fin +
+                ", voiture=" + voiture +
+                ", client=" + client +
+                '}';
     }
 }
