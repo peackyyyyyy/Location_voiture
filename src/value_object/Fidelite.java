@@ -46,10 +46,6 @@ public class Fidelite {
         return price;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
     public String getDescription() {
         return description;
     }

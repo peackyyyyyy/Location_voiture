@@ -20,6 +20,7 @@ public class Client extends Personne{
         super(name, surname, email, adresse, phone);
         this.location = voiture;
         this.fidelite = fidelite;
+        this.id = -1;
     }
 
     public void setLocation(Voiture location) {

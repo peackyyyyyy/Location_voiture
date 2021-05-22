@@ -25,6 +25,32 @@ public class Voiture {
         this.endommage = endommage;
     }
 
+    public Voiture(int id, String marque, String model, int kilometers, boolean endommage, boolean vitesse, boolean clim, ICategorie categorie, Enumeration.Carburant carburant, Enumeration.State state) {
+        this.id = id;
+        this.marque = marque;
+        this.model = model;
+        this.kilometers = kilometers;
+        this.endommage = endommage;
+        this.vitesse = vitesse;
+        this.clim = clim;
+        this.categorie = categorie;
+        this.carburant = carburant;
+        this.state = state;
+    }
+
+    public Voiture(String marque, String model, int kilometers, boolean endommage, boolean vitesse, boolean clim, ICategorie categorie, Enumeration.Carburant carburant, Enumeration.State state) {
+        this.marque = marque;
+        this.model = model;
+        this.kilometers = kilometers;
+        this.endommage = endommage;
+        this.vitesse = vitesse;
+        this.clim = clim;
+        this.categorie = categorie;
+        this.carburant = carburant;
+        this.state = state;
+        this.id = -1;
+    }
+
     public void setCategorie(ICategorie categorie) {
         this.categorie = categorie;
     }
@@ -86,21 +112,5 @@ public class Voiture {
     	return "id: "+ id+", marque: "+ marque+", model : "+  model+", kilometers : "+ kilometers+", categorie : "+categorie+", vitesse : "+vitesse+", clim : "+clim+", carburant : " +carburant+", state: "+state;
     }
 
-    @Override
-    public String toString() {
-        return "Voiture{" +
-                "id=" + id +
-                ", marque='" + marque + '\'' +
-                ", model='" + model + '\'' +
-                ", kilometers=" + kilometers +
-                ", endommage=" + endommage +
-                ", vitesse=" + vitesse +
-                ", clim=" + clim +
-                ", categorie=" + categorie +
-                ", carburant=" + carburant.toString() +
-                ", reservation=" + reservation +
-                ", location=" + location +
-                '}';
-    }
 
 }

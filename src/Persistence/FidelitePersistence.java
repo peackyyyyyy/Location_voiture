@@ -22,12 +22,13 @@ public class FidelitePersistence extends JdbcConnexion {
 
     public Fidelite createFidelite(ResultSet rs) throws SQLException, ParseException {
         return new Fidelite(
-                rs.getInt("id"),
                 Utilities.strToDate(rs.getString("date")),
-                rs.getInt("duree"),
+                Utilities.strToDate(rs.getString("fin")),
                 rs.getString("description"),
                 rs.getInt("price"),
-                rs.getFloat("reduction"));
+                rs.getFloat("reduction"),
+                rs.getInt("id")
+        );
     }
 
     public Fidelite getFideliteAvecId(Integer id) throws SQLException, ParseException {
@@ -48,21 +49,22 @@ public class FidelitePersistence extends JdbcConnexion {
 
     public boolean insertFidelite(Fidelite fidelite) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("insert into fidelite (date,description,price,reduction,duree) values (?,?,?,?,?)");
-        ps.setString(1, Utilities.dateToString(fidelite.getDate()));
+        ps.setString(1, Utilities.dateToString(fidelite.getDebut()));
         ps.setString(2, fidelite.getDescription());
         ps.setFloat(3,fidelite.getPrice());
         ps.setFloat(4,fidelite.getReduction());
-        ps.setInt(5,fidelite.getDuree());
+        ps.setString(5,Utilities.dateToString(fidelite.getFin()));
+
         return ps.execute();
     }
 
     public int updateFidelite(int id, Fidelite fidelite) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("update fidelite set date = ? ,description = ? , price = ? ,reduction = ? , duree = ?  where id = ?");
-        ps.setString(1, Utilities.dateToString(fidelite.getDate()));
+        ps.setString(1, Utilities.dateToString(fidelite.getDebut()));
         ps.setString(2, fidelite.getDescription());
         ps.setFloat(3,fidelite.getPrice());
         ps.setFloat(4,fidelite.getReduction());
-        ps.setInt(5,fidelite.getDuree());
+        ps.setString(5,Utilities.dateToString(fidelite.getFin()));
         ps.setInt(6,id);
         return ps.executeUpdate();
     }

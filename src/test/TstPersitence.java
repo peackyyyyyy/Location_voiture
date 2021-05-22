@@ -22,8 +22,9 @@ public class TstPersitence {
 
         CategoriePersistence cp = new CategoriePersistence(con);
         CarburantPersistence carbup = new CarburantPersistence(con);
+        StatePersistence stp = new StatePersistence(con);
         FidelitePersistence fp = new FidelitePersistence(con,connexion);
-        VoiturePersistence vp = new VoiturePersistence(con,connexion,cp,carbup);
+        VoiturePersistence vp = new VoiturePersistence(con,connexion,cp,carbup,stp);
         ClientPersistence clientp = new ClientPersistence(con,connexion,vp,fp);
         EmployePersistence ep = new EmployePersistence(con,connexion);
         DevisPersistence dep = new DevisPersistence(connexion,con,vp,clientp);
@@ -33,16 +34,17 @@ public class TstPersitence {
                 "lou@gmail.com",
                 new Adresse("la rue","la ville","codepostal"),
                 "06",
-                new Voiture(3,"marque",
+                new Voiture(
+                        "marque",
                         "model",
                         200,
+                        true,
+                        true,
+                        true,
                         new Confort(),
-                        true,
-                        true,
                         Enumeration.Carburant.Gazole,
-                        false),
+                        Enumeration.State.Reserver),
                 null);
-        cl.setId(5);
 
        Employe employe = new Employe(
                 "mari",
@@ -53,23 +55,23 @@ public class TstPersitence {
                 "login","mdp"
         );
 
-        Voiture voi = new Voiture(3,"lavraimarque",
+        Voiture voi = new Voiture(
+                "marque",
                 "model",
                 200,
+                true,
+                true,
+                true,
                 new Confort(),
-                true,
-                true,
                 Enumeration.Carburant.Gazole,
-                false);
+                Enumeration.State.Reserver);
+
         Devis lede = new Devis(voi,
                 cl,
                 Utilities.strToDate("2021-11-22"),
                 Utilities.strToDate("2021-6-22")
         );
-        System.out.println(dep.deleteDevis(5));
-        System.out.println(dep.deleteDevis(6));
-        System.out.println(dep.deleteDevis(7));
-        System.out.println(dep.deleteDevis(8));
+        System.out.println(vp.insertVoiture(voi));
 
         for (Devis d:dep.getDevis()) {
            System.out.println(d);
