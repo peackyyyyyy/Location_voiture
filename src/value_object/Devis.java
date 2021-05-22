@@ -1,16 +1,16 @@
 package value_object;
 import java.util.Date;
 
-public class Devis {
-    private int id;
+public class Devis{
+    private final int id;
     private Date debut;
     private Date fin;
+    private Facture facture;
     private final Voiture voiture;
     private final Client client;
 
-    public Devis(Voiture voiture, Client client, Date debut, Date fin, int id){
+    public Devis(Voiture voiture, Client client, Date debut, int id){
         this.id = id;
-        this.fin = fin;
         this.debut = debut;
         this.voiture = voiture;
         this.client = client;
@@ -22,10 +22,6 @@ public class Devis {
         this.client = client;
     }
 
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public int getId() {
         return id;
@@ -43,6 +39,13 @@ public class Devis {
         this.fin = fin;
     }
 
+    public void setFacture(Facture facture) {
+        this.facture = facture;
+    }
+
+    public Facture getFacture() {
+        return facture;
+    }
 
     public Client getClient() {
         return client;
@@ -62,6 +65,7 @@ public class Devis {
                 "id=" + id +
                 ", debut=" + debut +
                 ", fin=" + fin +
+                ", facture=" + facture +
                 ", voiture=" + voiture +
                 ", client=" + client +
                 '}';

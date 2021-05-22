@@ -10,45 +10,23 @@ public class Voiture {
     private boolean endommage;
     private final boolean vitesse;
     private final boolean clim;
-    private final ICategorie categorie;
+    private ICategorie categorie;
     private final Enumeration.Carburant carburant;
-    private boolean reservation;
-    private boolean location;
+    private Enumeration.State state;
 
-    public Voiture(int id, String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage){
-        this.id = id;
-        this.marque = marque;
-        this.model = model;
-        this.kilometers = kilometers;
-        this.categorie = categorie;
-        this.vitesse = vitesse;
-        this.clim = clim;
-        this.carburant = carburant;
-        this.endommage = endommage;
-    }
-
-    public Voiture(int id, String marque, String model, int kilometers, boolean vitesse, boolean clim, boolean endommage){
+    public Voiture(int id, String marque, String model, int kilometers, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage){
         this.id = id;
         this.marque = marque;
         this.model = model;
         this.kilometers = kilometers;
         this.vitesse = vitesse;
         this.clim = clim;
-        this.endommage = endommage;
-        this.categorie = null;
-        this. carburant = null;
-    }
-
-    public Voiture(String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage){
-        this.id = -1;
-        this.marque = marque;
-        this.model = model;
-        this.kilometers = kilometers;
-        this.categorie = categorie;
-        this.vitesse = vitesse;
-        this.clim = clim;
         this.carburant = carburant;
         this.endommage = endommage;
+    }
+
+    public void setCategorie(ICategorie categorie) {
+        this.categorie = categorie;
     }
 
     public int getId() {
@@ -95,20 +73,17 @@ public class Voiture {
         this.kilometers = kilometers;
     }
 
-    public boolean isLocation() {
-        return location;
+    public Enumeration.State getState() {
+        return state;
     }
 
-    public boolean isReservation() {
-        return reservation;
+    public void setState(Enumeration.State state) {
+        this.state = state;
     }
 
-    public void setReservation(boolean reservation) {
-        this.reservation = reservation;
-    }
-
-    public void setLocation(boolean location) {
-        this.location = location;
+    @Override
+    public String toString() {
+    	return "id: "+ id+", marque: "+ marque+", model : "+  model+", kilometers : "+ kilometers+", categorie : "+categorie+", vitesse : "+vitesse+", clim : "+clim+", carburant : " +carburant+", state: "+state;
     }
 
     @Override

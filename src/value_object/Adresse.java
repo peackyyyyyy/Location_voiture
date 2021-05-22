@@ -23,6 +23,7 @@ public class Adresse {
     public String getStrToBdd(){
         return this.rue+";"+this.ville+";"+codepostal;
     }
+
     public String getCodepostal() {
         return codepostal;
     }
