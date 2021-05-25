@@ -22,12 +22,12 @@ public class TestAgenceManager {
         voitureManager.add_voiture("marque", "model", 15, luxe, false, true, Enumeration.Carburant.SP95, 2, false, agence2);
         voitureManager.add_voiture("marque", "model", 15, luxe, false, true, Enumeration.Carburant.SP95, 3, false, agence2);
         AgenceManager agenceManager = new AgenceManager(agenceArrayList, voitureManager.getVoiture());
-        ArrayList<Voiture> voitures1 = agenceManager.get_voiture_by_agence_id(1);
+        ArrayList<Voiture> voitures1 = agenceManager.get_voiture_available_by_agence_id(1);
         for (Voiture voiture: voitures1){
             System.out.println(voiture);
         }
         System.out.println("////////////////////////////////////////////////////////\n");
-        ArrayList<Voiture> voitures2 = agenceManager.get_voiture_by_agence_id(2);
+        ArrayList<Voiture> voitures2 = agenceManager.get_voiture_available_by_agence_id(2);
         for (Voiture voiture: voitures2){
             System.out.println(voiture);
         }

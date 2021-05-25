@@ -2,6 +2,7 @@ package business;
 
 import value_object.Agence;
 import value_object.Voiture;
+import value_object.model.Enumeration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +24,13 @@ public class AgenceManager extends VoitureManager{
             this.agences.add(agence);
         }
     }
-    public ArrayList<Voiture> get_voiture_by_agence_id(int id){
+    public ArrayList<Voiture> get_voiture_available_by_agence_id(int id){
         ArrayList<Voiture> voitures = new ArrayList<>();
         for (Voiture voiture: this.getVoiture()){
             if (voiture.getAgence().getId() == id){
-                voitures.add(voiture);
+                if (voiture.getState() == Enumeration.State.Libre){
+                    voitures.add(voiture);
+                }
             }
         }
         return voitures;
