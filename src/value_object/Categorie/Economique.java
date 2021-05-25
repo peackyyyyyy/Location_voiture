@@ -18,13 +18,6 @@ public class Economique implements ICategorie {
         caution = 500;
     }
 
-    public List<Voiture> getVoiture() {
-        return voiture;
-    }
-
-    public void setVoiture(List<Voiture> voiture) {
-        this.voiture = voiture;
-    }
 
     public Enumeration.Categorie getName() {
         return name;
@@ -38,9 +31,9 @@ public class Economique implements ICategorie {
     public int getTarif() {
         return price;
     }
+
     @Override
     public String toString() {
-    	return "Economique";
+        return name.toString();
     }
 }
-
