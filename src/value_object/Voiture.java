@@ -10,11 +10,12 @@ public class Voiture {
     private boolean endommage;
     private final boolean vitesse;
     private final boolean clim;
+    private final Agence agence;
     private ICategorie categorie;
     private final Enumeration.Carburant carburant;
     private Enumeration.State state;
 
-    public Voiture(int id, String marque, String model, int kilometers, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage){
+    public Voiture(int id, String marque, String model, int kilometers, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage, Agence agence){
         this.id = id;
         this.marque = marque;
         this.model = model;
@@ -23,6 +24,7 @@ public class Voiture {
         this.clim = clim;
         this.carburant = carburant;
         this.endommage = endommage;
+        this.agence = agence;
     }
 
     public void setCategorie(ICategorie categorie) {
@@ -81,8 +83,24 @@ public class Voiture {
         this.state = state;
     }
 
+    public Agence getAgence() {
+        return agence;
+    }
+
     @Override
     public String toString() {
-    	return "id: "+ id+", marque: "+ marque+", model : "+  model+", kilometers : "+ kilometers+", categorie : "+categorie+", vitesse : "+vitesse+", clim : "+clim+", carburant : " +carburant+", state: "+state;
+        return "Voiture{" +
+                "id=" + id +
+                ", marque='" + marque + '\'' +
+                ", model='" + model + '\'' +
+                ", kilometers=" + kilometers +
+                ", endommage=" + endommage +
+                ", vitesse=" + vitesse +
+                ", clim=" + clim +
+                ", agence=" + agence +
+                ", categorie=" + categorie +
+                ", carburant=" + carburant +
+                ", state=" + state +
+                '}';
     }
 }
