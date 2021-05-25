@@ -38,10 +38,10 @@ public class Luxe implements ICategorie {
     public int getTarif() {
         return price;
     }
-
     @Override
     public String toString() {
-        return name.toString();
+    	return "Luxe";
     }
 
 }
+

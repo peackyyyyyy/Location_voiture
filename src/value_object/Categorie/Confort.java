@@ -10,6 +10,7 @@ public class Confort implements ICategorie {
     private static Enumeration.Categorie name;
     private static int price;
     private static int caution;
+    private List<Voiture> voiture;
 
     public Confort(){
         name = Enumeration.Categorie.Confort;
@@ -17,9 +18,18 @@ public class Confort implements ICategorie {
         caution = 750;
     }
 
+    public List<Voiture> getVoiture() {
+        return voiture;
+    }
+
+    public void setVoiture(List<Voiture> voiture) {
+        this.voiture = voiture;
+    }
+
     public Enumeration.Categorie getName() {
         return name;
     }
+
 
     public int getCaution() {
         return caution;
@@ -28,10 +38,10 @@ public class Confort implements ICategorie {
     public int getTarif() {
         return price;
     }
-
-
     @Override
     public String toString() {
-        return name.toString();
+    	return "Confort ";
     }
 }
+
+    
