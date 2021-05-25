@@ -29,4 +29,9 @@ public class Confort implements ICategorie {
         return price;
     }
 
+
+    @Override
+    public String toString() {
+        return name.toString();
+    }
 }

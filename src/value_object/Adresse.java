@@ -11,6 +11,19 @@ public class Adresse {
         this.codepostal = codepostal;
     }
 
+    public Adresse( String str){
+        //23 rue lol;Paris;75010
+        String[] strsplit = str.split(";");
+        this.rue = strsplit[0];
+        this.ville = strsplit[1];
+        this.codepostal = strsplit[2];
+
+    }
+
+    public String getStrToBdd(){
+        return this.rue+";"+this.ville+";"+codepostal;
+    }
+
     public String getCodepostal() {
         return codepostal;
     }
@@ -28,7 +41,7 @@ public class Adresse {
         return "Adresse{" +
                 "rue='" + rue + '\'' +
                 ", ville='" + ville + '\'' +
-                ", codepostal=" + codepostal +
+                ", codepostal='" + codepostal + '\'' +
                 '}';
     }
 }

@@ -15,6 +15,20 @@ public class Devis{
         this.voiture = voiture;
         this.client = client;
     }
+    public Devis(Voiture voiture, Client client, Date debut, Date fin, int id){
+        this.id = id;
+        this.debut = debut;
+        this.voiture = voiture;
+        this.client = client;
+    }
+    public Devis(Voiture voiture, Client client, Date debut, Date fin){
+        this.id = -1;
+        this.fin = fin;
+        this.debut = debut;
+        this.voiture = voiture;
+        this.client = client;
+    }
+
 
     public int getId() {
         return id;

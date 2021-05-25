@@ -9,6 +9,19 @@ public class Client extends Personne{
         super(personne.getName(), personne.getSurname(), personne.getEmail(), personne.getAdresse(), personne.getPhone());
         this.id = id;
     }
+    public Client(int id, String name, String surname, String email, Adresse adresse, String phone,Voiture voiture, Fidelite fidelite){
+        super(name, surname, email, adresse, phone);
+        this.location = voiture;
+        this.fidelite = fidelite;
+        this.id = id;
+    }
+
+    public Client(String name, String surname, String email, Adresse adresse, String phone,Voiture voiture, Fidelite fidelite){
+        super(name, surname, email, adresse, phone);
+        this.location = voiture;
+        this.fidelite = fidelite;
+        this.id = -1;
+    }
 
     public void setLocation(Voiture location) {
         this.location = location;

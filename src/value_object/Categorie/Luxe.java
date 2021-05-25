@@ -41,8 +41,7 @@ public class Luxe implements ICategorie {
 
     @Override
     public String toString() {
-    	return "Luxe";
+        return name.toString();
     }
 
 }
-

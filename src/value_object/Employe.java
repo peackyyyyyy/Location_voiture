@@ -3,9 +3,19 @@ package value_object;
 public class Employe extends Personne{
     private String login;
     private String mdp;
+    private int id;
 
-    public Employe(String name, String surname, String email, Adresse adresse, String phone){
+    public Employe(String name, String surname, String email, Adresse adresse, String phone, String login, String mdp){
         super(name, surname, email, adresse, phone);
+        this.login = login;
+        this.mdp = mdp;
+    }
+
+    public Employe(int id, String name, String surname, String email, Adresse adresse, String phone, String login, String mdp){
+        super(name, surname, email, adresse, phone);
+        this.login = login;
+        this.mdp = mdp;
+        this.id = id;
     }
 
     public String getLogin() {

@@ -10,6 +10,7 @@ public class Economique implements ICategorie {
     private static Enumeration.Categorie name;
     private static int price;
     private static int caution;
+    private List<Voiture> voiture;
 
     public Economique(){
         name = Enumeration.Categorie.Economique;
@@ -33,7 +34,6 @@ public class Economique implements ICategorie {
 
     @Override
     public String toString() {
-    	return "Economique";
+        return name.toString();
     }
 }
-
