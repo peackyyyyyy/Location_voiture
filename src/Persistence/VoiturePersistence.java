@@ -11,14 +11,16 @@ public class VoiturePersistence extends JdbcConnexion{
     Connection connexion;
     CategoriePersistence cp;
     CarburantPersistence carbup;
+    AgencePersistence ap;
     StatePersistence stp;
 
-    public VoiturePersistence(Statement conn, Connection connexion, CategoriePersistence cp, CarburantPersistence carbup, StatePersistence stp) throws ClassNotFoundException, SQLException {
+    public VoiturePersistence(Statement conn, Connection connexion, CategoriePersistence cp, CarburantPersistence carbup, StatePersistence stp, AgencePersistence ap) throws ClassNotFoundException, SQLException {
         this.conn = conn;
         this.cp = cp;
         this.carbup = carbup;
         this.connexion =  connexion;
         this.stp = stp;
+        this.ap = ap;
     }
 
     private Voiture createVoiture(ResultSet rs) throws SQLException {
@@ -30,14 +32,14 @@ public class VoiturePersistence extends JdbcConnexion{
                 rs.getInt("endommage")==1?true:false,
                 rs.getInt("vitesse")==1?true:false,
                 rs.getInt("clim")==1?true:false,
-                agence, cp.getCategorieAvecId(rs.getInt("categorie_id")),
+                ap.getAgenceWithId(rs.getInt("agence_id")),
+                cp.getCategorieAvecId(rs.getInt("categorie_id")),
                 carbup.getCarburantAvecId(rs.getInt("carburant_id")),
                 stp.getStateAvecId(rs.getInt("state_id"))
                 );
     }
     public Voiture getVoitureAvecId(Integer id) throws SQLException {
         Statement con = super.getConn();
-        ArrayList<Voiture> listeVoitures = new ArrayList<Voiture>();
         ResultSet rs = con.executeQuery("Select * from voiture where id="+id);
         if(rs.next() == false)
             return null;
@@ -55,7 +57,7 @@ public class VoiturePersistence extends JdbcConnexion{
     }
 
     public boolean insertVoiture(Voiture vt) throws SQLException {
-        PreparedStatement ps = connexion.prepareStatement("insert into voiture (marque,model,kilometers,endommage,vitesse,clim,categorie_id,carburant_id,state_id) values (?,?,?,?,?,?,?,?,?)");
+        PreparedStatement ps = connexion.prepareStatement("insert into voiture (marque,model,kilometers,endommage,vitesse,clim,categorie_id,carburant_id,state_id,agence_id) values (?,?,?,?,?,?,?,?,?,?)");
         ps.setString(1, vt.getMarque());
         ps.setString(2,vt.getModel());
         ps.setInt(3,vt.getKilometers());
@@ -65,11 +67,12 @@ public class VoiturePersistence extends JdbcConnexion{
         ps.setInt(7,cp.getIdCategorie(vt.getCategorie()));
         ps.setInt(8,carbup.getIdCarbu(vt.getCarburant()));
         ps.setInt(9,stp.getIdState(vt.getState()));
+        ps.setInt(10,vt.getAgence().getId());
         return ps.execute();
     }
 
     public int updateVoiture(int id, Voiture vt) throws SQLException {
-        PreparedStatement ps = connexion.prepareStatement("update voiture set marque = ? ,model = ? ,kilometers = ? ,endommage = ? ,vitesse = ? ,clim = ? ,categorie_id = ? ,carburant_id = ?, state_id = ? where id = ?");
+        PreparedStatement ps = connexion.prepareStatement("update voiture set marque = ? ,model = ? ,kilometers = ? ,endommage = ? ,vitesse = ? ,clim = ? ,categorie_id = ? ,carburant_id = ?, state_id = ?, agence_id = ? where id = ?");
         ps.setString(1, vt.getMarque());
         ps.setString(2,vt.getModel());
         ps.setInt(3,vt.getKilometers());
@@ -79,7 +82,8 @@ public class VoiturePersistence extends JdbcConnexion{
         ps.setInt(7,cp.getIdCategorie(vt.getCategorie()));
         ps.setInt(8,carbup.getIdCarbu(vt.getCarburant()));
         ps.setInt(9,stp.getIdState(vt.getState()));
-        ps.setInt(10,id);
+        ps.setInt(10,vt.getAgence().getId());
+        ps.setInt(11,id);
         return ps.executeUpdate();
     }
 
