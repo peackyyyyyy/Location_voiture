@@ -3,11 +3,9 @@ package test;
 import Persistence.*;
 import value_object.*;
 import value_object.Categorie.Confort;
-import value_object.Categorie.Luxe;
 import value_object.model.Enumeration;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
@@ -41,7 +39,7 @@ public class TstPersitence {
                         true,
                         true,
                         true,
-                        new Confort(),
+                        agence, new Confort(),
                         Enumeration.Carburant.Gazole,
                         Enumeration.State.Reserver),
                 null);
@@ -62,7 +60,7 @@ public class TstPersitence {
                 true,
                 true,
                 true,
-                new Confort(),
+                agence, new Confort(),
                 Enumeration.Carburant.Gazole,
                 Enumeration.State.Reserver);
 

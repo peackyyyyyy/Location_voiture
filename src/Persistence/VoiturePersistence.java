@@ -1,9 +1,6 @@
 package Persistence;
 
-import value_object.Categorie.Luxe;
-import value_object.ICategorie;
 import value_object.Voiture;
-import value_object.model.Enumeration;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -33,7 +30,7 @@ public class VoiturePersistence extends JdbcConnexion{
                 rs.getInt("endommage")==1?true:false,
                 rs.getInt("vitesse")==1?true:false,
                 rs.getInt("clim")==1?true:false,
-                cp.getCategorieAvecId(rs.getInt("categorie_id")),
+                agence, cp.getCategorieAvecId(rs.getInt("categorie_id")),
                 carbup.getCarburantAvecId(rs.getInt("carburant_id")),
                 stp.getStateAvecId(rs.getInt("state_id"))
                 );

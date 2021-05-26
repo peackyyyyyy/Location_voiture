@@ -10,11 +10,12 @@ public class Voiture {
     private boolean endommage;
     private final boolean vitesse;
     private final boolean clim;
+    private final Agence agence;
     private ICategorie categorie;
     private final Enumeration.Carburant carburant;
     private Enumeration.State state;
 
-    public Voiture(int id, String marque, String model, int kilometers, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage){
+    public Voiture(int id, String marque, String model, int kilometers, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage, Agence agence){
         this.id = id;
         this.marque = marque;
         this.model = model;
@@ -23,6 +24,35 @@ public class Voiture {
         this.clim = clim;
         this.carburant = carburant;
         this.endommage = endommage;
+        this.agence = agence;
+    }
+
+    public Voiture(int id, String marque, String model, int kilometers, boolean endommage, boolean vitesse, boolean clim, Agence agence, ICategorie categorie, Enumeration.Carburant carburant, Enumeration.State state) {
+        this.id = id;
+        this.marque = marque;
+        this.model = model;
+        this.kilometers = kilometers;
+        this.endommage = endommage;
+        this.vitesse = vitesse;
+        this.clim = clim;
+        this.agence = agence;
+        this.categorie = categorie;
+        this.carburant = carburant;
+        this.state = state;
+    }
+
+    public Voiture(String marque, String model, int kilometers, boolean endommage, boolean vitesse, boolean clim, Agence agence, ICategorie categorie, Enumeration.Carburant carburant, Enumeration.State state) {
+        this.marque = marque;
+        this.model = model;
+        this.kilometers = kilometers;
+        this.endommage = endommage;
+        this.vitesse = vitesse;
+        this.clim = clim;
+        this.agence = agence;
+        this.categorie = categorie;
+        this.carburant = carburant;
+        this.state = state;
+        this.id = -1;
     }
 
     public Voiture(int id, String marque, String model, int kilometers, boolean endommage, boolean vitesse, boolean clim, ICategorie categorie, Enumeration.Carburant carburant, Enumeration.State state) {
@@ -107,9 +137,25 @@ public class Voiture {
         this.state = state;
     }
 
+    public Agence getAgence() {
+        return agence;
+    }
+
     @Override
     public String toString() {
-    	return "id: "+ id+", marque: "+ marque+", model : "+  model+", kilometers : "+ kilometers+", categorie : "+categorie+", vitesse : "+vitesse+", clim : "+clim+", carburant : " +carburant+", state: "+state;
+        return "Voiture{" +
+                "id=" + id +
+                ", marque='" + marque + '\'' +
+                ", model='" + model + '\'' +
+                ", kilometers=" + kilometers +
+                ", endommage=" + endommage +
+                ", vitesse=" + vitesse +
+                ", clim=" + clim +
+                ", agence=" + agence +
+                ", categorie=" + categorie +
+                ", carburant=" + carburant +
+                ", state=" + state +
+                '}';
     }
 
 
