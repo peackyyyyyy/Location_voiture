@@ -3,7 +3,11 @@
   <component name="CompilerConfiguration">
     <excludeFromCompile>
       <directory url="file://$PROJECT_DIR$/src/Persistence" includeSubdirectories="true" />
+<<<<<<< HEAD
       <directory url="file://$PROJECT_DIR$/src/test" includeSubdirectories="true" />
+=======
+      <file url="file://$PROJECT_DIR$/src/test/TstPersitence.java" />
+>>>>>>> hugo
     </excludeFromCompile>
   </component>
 </project>
