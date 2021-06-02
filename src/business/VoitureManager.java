@@ -1,7 +1,6 @@
 package business;
 
-import value_object.Adresse;
-import value_object.Client;
+import value_object.Agence;
 import value_object.ICategorie;
 import value_object.Voiture;
 import value_object.model.Enumeration;
@@ -16,9 +15,9 @@ public class VoitureManager {
         this.voitures = voitures;
     }
 
-     public void add_voiture(String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant, int id, boolean endommage){
+     public void add_voiture(String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant, int id, boolean endommage, Agence agence){
         //#todo add voiture to BDD and get id
-        Voiture voiture = new Voiture(id, marque, model, kilometers, vitesse, clim, carburant, endommage);
+        Voiture voiture = new Voiture(id, marque, model, kilometers, vitesse, clim, carburant, endommage, agence);
         voiture.setCategorie(categorie);
         if (!this.voitures.contains(voiture)) {
             this.voitures.add(voiture);
@@ -62,7 +61,7 @@ public class VoitureManager {
 
 
 
-    public List<Voiture> getVoiture() {
+    public ArrayList<Voiture> getVoiture() {
         return voitures;
     }
 

@@ -6,9 +6,7 @@ import value_object.Categorie.Economique;
 import value_object.Categorie.Luxe;
 import value_object.model.Enumeration;
 
-import java.time.temporal.TemporalField;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -16,12 +14,13 @@ public class TestDevisManager {
     public static void main(String[] args) {
         ICategorie luxe = new Luxe();
         ICategorie eco = new Economique();
-        Voiture voiture = new Voiture(1,"marque", "model", 15, false, true, Enumeration.Carburant.SP95, false);
+        Agence agence = new Agence("rue1", "ville1", "06", 1, "agence1", "0657453434", "longitude1", "lattitude1");
+        Voiture voiture = new Voiture(1,"marque", "model", 15, false, true, Enumeration.Carburant.SP95, false, agence);
         voiture.setCategorie(luxe);
         Adresse adresse = new Adresse("rue", "ville", "06600");
         Personne personne = new Personne("name", "surname", "mail", adresse, "0658526192");
         Client client = new Client(personne, 1);
-        Voiture voiture2 = new Voiture(2,"marque2", "model2", 15, false, true, Enumeration.Carburant.SP95, false);
+        Voiture voiture2 = new Voiture(2,"marque2", "model2", 15, false, true, Enumeration.Carburant.SP95, false, agence);
         voiture2.setCategorie(eco);
         Adresse adresse2 = new Adresse("rue2", "ville2", "06600");
         Personne personne2 = new Personne("name2", "surname2", "mail2", adresse2, "0658526192");

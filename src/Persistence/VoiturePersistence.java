@@ -1,9 +1,6 @@
 package Persistence;
 
-import value_object.Categorie.Luxe;
-import value_object.ICategorie;
 import value_object.Voiture;
-import value_object.model.Enumeration;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,13 +13,15 @@ public class VoiturePersistence extends JdbcConnexion{
     private final CarburantPersistence carbup;
     private final StatePersistence stp;
     private ArrayList<Voiture> listeVoiture;
+    AgencePersistence ap;
 
-    public VoiturePersistence(Statement conn, Connection connexion, CategoriePersistence cp, CarburantPersistence carbup, StatePersistence stp) throws ClassNotFoundException, SQLException {
+    public VoiturePersistence(Statement conn, Connection connexion, CategoriePersistence cp, CarburantPersistence carbup, StatePersistence stp, AgencePersistence ap) throws ClassNotFoundException, SQLException {
         this.conn = conn;
         this.cp = cp;
         this.carbup = carbup;
         this.connexion =  connexion;
         this.stp = stp;
+        this.ap = ap;
     }
 
     private Voiture createVoiture(ResultSet rs) throws SQLException {
@@ -45,6 +44,9 @@ public class VoiturePersistence extends JdbcConnexion{
         ArrayList<Voiture> listeVoitures = new ArrayList<>();
         ResultSet rs = conn.executeQuery("Select * from voiture where id="+id);
         if(!rs.next())
+        Statement con = super.getConn();
+        ResultSet rs = con.executeQuery("Select * from voiture where id="+id);
+        if(rs.next() == false)
             return null;
         return createVoiture(rs);
 
@@ -88,7 +90,8 @@ public class VoiturePersistence extends JdbcConnexion{
         ps.setInt(7,cp.getIdCategorie(vt.getCategorie()));
         ps.setInt(8,carbup.getIdCarbu(vt.getCarburant()));
         ps.setInt(9,stp.getIdState(vt.getState()));
-        ps.setInt(10,id);
+        ps.setInt(10,vt.getAgence().getId());
+        ps.setInt(11,id);
         return ps.executeUpdate();
     }
 

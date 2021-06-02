@@ -3,11 +3,9 @@ package test;
 import Persistence.*;
 import value_object.*;
 import value_object.Categorie.Confort;
-import value_object.Categorie.Luxe;
 import value_object.model.Enumeration;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
@@ -24,7 +22,8 @@ public class TstPersitence {
         CarburantPersistence carbup = new CarburantPersistence(con);
         StatePersistence stp = new StatePersistence(con);
         FidelitePersistence fp = new FidelitePersistence(con,connexion);
-        VoiturePersistence vp = new VoiturePersistence(con,connexion,cp,carbup,stp);
+        AgencePersistence ap = new AgencePersistence(con, connexion);
+        VoiturePersistence vp = new VoiturePersistence(con,connexion,cp,carbup,stp,ap);
         ClientPersistence clientp = new ClientPersistence(con,connexion,vp,fp);
         EmployePersistence ep = new EmployePersistence(con,connexion);
         DevisPersistence dep = new DevisPersistence(connexion,con,vp,clientp);
@@ -41,7 +40,7 @@ public class TstPersitence {
                         true,
                         true,
                         true,
-                        new Confort(),
+                        new Agence("la rue","la ville","codepostal","06","beaucais","1535135","354345"), new Confort(),
                         Enumeration.Carburant.Gazole,
                         Enumeration.State.Reserver),
                 null);
@@ -62,7 +61,7 @@ public class TstPersitence {
                 true,
                 true,
                 true,
-                new Confort(),
+                new Agence("la rue","la ville","codepostal","06","beaucais","1535135","354345"), new Confort(),
                 Enumeration.Carburant.Gazole,
                 Enumeration.State.Reserver);
 
