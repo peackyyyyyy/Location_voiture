@@ -15,12 +15,14 @@ public class ClientPersistence extends JdbcConnexion{
     private FidelitePersistence fp;
     private Statement conn;
     private Connection connexion;
+    private ArrayList<Client> listeClient;
 
     public ClientPersistence(Statement conn, Connection connexion,VoiturePersistence vp, FidelitePersistence fp) throws ClassNotFoundException, SQLException {
         this.conn = conn;
         this.vp = vp;
         this.fp = fp;
         this.connexion = connexion;
+        this.listeClient = new ArrayList<>();
     }
 
     public VoiturePersistence getVp() {
@@ -54,20 +56,22 @@ public class ClientPersistence extends JdbcConnexion{
 
     public Client getClientWithId(int id) throws SQLException, ParseException {
         ResultSet rs = conn.executeQuery("Select * from client where id="+id);
-        if(rs.next() == false)
+        if(!rs.next())
             return null;
         return createClient(rs);
     }
 
     public ArrayList<Client> getClients() throws SQLException, ParseException {
-        ArrayList<Client> liste = new ArrayList<Client>();
+        ArrayList<Client> liste = new ArrayList<>();
         ResultSet rs = conn.executeQuery("Select * from client");
         while(rs.next())
             liste.add(createClient(rs));
+        this.listeClient = liste;
         return liste;
     }
-    public boolean insertClient(Client client) throws SQLException {
-        PreparedStatement ps = connexion.prepareStatement("insert into client (name,surname,email,adresse,phone,voiture_id,fidelite_id) values (?,?,?,?,?,?,?)");
+
+    public int insertClient(Client client) throws SQLException {
+        PreparedStatement ps = connexion.prepareStatement("insert into client (name,surname,email,adresse,phone,voiture_id,fidelite_id) values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
         ps.setString(1,client.getName());
         ps.setString(2,client.getSurname());
         ps.setString(3,client.getEmail());
@@ -84,8 +88,12 @@ public class ClientPersistence extends JdbcConnexion{
         } else {
             ps.setNull(7, Types.INTEGER);
         }
-        return ps.execute();
+        int retid = ps.executeUpdate();
+        client.setId(retid);
+        listeClient.add(client);
+        return retid;
     }
+
     public int updateClient(int id, Client client) throws SQLException {
         PreparedStatement ps = connexion.prepareStatement("update client set  name = ? ,surname = ? ,email = ? ,adresse = ? ,phone = ? ,voiture_id = ? ,fidelite_id = ? where id=?");
         ps.setString(1,client.getName());
@@ -113,4 +121,5 @@ public class ClientPersistence extends JdbcConnexion{
         ps.setInt(1,id);
         return ps.execute();
     }
+
 }

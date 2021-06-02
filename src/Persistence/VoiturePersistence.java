@@ -10,11 +10,12 @@ import java.util.ArrayList;
 
 public class VoiturePersistence extends JdbcConnexion{
 
-    Statement conn;
-    Connection connexion;
-    CategoriePersistence cp;
-    CarburantPersistence carbup;
-    StatePersistence stp;
+    private final Statement conn;
+    private final Connection connexion;
+    private final CategoriePersistence cp;
+    private final CarburantPersistence carbup;
+    private final StatePersistence stp;
+    private ArrayList<Voiture> listeVoiture;
 
     public VoiturePersistence(Statement conn, Connection connexion, CategoriePersistence cp, CarburantPersistence carbup, StatePersistence stp) throws ClassNotFoundException, SQLException {
         this.conn = conn;
@@ -30,35 +31,37 @@ public class VoiturePersistence extends JdbcConnexion{
                 rs.getString("marque"),
                 rs.getString("model"),
                 rs.getInt("kilometers"),
-                rs.getInt("endommage")==1?true:false,
-                rs.getInt("vitesse")==1?true:false,
-                rs.getInt("clim")==1?true:false,
+                rs.getInt("endommage") == 1,
+                rs.getInt("vitesse") == 1,
+                rs.getInt("clim") == 1,
                 cp.getCategorieAvecId(rs.getInt("categorie_id")),
                 carbup.getCarburantAvecId(rs.getInt("carburant_id")),
                 stp.getStateAvecId(rs.getInt("state_id"))
                 );
     }
+
     public Voiture getVoitureAvecId(Integer id) throws SQLException {
-        Statement con = super.getConn();
-        ArrayList<Voiture> listeVoitures = new ArrayList<Voiture>();
-        ResultSet rs = con.executeQuery("Select * from voiture where id="+id);
-        if(rs.next() == false)
+
+        ArrayList<Voiture> listeVoitures = new ArrayList<>();
+        ResultSet rs = conn.executeQuery("Select * from voiture where id="+id);
+        if(!rs.next())
             return null;
         return createVoiture(rs);
 
     }
+
     public ArrayList<Voiture> getVoitures() throws SQLException {
-        Statement con = super.getConn();
-        ArrayList<Voiture> listeVoitures = new ArrayList<Voiture>();
-        ResultSet rs = con.executeQuery("Select * from voiture");
-        while(rs.next()){
-            listeVoitures.add(createVoiture(rs));
-        }
-        return listeVoitures;
+        ArrayList<Voiture> liste = new ArrayList<>();
+        ResultSet rs = conn.executeQuery("Select * from voiture");
+        while(rs.next())
+            liste.add(createVoiture(rs));
+
+        this.listeVoiture = liste;
+        return liste;
     }
 
-    public boolean insertVoiture(Voiture vt) throws SQLException {
-        PreparedStatement ps = connexion.prepareStatement("insert into voiture (marque,model,kilometers,endommage,vitesse,clim,categorie_id,carburant_id,state_id) values (?,?,?,?,?,?,?,?,?)");
+    public int insertVoiture(Voiture vt) throws SQLException {
+        PreparedStatement ps = connexion.prepareStatement("insert into voiture (marque,model,kilometers,endommage,vitesse,clim,categorie_id,carburant_id,state_id) values (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, vt.getMarque());
         ps.setString(2,vt.getModel());
         ps.setInt(3,vt.getKilometers());
@@ -68,7 +71,10 @@ public class VoiturePersistence extends JdbcConnexion{
         ps.setInt(7,cp.getIdCategorie(vt.getCategorie()));
         ps.setInt(8,carbup.getIdCarbu(vt.getCarburant()));
         ps.setInt(9,stp.getIdState(vt.getState()));
-        return ps.execute();
+        int retid = ps.executeUpdate();
+        vt.setId(retid);
+        this.listeVoiture.add(vt);
+        return retid;
     }
 
     public int updateVoiture(int id, Voiture vt) throws SQLException {
@@ -96,15 +102,7 @@ public class VoiturePersistence extends JdbcConnexion{
         return cp;
     }
 
-    public void setCp(CategoriePersistence cp) {
-        this.cp = cp;
-    }
-
     public CarburantPersistence getCarbup() {
         return carbup;
-    }
-
-    public void setCarbup(CarburantPersistence carbup) {
-        this.carbup = carbup;
     }
 }

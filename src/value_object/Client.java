@@ -1,7 +1,7 @@
 package value_object;
 
 public class Client extends Personne{
-    private final int id;
+    private int id;
     private Voiture location;
     private Fidelite fidelite;
 
@@ -21,6 +21,10 @@ public class Client extends Personne{
         this.location = voiture;
         this.fidelite = fidelite;
         this.id = -1;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setLocation(Voiture location) {
