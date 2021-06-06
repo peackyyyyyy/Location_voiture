@@ -33,6 +33,7 @@ public class VoiturePersistence extends JdbcConnexion{
                 rs.getInt("endommage") == 1,
                 rs.getInt("vitesse") == 1,
                 rs.getInt("clim") == 1,
+                ap.getAgenceWithId(rs.getInt("agence_id")),
                 cp.getCategorieAvecId(rs.getInt("categorie_id")),
                 carbup.getCarburantAvecId(rs.getInt("carburant_id")),
                 stp.getStateAvecId(rs.getInt("state_id"))
@@ -44,9 +45,6 @@ public class VoiturePersistence extends JdbcConnexion{
         ArrayList<Voiture> listeVoitures = new ArrayList<>();
         ResultSet rs = conn.executeQuery("Select * from voiture where id="+id);
         if(!rs.next())
-        Statement con = super.getConn();
-        ResultSet rs = con.executeQuery("Select * from voiture where id="+id);
-        if(rs.next() == false)
             return null;
         return createVoiture(rs);
 
