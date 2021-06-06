@@ -10,11 +10,11 @@ import java.util.ArrayList;
 public class ClientManager {
     private final ArrayList<Client> clients;
 
-    public ClientManager(ArrayList<Client> clients){
+    public ClientManager(ArrayList<Client> clients) {
         this.clients = clients;
     }
 
-    public void add_client(String name, String surname, String email, Adresse adresse, String phone, int id){
+    public void add_client(String name, String surname, String email, Adresse adresse, String phone, int id) {
         //#todo add client to BDD and get id
         Personne personne = new Personne(name, surname, email, adresse, phone);
         Client client = new Client(personne, id);
@@ -22,7 +22,8 @@ public class ClientManager {
             this.clients.add(client);
         }
     }
-    public void delete_client_by_id(int id){
+
+    public void delete_client_by_id(int id) {
         this.clients.removeIf(client -> client.getId() == id);
     }
 
