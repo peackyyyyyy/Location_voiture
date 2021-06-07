@@ -13,8 +13,10 @@ import java.util.Date;
 
 public class FidelitePersistence extends JdbcConnexion {
 
-    Statement conn;
-    Connection connection;
+    private final Statement conn;
+    private final Connection connection;
+    private ArrayList<Fidelite> listeFidelite;
+
     public FidelitePersistence(Statement conn, Connection connection) throws ClassNotFoundException, SQLException {
         this.conn = conn;
         this.connection = connection;
@@ -33,29 +35,32 @@ public class FidelitePersistence extends JdbcConnexion {
 
     public Fidelite getFideliteAvecId(Integer id) throws SQLException, ParseException {
         ResultSet rs = conn.executeQuery("Select * from fidelite where id="+id);
-        if(rs.next() == false)
+        if(!rs.next())
             return null;
         return createFidelite(rs);
     }
 
     public ArrayList<Fidelite> getFidelites() throws SQLException, ParseException {
-        ArrayList<Fidelite> listeFidelite = new ArrayList<Fidelite>();
+        ArrayList<Fidelite> liste = new ArrayList<>();
         ResultSet rs = conn.executeQuery("Select * from fidelite");
         while(rs.next()){
-            listeFidelite.add(createFidelite(rs));
+            liste.add(createFidelite(rs));
         }
+        this.listeFidelite = liste;
         return listeFidelite;
     }
 
-    public boolean insertFidelite(Fidelite fidelite) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("insert into fidelite (date,description,price,reduction,duree) values (?,?,?,?,?)");
+    public int insertFidelite(Fidelite fidelite) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("insert into fidelite (date,description,price,reduction,duree) values (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, Utilities.dateToString(fidelite.getDebut()));
         ps.setString(2, fidelite.getDescription());
         ps.setFloat(3,fidelite.getPrice());
         ps.setFloat(4,fidelite.getReduction());
         ps.setString(5,Utilities.dateToString(fidelite.getFin()));
-
-        return ps.execute();
+        int retid = ps.executeUpdate();
+        fidelite.setId(retid);
+        listeFidelite.add(fidelite);
+        return retid;
     }
 
     public int updateFidelite(int id, Fidelite fidelite) throws SQLException {

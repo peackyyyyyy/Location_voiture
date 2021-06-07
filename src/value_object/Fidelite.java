@@ -2,7 +2,7 @@ package value_object;
 import java.util.Date;
 
 public class Fidelite {
-    private final int id;
+    private int id;
     private Date debut;
     private Date fin;
     private final String description;
@@ -20,6 +20,10 @@ public class Fidelite {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public float getReduction() {

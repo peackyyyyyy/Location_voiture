@@ -18,6 +18,10 @@ public class Employe extends Personne{
         this.id = id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getLogin() {
         return login;
     }

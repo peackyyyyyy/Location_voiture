@@ -3,7 +3,8 @@ package value_object;
 import value_object.model.Enumeration;
 
 public class Voiture {
-    private final int id;
+    private int id;
+
     private final String marque;
     private final String model;
     private int kilometers;
@@ -61,6 +62,10 @@ public class Voiture {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isEndommage() {
