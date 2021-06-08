@@ -39,7 +39,7 @@ public class TstPersitence {
                         true,
                         true,
                         true,
-                        agence, new Confort(),
+                        null, new Confort(),
                         Enumeration.Carburant.Gazole,
                         Enumeration.State.Reserver),
                 null);
@@ -60,7 +60,7 @@ public class TstPersitence {
                 true,
                 true,
                 true,
-                agence, new Confort(),
+                null, new Confort(),
                 Enumeration.Carburant.Gazole,
                 Enumeration.State.Reserver);
 

@@ -30,7 +30,7 @@ public class VoiturePersistence extends JdbcConnexion{
                 rs.getInt("endommage")==1?true:false,
                 rs.getInt("vitesse")==1?true:false,
                 rs.getInt("clim")==1?true:false,
-                agence, cp.getCategorieAvecId(rs.getInt("categorie_id")),
+                null, cp.getCategorieAvecId(rs.getInt("categorie_id")),
                 carbup.getCarburantAvecId(rs.getInt("carburant_id")),
                 stp.getStateAvecId(rs.getInt("state_id"))
                 );
