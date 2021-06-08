@@ -1,9 +1,12 @@
 package IHM;
 
 import Persistence.*;
+import value_object.Client;
 import value_object.Voiture;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -28,6 +31,7 @@ public class Chauffeur extends JFrame implements ActionListener{
     private JLabel carburant;
     private JLabel etat;
     private JLabel agence;
+    private final DefaultTableModel mod;
     private VoiturePersistence voiturePersistence;
 
     public Chauffeur(VoiturePersistence voiturePersistence) throws SQLException {
@@ -48,9 +52,10 @@ public class Chauffeur extends JFrame implements ActionListener{
         automatique.setText("Automatique : " + String.valueOf(vt.isVitesse()));
         clim.setText("Climatisé : "  + String.valueOf(vt.isClim()));
         endommage.setText("Endommagé : " + String.valueOf(vt.isEndommage()));
+        carburant.setText("Carburant : " + vt.getCarburant().toString());
         categorie.setText("Categorie : " + vt.getCategorie().toString());
         etat.setText("Etate : " + vt.getState().toString());
-
+        agence.setText("Agence : " + vt.getAgence().getName());
         comboBox1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,10 +67,33 @@ public class Chauffeur extends JFrame implements ActionListener{
                 automatique.setText("Automatique : " + String.valueOf(vt.isVitesse()));
                 clim.setText("Climatisé : "  + String.valueOf(vt.isClim()));
                 endommage.setText("Endommagé : " + String.valueOf(vt.isEndommage()));
+                carburant.setText("Carburant : " + vt.getCarburant().toString());
                 categorie.setText("Categorie : " + vt.getCategorie().toString());
                 etat.setText("Etate : " + vt.getState().toString());
+                agence.setText("Agence : " + vt.getAgence().getName());
                 }
         });
+
+        Object[] columns = {"Id", "Nom", "Prenom", "Email", "Adresse", "Phone"};
+        this.mod = new DefaultTableModel();
+        mod.setColumnIdentifiers(columns);
+
+        table1.setModel(mod);
+        table1.setBackground(Color.LIGHT_GRAY);
+        table1.setForeground(Color.black);
+        Font font = new Font("",1,14);
+        table1.setFont(font);
+        table1.setRowHeight(30);
+    }
+
+    private void setVoiture_table(){
+        try {
+
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
@@ -79,7 +107,8 @@ public class Chauffeur extends JFrame implements ActionListener{
         CarburantPersistence carbup = new CarburantPersistence(con);
         StatePersistence stp = new StatePersistence(con);
         FidelitePersistence fp = new FidelitePersistence(con,connexion);
-        VoiturePersistence vp = new VoiturePersistence(con,connexion,cp,carbup,stp);
+        AgencePersistence ap = new AgencePersistence(con,connexion);
+        VoiturePersistence vp = new VoiturePersistence(con,connexion,cp,carbup,stp,ap);
         ClientPersistence clientp = new ClientPersistence(con,connexion,vp,fp);
         EmployePersistence ep = new EmployePersistence(con,connexion);
         DevisPersistence dep = new DevisPersistence(connexion,con,vp,clientp);

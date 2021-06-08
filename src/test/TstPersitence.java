@@ -22,7 +22,8 @@ public class TstPersitence {
         CarburantPersistence carbup = new CarburantPersistence(con);
         StatePersistence stp = new StatePersistence(con);
         FidelitePersistence fp = new FidelitePersistence(con,connexion);
-        VoiturePersistence vp = new VoiturePersistence(con,connexion,cp,carbup,stp);
+        AgencePersistence ap = new AgencePersistence(con, connexion);
+        VoiturePersistence vp = new VoiturePersistence(con,connexion,cp,carbup,stp,ap);
         ClientPersistence clientp = new ClientPersistence(con,connexion,vp,fp);
         EmployePersistence ep = new EmployePersistence(con,connexion);
         DevisPersistence dep = new DevisPersistence(connexion,con,vp,clientp);
