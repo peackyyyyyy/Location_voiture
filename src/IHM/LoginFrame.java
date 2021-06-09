@@ -2,19 +2,29 @@ package IHM;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import Persistence.JdbcConnexion;
+import value_object.Employe;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.util.ArrayList;
 
 
-public class LoginFrame extends JFrame implements ActionListener {
+public class LoginFrame extends JFrame implements ActionListener{
 	 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+		
 		JPanel panel = new JPanel(new GridLayout(3, 1));              
 	    JLabel loginlabel = new JLabel("Login");
 	    JLabel mdplabel = new JLabel("Mot de passe");
@@ -26,7 +36,8 @@ public class LoginFrame extends JFrame implements ActionListener {
 	    JCheckBox showPassword = new JCheckBox("Montrer Mot de passe");
 
 
-	    public LoginFrame() {
+	    public LoginFrame(ArrayList<Employe> employe) {
+	    	employe=employe;
 	    	this.setTitle("Page de connexion");
 	    	this.setVisible(true);
 	    	this.setBounds((int) (screenSize.width/2.5),10,350,600);

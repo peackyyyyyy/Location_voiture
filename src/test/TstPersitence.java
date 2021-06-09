@@ -1,6 +1,7 @@
 package test;
 
 import Persistence.*;
+
 import value_object.*;
 import value_object.Categorie.Confort;
 import value_object.model.Enumeration;
