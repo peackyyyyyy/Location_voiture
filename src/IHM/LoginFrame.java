@@ -34,10 +34,11 @@ public class LoginFrame extends JFrame implements ActionListener{
 	    JButton loginButton = new JButton("LOGIN");
 	    JButton resetButton = new JButton("RESET");
 	    JCheckBox showPassword = new JCheckBox("Montrer Mot de passe");
+	    ArrayList<Employe> listeemploye =new ArrayList<Employe>();
 
 
-	    public LoginFrame(ArrayList<Employe> employe) {
-	    	employe=employe;
+	    public LoginFrame(ArrayList<Employe> listeemploye) {
+	    	this.listeemploye =listeemploye;
 	    	this.setTitle("Page de connexion");
 	    	this.setVisible(true);
 	    	this.setBounds((int) (screenSize.width/2.5),10,350,600);
@@ -90,13 +91,23 @@ public class LoginFrame extends JFrame implements ActionListener{
 	            String mdpText;
 	            loginText = loginTextField.getText();
 	            mdpText = mdpField.getText();
-	            if (loginText.equalsIgnoreCase("tm") && mdpText.equalsIgnoreCase("tm")) {
+	            int c = 0;
+	            for (Employe employe : listeemploye) {
+	    		
+	            if (loginText.equalsIgnoreCase(employe.getLogin()) && mdpText.equalsIgnoreCase(employe.getMdp())) {
 	            	dispose();
 	            	Menu menu= new Menu();
 	            	menu.changerMenu();
+	            	c=1;
+	            	break;
 	            } else {
-	                JOptionPane.showMessageDialog(this, "Login ou Mot de passe invalide");
+	                continue;
 	            }
+	            }
+	            if (c==0) {
+	            	JOptionPane.showMessageDialog(this, "Login ou Mot de passe invalide");
+				}
+	            
 
 	        }
 	        if (e.getSource() == resetButton) {

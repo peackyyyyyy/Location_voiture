@@ -25,7 +25,8 @@ public class Main {
         ArrayList<Employe> listeemploye =ep.getEmployes();
         System.out.println(ep);
         for (Employe employe : listeemploye) {
-			System.out.println(employe);
+			System.out.println(employe.getLogin());
+			System.out.println(employe.getMdp());
 		}
 
 		LoginFrame frame=new LoginFrame(listeemploye);
