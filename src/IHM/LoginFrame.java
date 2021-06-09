@@ -82,8 +82,10 @@ public class LoginFrame extends JFrame implements ActionListener{
 	        resetButton.addActionListener(this);
 	        showPassword.addActionListener(this);
 	    }
-
-
+	    public void changerMenu(){
+	        this.setContentPane(this.panel);
+	        this.revalidate();
+	    }
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 	        if (e.getSource() == loginButton) {
