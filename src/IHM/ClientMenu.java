@@ -117,12 +117,13 @@ public class ClientMenu extends JFrame implements ActionListener{
             row[4] = ville;
             row[5] = phone;
             model.addRow(row);
-            JOptionPane.showMessageDialog(this, "Client Ajouté");
+            JOptionPane.showMessageDialog(this, "Client AjoutÃ©");
 
 
 
         }
     }
+
     public static void main(String[] args) {
         ArrayList<Client> clientsArrayList = new ArrayList<>();
         ClientManager clientManager = new ClientManager(clientsArrayList);

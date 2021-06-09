@@ -122,19 +122,7 @@ public class Voiture {
 
     @Override
     public String toString() {
-        return "Voiture{" +
-                "id=" + id +
-                ", marque='" + marque + '\'' +
-                ", model='" + model + '\'' +
-                ", kilometers=" + kilometers +
-                ", endommage=" + endommage +
-                ", vitesse=" + vitesse +
-                ", clim=" + clim +
-                ", agence=" + agence +
-                ", categorie=" + categorie +
-                ", carburant=" + carburant +
-                ", state=" + state +
-                '}';
+        return model;
     }
 
 

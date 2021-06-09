@@ -25,7 +25,7 @@ public class AgencePersistence {
                 rs.getString("phone"),
                 rs.getString("longitude"),
                 rs.getString("lattitude")
-                );
+        );
     }
     private Agence getAgences() throws SQLException {
         ArrayList<Agence> listeAgence = new ArrayList<Agence>();

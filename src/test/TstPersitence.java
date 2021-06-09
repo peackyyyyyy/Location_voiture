@@ -41,7 +41,7 @@ public class TstPersitence {
                         true,
                         true,
                         true,
-                        new Agence("la rue","la ville","codepostal",-1,"beaucais","1535135","354345","6541654651"), new Confort(),
+                        null, new Confort(),
                         Enumeration.Carburant.Gazole,
                         Enumeration.State.Reserver),
                 null);
@@ -62,7 +62,7 @@ public class TstPersitence {
                 true,
                 true,
                 true,
-                new Agence("la rue","la ville","codepostal",-1,"beaucais","1535135","354345","1515151"), new Confort(),
+                null, new Confort(),
                 Enumeration.Carburant.Gazole,
                 Enumeration.State.Reserver);
 
