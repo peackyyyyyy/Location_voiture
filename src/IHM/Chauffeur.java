@@ -31,14 +31,18 @@ public class Chauffeur extends JFrame implements ActionListener{
     private JLabel carburant;
     private JLabel etat;
     private JLabel agence;
-    private final DefaultTableModel mod;
+    private DefaultTableModel mod;
     private VoiturePersistence voiturePersistence;
     private ArrayList<Voiture> liste;
 
     public Chauffeur(VoiturePersistence voiturePersistence) throws SQLException {
         super();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setContentPane(tabed);
+        panel1 = new JPanel();
+        panel1.add(tabed);
+        panel1.setVisible(true);
+        this.setContentPane(panel1);
+        tabed.setVisible(true);
         this.voiturePersistence = voiturePersistence;
         this.pack();
         this.liste = voiturePersistence.getVoitures();
@@ -78,7 +82,8 @@ public class Chauffeur extends JFrame implements ActionListener{
         Object[] columns = {"Id", "Modele", "Marque", "Kilometre", "Automatique", "Climatisé","Endommagé","Type de Carburant","Catégorie","Etat","Agence"};
         this.mod = new DefaultTableModel();
         mod.setColumnIdentifiers(columns);
-
+        listevoiture = new JPanel();
+        listevoiture.setVisible(true);
         table1 = new JTable();
         table1.setModel(mod);
         table1.setBackground(Color.LIGHT_GRAY);
@@ -86,18 +91,22 @@ public class Chauffeur extends JFrame implements ActionListener{
         Font font = new Font("",1,14);
         table1.setFont(font);
         table1.setRowHeight(30);
+        table1.setVisible(true);
 
         JScrollPane voi_pane = new JScrollPane(table1);
         voi_pane.setBounds(0, 0, 1200, 800);
+        voi_pane.setVisible(true);
         setVoiture_table();
         listevoiture.add(voi_pane);
+        tabed.add("Liste Voiture",listevoiture);
+
+
     }
 
     private void setVoiture_table(){
         try {
             Object[] row;
-            for (Voiture vt: liste
-                 ) {
+            for (Voiture vt: liste) {
                 row = new Object[11];
                 row[0] = vt.getId();
                 row[1] = vt.getModel();
