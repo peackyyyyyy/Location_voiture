@@ -36,7 +36,8 @@ public class VoiturePersistence extends JdbcConnexion{
                 ap.getAgenceWithId(rs.getInt("agence_id")),
                 cp.getCategorieAvecId(rs.getInt("categorie_id")),
                 carbup.getCarburantAvecId(rs.getInt("carburant_id")),
-                stp.getStateAvecId(rs.getInt("state_id"))
+                stp.getStateAvecId(rs.getInt("state_id")),
+                ap.getAgenceWithId(rs.getInt("agence_id_a_etre"))
                 );
     }
 
@@ -61,7 +62,7 @@ public class VoiturePersistence extends JdbcConnexion{
     }
 
     public boolean insertVoiture(Voiture vt) throws SQLException {
-        PreparedStatement ps = connexion.prepareStatement("insert into voiture (marque,model,kilometers,endommage,vitesse,clim,categorie_id,carburant_id,state_id,agence_id) values (?,?,?,?,?,?,?,?,?,?)");
+        PreparedStatement ps = connexion.prepareStatement("insert into voiture (marque,model,kilometers,endommage,vitesse,clim,categorie_id,carburant_id,state_id,agence_id,agence_id_a_etre) values (?,?,?,?,?,?,?,?,?,?,?)");
         ps.setString(1, vt.getMarque());
         ps.setString(2,vt.getModel());
         ps.setInt(3,vt.getKilometers());
@@ -71,12 +72,14 @@ public class VoiturePersistence extends JdbcConnexion{
         ps.setInt(7,cp.getIdCategorie(vt.getCategorie()));
         ps.setInt(8,carbup.getIdCarbu(vt.getCarburant()));
         ps.setInt(9,vt.getAgence().getId());
-        ps.setInt(10,stp.getIdState(vt.getState()));
+        ps.setInt(10,vt.getAgence().getId());
+        ps.setInt(11,stp.getIdState(vt.getState()));
+        ps.setInt(11,vt.getAgence_a_etre().getId());
         return ps.execute();
     }
 
     public int updateVoiture(int id, Voiture vt) throws SQLException {
-        PreparedStatement ps = connexion.prepareStatement("update voiture set marque = ? ,model = ? ,kilometers = ? ,endommage = ? ,vitesse = ? ,clim = ? ,categorie_id = ? ,carburant_id = ?, state_id = ? , agence_id = ? where id = ?");
+        PreparedStatement ps = connexion.prepareStatement("update voiture set marque = ? ,model = ? ,kilometers = ? ,endommage = ? ,vitesse = ? ,clim = ? ,categorie_id = ? ,carburant_id = ?, state_id = ? , agence_id = ?, agence_id_a_etre = ? where id = ?");
         ps.setString(1, vt.getMarque());
         ps.setString(2,vt.getModel());
         ps.setInt(3,vt.getKilometers());
@@ -87,7 +90,8 @@ public class VoiturePersistence extends JdbcConnexion{
         ps.setInt(8,carbup.getIdCarbu(vt.getCarburant()));
         ps.setInt(9,stp.getIdState(vt.getState()));
         ps.setInt(9,vt.getAgence().getId());
-        ps.setInt(10,id);
+        ps.setInt(10,vt.getAgence_a_etre().getId());
+        ps.setInt(11,id);
         return ps.executeUpdate();
     }
 
