@@ -15,7 +15,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Chauffeur extends JFrame implements ActionListener{
-    private JTabbedPane tabbedPane1;
+    private JTabbedPane tabed;
     private JPanel panel1;
     private JPanel Voiture;
     private JPanel listevoiture;
@@ -33,19 +33,20 @@ public class Chauffeur extends JFrame implements ActionListener{
     private JLabel agence;
     private final DefaultTableModel mod;
     private VoiturePersistence voiturePersistence;
+    private ArrayList<Voiture> liste;
 
     public Chauffeur(VoiturePersistence voiturePersistence) throws SQLException {
         super();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setContentPane(Voiture);
+        this.setContentPane(tabed);
         this.voiturePersistence = voiturePersistence;
         this.pack();
-        ArrayList<Voiture> listeVoiture = voiturePersistence.getVoitures();
-        for (Voiture vt:listeVoiture) {
+        this.liste = voiturePersistence.getVoitures();
+        for (Voiture vt:liste) {
             comboBox1.addItem(vt);
         }
 
-        Voiture vt = listeVoiture.get(0);
+        Voiture vt = liste.get(0);
         model.setText("Modele : " + vt.getModel());
         marque.setText("Marque : " + vt.getMarque());
         kilometres.setText("Nombre de kilomettre : "+ String.valueOf(vt.getKilometers()));
@@ -74,20 +75,43 @@ public class Chauffeur extends JFrame implements ActionListener{
                 }
         });
 
-        Object[] columns = {"Id", "Nom", "Prenom", "Email", "Adresse", "Phone"};
+        Object[] columns = {"Id", "Modele", "Marque", "Kilometre", "Automatique", "Climatisé","Endommagé","Type de Carburant","Catégorie","Etat","Agence"};
         this.mod = new DefaultTableModel();
         mod.setColumnIdentifiers(columns);
 
+        table1 = new JTable();
         table1.setModel(mod);
         table1.setBackground(Color.LIGHT_GRAY);
         table1.setForeground(Color.black);
         Font font = new Font("",1,14);
         table1.setFont(font);
         table1.setRowHeight(30);
+
+        JScrollPane voi_pane = new JScrollPane(table1);
+        voi_pane.setBounds(0, 0, 1200, 800);
+        setVoiture_table();
+        listevoiture.add(voi_pane);
     }
 
     private void setVoiture_table(){
         try {
+            Object[] row;
+            for (Voiture vt: liste
+                 ) {
+                row = new Object[11];
+                row[0] = vt.getId();
+                row[1] = vt.getModel();
+                row[2] = vt.getMarque();
+                row[3] = vt.getKilometers();
+                row[4] = vt.isVitesse();
+                row[5] = vt.isClim();
+                row[6] = vt.isEndommage();
+                row[7] = vt.getCarburant();
+                row[8] = vt.getCategorie();
+                row[9] = vt.getState();
+                row[10] = vt.getAgence();
+                mod.addRow(row);
+            }
 
         }
         catch (Exception ex){
@@ -116,6 +140,10 @@ public class Chauffeur extends JFrame implements ActionListener{
         JFrame chauffeur=new Chauffeur(vp);
         chauffeur.setVisible(true);
 
+    }
+
+    public void setLayoutManager() {
+        listevoiture.setLayout(null);
     }
 
     @Override
