@@ -1,11 +1,13 @@
 package IHM;
 
 import Persistence.*;
+import value_object.Agence;
 import value_object.Client;
 import value_object.Voiture;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,6 +33,7 @@ public class Chauffeur extends JFrame implements ActionListener{
     private JLabel carburant;
     private JLabel etat;
     private JLabel agence;
+    private JLabel agenceaetre;
     private DefaultTableModel mod;
     private VoiturePersistence voiturePersistence;
     private ArrayList<Voiture> liste;
@@ -61,6 +64,7 @@ public class Chauffeur extends JFrame implements ActionListener{
         categorie.setText("Categorie : " + vt.getCategorie().toString());
         etat.setText("Etate : " + vt.getState().toString());
         agence.setText("Agence : " + vt.getAgence().getName());
+        agenceaetre.setText("Agence a etre : " + vt.getAgence_a_etre().getName());
         comboBox1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -76,15 +80,32 @@ public class Chauffeur extends JFrame implements ActionListener{
                 categorie.setText("Categorie : " + vt.getCategorie().toString());
                 etat.setText("Etate : " + vt.getState().toString());
                 agence.setText("Agence : " + vt.getAgence().getName());
+                agenceaetre.setText("Agence a etre : " + vt.getAgence_a_etre().getName());
                 }
         });
 
-        Object[] columns = {"Id", "Modele", "Marque", "Kilometre", "Automatique", "Climatisé","Endommagé","Type de Carburant","Catégorie","Etat","Agence"};
+        Object[] columns = {"Id", "Modele", "Marque", "Kilometre", "Automatique", "Climatisé","Endommagé","Type de Carburant","Catégorie","Etat","Agence","Agence a etre"};
         this.mod = new DefaultTableModel();
         mod.setColumnIdentifiers(columns);
         listevoiture = new JPanel();
         listevoiture.setVisible(true);
-        table1 = new JTable();
+        table1 =  new JTable(mod)
+        {
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
+            {
+                Component comp = super.prepareRenderer(renderer, row, column);
+                Agence value1 = (Agence) getModel().getValueAt(row, 10);
+                Agence value2 = (Agence) getModel().getValueAt(row, 11);
+                if(value1.getId() !=  value2.getId()){
+                    comp.setBackground(Color.red);
+                }
+                else{
+                    comp.setBackground(Color.white);
+                }
+
+                return comp;
+            }
+        };
         table1.setModel(mod);
         table1.setBackground(Color.LIGHT_GRAY);
         table1.setForeground(Color.black);
@@ -107,7 +128,7 @@ public class Chauffeur extends JFrame implements ActionListener{
         try {
             Object[] row;
             for (Voiture vt: liste) {
-                row = new Object[11];
+                row = new Object[12];
                 row[0] = vt.getId();
                 row[1] = vt.getModel();
                 row[2] = vt.getMarque();
@@ -119,7 +140,10 @@ public class Chauffeur extends JFrame implements ActionListener{
                 row[8] = vt.getCategorie();
                 row[9] = vt.getState();
                 row[10] = vt.getAgence();
+                row[11] = vt.getAgence_a_etre();
                 mod.addRow(row);
+                table1.getCellRenderer(table1.getRowCount() - 1, 11).getTableCellRendererComponent(table1,vt.getAgence_a_etre().getId() != vt.getAgence().getId(),false, false, table1.getRowCount() - 1, 11).setBackground(Color.red);
+
             }
 
         }
