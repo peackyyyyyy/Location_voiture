@@ -38,7 +38,7 @@ public class ChoiceUser extends JFrame implements ActionListener{
     JButton agentButton = new JButton("Agent");
     JButton utilisateurButton = new JButton("Utilisateur");
     
-    public ChoiceUser(int id) {
+    public ChoiceUser() {
     	this.setTitle("Page de connexion");
     	this.setVisible(true);
     	this.setBounds((int) (screenSize.width/2.5),10,350,600);
@@ -76,7 +76,14 @@ public class ChoiceUser extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == administrateurButton) {
-        	System.out.println("admin");
+        	try {
+        		dispose();
+				AdminLogin admin=new AdminLogin();
+				admin.changerMenu();
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         }
         if (e.getSource() == agentButton) {
         	System.out.println("agent");
@@ -84,5 +91,9 @@ public class ChoiceUser extends JFrame implements ActionListener{
         if (e.getSource() == utilisateurButton) {
         	System.out.println("utilisateur");
         }
+    }
+    public void changerMenu(){
+        this.setContentPane(this.panel);
+        this.revalidate();
     }
 }

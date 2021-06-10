@@ -3,7 +3,10 @@ package IHM;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import Persistence.EmployePersistence;
 import Persistence.JdbcConnexion;
+import business.ClientManager;
+import value_object.Client;
 import value_object.Employe;
 
 import java.awt.*;
@@ -19,7 +22,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 
-public class LoginFrame extends JFrame implements ActionListener{
+public class AdminLogin extends JFrame implements ActionListener{
 	 	/**
 	 * 
 	 */
@@ -37,8 +40,13 @@ public class LoginFrame extends JFrame implements ActionListener{
 	    ArrayList<Employe> listeemploye =new ArrayList<Employe>();
 
 
-	    public LoginFrame(ArrayList<Employe> listeemploye) {
-	    	this.listeemploye =listeemploye;
+	    public AdminLogin() throws ClassNotFoundException, SQLException {
+	    	JdbcConnexion jdbc = new JdbcConnexion();
+	    	Statement con = jdbc.getConn();
+	        Connection connexion = jdbc.getConnexion();
+	        EmployePersistence ep = new EmployePersistence(con,connexion);
+	        ArrayList<Employe> listeemploye =ep.getEmployes();
+	        this.listeemploye=listeemploye;
 	    	this.setTitle("Page de connexion");
 	    	this.setVisible(true);
 	    	this.setBounds((int) (screenSize.width/2.5),10,350,600);
@@ -125,6 +133,10 @@ public class LoginFrame extends JFrame implements ActionListener{
 
 
 	        }
+	    }
+	    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+	        AdminLogin jFrame = new AdminLogin();
+	        jFrame.setVisible(true);
 	    }
     }
     
