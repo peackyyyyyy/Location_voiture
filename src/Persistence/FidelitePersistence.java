@@ -48,7 +48,7 @@ public class FidelitePersistence extends JdbcConnexion {
     }
 
     public boolean insertFidelite(Fidelite fidelite) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("insert into fidelite (date,description,price,reduction,duree) values (?,?,?,?,?)");
+        PreparedStatement ps = connection.prepareStatement("insert into fidelite (date,description,price,reduction,fin) values (?,?,?,?,?)");
         ps.setString(1, Utilities.dateToString(fidelite.getDebut()));
         ps.setString(2, fidelite.getDescription());
         ps.setFloat(3,fidelite.getPrice());
@@ -59,7 +59,7 @@ public class FidelitePersistence extends JdbcConnexion {
     }
 
     public int updateFidelite(int id, Fidelite fidelite) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("update fidelite set date = ? ,description = ? , price = ? ,reduction = ? , duree = ?  where id = ?");
+        PreparedStatement ps = connection.prepareStatement("update fidelite set date = ? ,description = ? , price = ? ,reduction = ? , fin = ?  where id = ?");
         ps.setString(1, Utilities.dateToString(fidelite.getDebut()));
         ps.setString(2, fidelite.getDescription());
         ps.setFloat(3,fidelite.getPrice());

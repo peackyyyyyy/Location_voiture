@@ -3,7 +3,7 @@ package value_object;
 import value_object.model.Enumeration;
 
 public class Voiture {
-    private final int id;
+    private int id;
     private final String marque;
     private final String model;
     private int kilometers;
@@ -15,6 +15,14 @@ public class Voiture {
     private final Enumeration.Carburant carburant;
     private Enumeration.State state;
     private Agence agence_a_etre;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setAgence_a_etre(Agence agence_a_etre) {
+        this.agence_a_etre = agence_a_etre;
+    }
 
     public Voiture(int id, String marque, String model, int kilometers, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage, Agence agence){
         this.id = id;

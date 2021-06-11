@@ -1,4 +1,5 @@
 package IHM;
+import Persistence.*;
 import business.ClientManager;
 import value_object.Adresse;
 import value_object.Client;
@@ -7,6 +8,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class ClientMenu extends JFrame implements ActionListener{
@@ -35,9 +39,11 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JButton rechercherUnClientButton;
     private JButton supprimerUnClientButton;
     private final DefaultTableModel model;
+    private ClientPersistence clientPersistence;
 
-    public ClientMenu (ClientManager clientManager) {
+    public ClientMenu (ClientManager clientManager, ClientPersistence clientPersistence) {
         super();
+        this.clientPersistence = clientPersistence;
         this.clientManager = clientManager;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(Fenetre);
@@ -69,7 +75,7 @@ public class ClientMenu extends JFrame implements ActionListener{
 
     private void setClient_table(){
         try {
-            for (Client client: this.clientManager.getClients()){
+            for (Client client: this.clientPersistence.getClients()){
                 Object[] row = new Object[6];
                 row[0] = client.getId();
                 row[1] = client.getName();
@@ -101,33 +107,53 @@ public class ClientMenu extends JFrame implements ActionListener{
             String codepostal = Codepostale.getText();
             String ville = Ville.getText();
             String phone = Phone.getText();
-            this.clientManager.add_client(name, surname, email, new Adresse(rue, ville, codepostal), phone, 1);
+            /*this.clientManager.add_client(name, surname, email, new Adresse(rue, ville, codepostal), phone, 1);
             Name.setText("");
             Surname.setText("");
             Email.setText("");
             Rue.setText("");
             Codepostale.setText("");
             Ville.setText("");
-            Phone.setText("");
-            Object[] row = new Object[6];
-            row[0] = 1;
-            row[1] = name;
-            row[2] = surname;
-            row[3] = email;
-            row[4] = ville;
-            row[5] = phone;
-            model.addRow(row);
-            JOptionPane.showMessageDialog(this, "Client Ajouté");
-
+            Phone.setText("");*/
+            int id = -1;
+            try {
+                id = this.clientPersistence.insertClient(new Client(name,surname,email,new Adresse(rue, ville, codepostal), phone,null,null));
+                Object[] row = new Object[6];
+                row[0] = id;
+                row[1] = name;
+                row[2] = surname;
+                row[3] = email;
+                row[4] = ville;
+                row[5] = phone;
+                model.addRow(row);
+                JOptionPane.showMessageDialog(this, "Client Ajouté");
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
 
 
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        JdbcConnexion jdbc = new JdbcConnexion();
+
+        Statement con = jdbc.getConn();
+        Connection connexion = jdbc.getConnexion();
+
+        CategoriePersistence cp = new CategoriePersistence(con);
+        CarburantPersistence carbup = new CarburantPersistence(con);
+        StatePersistence stp = new StatePersistence(con);
+        FidelitePersistence fp = new FidelitePersistence(con,connexion);
+        AgencePersistence ap = new AgencePersistence(con,connexion);
+        VoiturePersistence vp = new VoiturePersistence(con,connexion,cp,carbup,stp,ap);
+        ClientPersistence clientp = new ClientPersistence(con,connexion,vp,fp);
+        EmployePersistence ep = new EmployePersistence(con,connexion);
+        DevisPersistence dep = new DevisPersistence(connexion,con,vp,clientp);
+
         ArrayList<Client> clientsArrayList = new ArrayList<>();
         ClientManager clientManager = new ClientManager(clientsArrayList);
-        JFrame jFrame = new ClientMenu(clientManager);
+        JFrame jFrame = new ClientMenu(clientManager,clientp);
         jFrame.setVisible(true);
     }
 }
