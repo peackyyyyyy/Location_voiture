@@ -178,6 +178,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         voi_pane.setBounds(0, 0, 1200, 800);
         voi_pane.setVisible(true);
         setVoiture_table();
+        voi_pane.setSize(1400,1000);
         listevoiture.setSize(1400,1000);
         listevoiture.add(voi_pane);
         tabbedPane3.add("Liste Voiture",listevoiture);
