@@ -25,14 +25,14 @@ public class AgencePersistence {
                 rs.getString("phone"),
                 rs.getString("longitude"),
                 rs.getString("lattitude")
-                );
+        );
     }
-    private Agence getAgences() throws SQLException {
+    public ArrayList<Agence> getAgences() throws SQLException {
         ArrayList<Agence> listeAgence = new ArrayList<Agence>();
         ResultSet rs = con.executeQuery("Select * from agence");
         while(rs.next())
             listeAgence.add(createAgence(rs));
-        return createAgence(rs);
+        return listeAgence;
     }
 
     Agence getAgenceWithId(int id) throws SQLException {
@@ -41,8 +41,8 @@ public class AgencePersistence {
             return null;
         return createAgence(rs);
     }
-    private boolean insertAgence(Agence agence) throws SQLException {
-        PreparedStatement ps = connexion.prepareStatement("Insert into agence (name,phone,longitude,lattitude,rue,ville,codepostal) values (?,?,?,?,?,?,?)");
+    private int insertAgence(Agence agence) throws SQLException {
+        PreparedStatement ps = connexion.prepareStatement("Insert into agence (name,phone,longitude,lattitude,rue,ville,codepostal) values (?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
         ps.setString(1,agence.getName());
         ps.setString(2,agence.getPhone());
         ps.setString(3,agence.getLongitude());
@@ -50,7 +50,10 @@ public class AgencePersistence {
         ps.setString(5,agence.getRue());
         ps.setString(6,agence.getVille());
         ps.setString(7,agence.getCodepostal());
-        return ps.execute();
+        int retid = ps.executeUpdate();
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+        return rs.getInt(1);
     }
     private int updateAgence(int id, Agence agence) throws SQLException {
         PreparedStatement ps = connexion.prepareStatement("update agence set name = ? , phone = ?, longitude = ?, lattitude = ?, rue = ?, ville = ?, codepostal = ? where id = ?");

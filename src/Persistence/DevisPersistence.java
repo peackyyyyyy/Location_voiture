@@ -11,7 +11,6 @@ public class DevisPersistence extends JdbcConnexion{
     private Connection connexion;
     private VoiturePersistence vp;
     private ClientPersistence cp;
-    private ArrayList<Devis> listeDevis;
 
     public DevisPersistence(Connection connexion, Statement conn, VoiturePersistence vp, ClientPersistence cp) throws ClassNotFoundException, SQLException {
         this.conn = conn;
@@ -22,16 +21,15 @@ public class DevisPersistence extends JdbcConnexion{
 
     public Devis getDevisWithId(int id) throws SQLException, ParseException {
         ResultSet rs = conn.executeQuery("Select * from devis where id = "+id);
-        if(!rs.next())
+        if(rs.next() == false)
             return null;
         return createDevis(rs);
     }
     public ArrayList<Devis> getDevis() throws SQLException, ParseException {
-        ArrayList<Devis> liste = new ArrayList<>();
+        ArrayList<Devis> liste = new ArrayList<Devis>();
         ResultSet rs = conn.executeQuery("Select * from devis");
         while(rs.next())
             liste.add(createDevis(rs));
-        listeDevis = liste;
         return liste;
     }
 
@@ -45,15 +43,15 @@ public class DevisPersistence extends JdbcConnexion{
                 );
     }
     public int insertDevis(Devis devis) throws SQLException {
-        PreparedStatement ps = connexion.prepareStatement("insert into devis (debut,fin,voiture_id,client_id) values (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-        ps.setString(1,Utilities.dateToString(devis.getDebut()));
-        ps.setString(2,Utilities.dateToString(devis.getFin()));
-        ps.setInt(3,devis.getVoiture().getId());
-        ps.setInt(4,devis.getClient().getId());
+        PreparedStatement ps = connexion.prepareStatement("insert into devis (debut,fin,voiture_id,client_id) values (?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+        ps.setString(1, Utilities.dateToString(devis.getDebut()));
+        ps.setString(2, Utilities.dateToString(devis.getFin()));
+        ps.setInt(3, devis.getVoiture().getId());
+        ps.setInt(4, devis.getClient().getId());
         int retid = ps.executeUpdate();
-        devis.setId(retid);
-        listeDevis.add(devis);
-        return retid;
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+        return rs.getInt(1);
     }
     public boolean updateDevis(int id,Devis devis) throws SQLException {
         PreparedStatement ps = connexion.prepareStatement("update devis set debut = ? ,fin = ? ,voiture_id = ? ,client_id = ? where id = ?");

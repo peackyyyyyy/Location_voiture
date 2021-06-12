@@ -10,8 +10,6 @@ import java.util.ArrayList;
 public class EmployePersistence extends JdbcConnexion {
     private Statement conn;
     private Connection connexion;
-    private ArrayList<Employe> listeEmploye;
-
     public EmployePersistence(Statement conn, Connection connexion) throws ClassNotFoundException, SQLException {
         this.conn = conn;
         this.connexion = connexion;
@@ -32,21 +30,19 @@ public class EmployePersistence extends JdbcConnexion {
         if(id == 0)
             return null;
         ResultSet rs = conn.executeQuery("Select * from employe where id="+id);
-        if(!rs.next())
+        if(rs.next() == false)
             return null;
         return  createEmploye(rs);
     }
     public ArrayList<Employe> getEmployes() throws SQLException {
-        ArrayList<Employe> liste = new ArrayList<>();
+        ArrayList<Employe> liste = new ArrayList<Employe>();
         ResultSet rs = conn.executeQuery("Select * from employe");
         while(rs.next())
             liste.add(createEmploye(rs));
-
-        this.listeEmploye = liste;
         return liste;
     }
     public int insertEmploye(Employe emp) throws SQLException {
-        PreparedStatement ps = connexion.prepareStatement("insert into employe (name,surname,email,adresse,phone,login,mdp) values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement ps = connexion.prepareStatement("insert into employe (name,surname,email,adresse,phone,login,mdp) values (?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
         ps.setString(1,emp.getName());
         ps.setString(2,emp.getSurname());
         ps.setString(3,emp.getEmail());
@@ -56,9 +52,9 @@ public class EmployePersistence extends JdbcConnexion {
         ps.setString(6,emp.getLogin());
         ps.setString(7,emp.getMdp());
         int retid = ps.executeUpdate();
-        emp.setId(retid);
-        listeEmploye.add(emp);
-        return retid;
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+        return rs.getInt(1);
     }
     public int updateEmploye(int id, Employe emp) throws SQLException {
         PreparedStatement ps = connexion.prepareStatement("update employe set name = ? , surname = ? ,email = ? ,adresse = ? ,phone = ? ,login = ? ,mdp = ? where id = ?");
