@@ -27,10 +27,6 @@ public class Client extends Personne{
         this.id = -1;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setLocation(Voiture location) {
         this.location = location;
     }
