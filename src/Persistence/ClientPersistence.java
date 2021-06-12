@@ -85,8 +85,9 @@ public class ClientPersistence extends JdbcConnexion{
             ps.setNull(7, Types.INTEGER);
         }
         int retid = ps.executeUpdate();
-        client.setId(retid);
-        return retid;
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+        return rs.getInt(1);
     }
     public int updateClient(int id, Client client) throws SQLException {
         PreparedStatement ps = connexion.prepareStatement("update client set  name = ? ,surname = ? ,email = ? ,adresse = ? ,phone = ? ,voiture_id = ? ,fidelite_id = ? where id=?");

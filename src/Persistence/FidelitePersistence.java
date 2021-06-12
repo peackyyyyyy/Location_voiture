@@ -47,15 +47,18 @@ public class FidelitePersistence extends JdbcConnexion {
         return listeFidelite;
     }
 
-    public boolean insertFidelite(Fidelite fidelite) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("insert into fidelite (date,description,price,reduction,fin) values (?,?,?,?,?)");
+    public int insertFidelite(Fidelite fidelite) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("insert into fidelite (date,description,price,reduction,fin) values (?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, Utilities.dateToString(fidelite.getDebut()));
         ps.setString(2, fidelite.getDescription());
         ps.setFloat(3,fidelite.getPrice());
         ps.setFloat(4,fidelite.getReduction());
         ps.setString(5,Utilities.dateToString(fidelite.getFin()));
 
-        return ps.execute();
+        int retid = ps.executeUpdate();
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+        return rs.getInt(1);
     }
 
     public int updateFidelite(int id, Fidelite fidelite) throws SQLException {

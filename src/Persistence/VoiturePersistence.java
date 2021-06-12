@@ -74,9 +74,9 @@ public class VoiturePersistence extends JdbcConnexion{
         ps.setInt(11,stp.getIdState(vt.getState()));
         ps.setInt(11,vt.getAgence_a_etre().getId());
         int retid = ps.executeUpdate();
-        vt.setId(retid);
-        this.liseVoiture.add(vt);
-        return retid;
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+        return rs.getInt(1);
     }
 
     public int updateVoiture(int id, Voiture vt) throws SQLException {
