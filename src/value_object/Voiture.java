@@ -63,6 +63,21 @@ public class Voiture {
         this.state = state;
     }
 
+    public Voiture(int id, String marque, String model, int kilometers, boolean endommage, boolean vitesse, boolean clim, Agence agence, Agence agence_a_etre, ICategorie categorie, Enumeration.Carburant carburant, Enumeration.State state) {
+        this.id = id;
+        this.marque = marque;
+        this.model = model;
+        this.kilometers = kilometers;
+        this.endommage = endommage;
+        this.vitesse = vitesse;
+        this.clim = clim;
+        this.agence = agence;
+        this.agence_a_etre = agence_a_etre;
+        this.categorie = categorie;
+        this.carburant = carburant;
+        this.state = state;
+    }
+
     public Voiture(int id, String marque, String model, int kilometers, boolean endommage, boolean vitesse, boolean clim, Agence agence, ICategorie categorie, Enumeration.Carburant carburant, Enumeration.State state,  Agence agence_a_etre) {
         this.id = id;
         this.marque = marque;
@@ -79,7 +94,7 @@ public class Voiture {
     }
 
 
-    public Voiture(String marque, String model, int kilometers, boolean endommage, boolean vitesse, boolean clim, Agence agence, ICategorie categorie, Enumeration.Carburant carburant, Enumeration.State state) {
+    public Voiture(String marque, String model, int kilometers, boolean endommage, boolean vitesse, boolean clim, Agence agence,Agence agence_a_etre, ICategorie categorie, Enumeration.Carburant carburant, Enumeration.State state) {
         this.marque = marque;
         this.model = model;
         this.kilometers = kilometers;
@@ -87,10 +102,10 @@ public class Voiture {
         this.vitesse = vitesse;
         this.clim = clim;
         this.agence = agence;
+        this.agence_a_etre = agence_a_etre;
         this.categorie = categorie;
         this.carburant = carburant;
         this.state = state;
-        this.id = -1;
     }
 
 

@@ -17,6 +17,7 @@ public class Confort implements ICategorie {
         caution = 750;
     }
 
+
     public Enumeration.Categorie getName() {
         return name;
     }
@@ -28,7 +29,6 @@ public class Confort implements ICategorie {
     public int getTarif() {
         return price;
     }
-
 
     @Override
     public String toString() {

@@ -27,12 +27,12 @@ public class AgencePersistence {
                 rs.getString("lattitude")
         );
     }
-    private Agence getAgences() throws SQLException {
+    public ArrayList<Agence> getAgences() throws SQLException {
         ArrayList<Agence> listeAgence = new ArrayList<Agence>();
         ResultSet rs = con.executeQuery("Select * from agence");
         while(rs.next())
             listeAgence.add(createAgence(rs));
-        return createAgence(rs);
+        return listeAgence;
     }
 
     Agence getAgenceWithId(int id) throws SQLException {
