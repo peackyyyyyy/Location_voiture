@@ -1,13 +1,9 @@
 package value_object;
 
 public class Client extends Personne{
-    private int id;
+    private final int id;
     private Voiture location;
     private Fidelite fidelite;
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Client(Personne personne, int id){
         super(personne.getName(), personne.getSurname(), personne.getEmail(), personne.getAdresse(), personne.getPhone());

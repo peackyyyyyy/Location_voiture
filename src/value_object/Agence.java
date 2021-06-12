@@ -40,6 +40,12 @@ public class Agence extends Adresse{
 
     @Override
     public String toString() {
-        return name;
+        return "Agence{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", longitude='" + longitude + '\'' +
+                ", lattitude='" + lattitude + '\'' +
+                '}';
     }
 }

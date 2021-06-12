@@ -3,9 +3,9 @@ package business;
 import value_object.Adresse;
 import value_object.Client;
 import value_object.Personne;
-import value_object.Voiture;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class ClientManager {
     private final ArrayList<Client> clients;
@@ -25,6 +25,49 @@ public class ClientManager {
 
     public void delete_client_by_id(int id) {
         this.clients.removeIf(client -> client.getId() == id);
+    }
+
+    public ArrayList<Client> find_clients(Optional<Integer> id, Optional<String> name, Optional<String> surname){
+        ArrayList<Client> result = this.clients;
+        if (id.isPresent()){
+            result = try_list_id(id.get(), result);
+        }
+        if (name.isPresent()){
+            result = try_list_name(name.get(), result);
+        }
+        if (surname.isPresent()){
+            result = try_list_surname(surname.get(), result);
+        }
+        return result;
+    }
+    private ArrayList<Client> try_list_id(int id, ArrayList<Client> result){
+        ArrayList<Client> newresult = new ArrayList<>();
+        for (Client client: result){
+            if (id==client.getId()){
+                newresult.add(client);
+            }
+        }
+        return newresult;
+    }
+
+    private ArrayList<Client> try_list_name(String name, ArrayList<Client> result){
+        ArrayList<Client> newresult = new ArrayList<>();
+        for (Client client: result){
+            if (name.equals(client.getName())){
+                newresult.add(client);
+            }
+        }
+        return newresult;
+    }
+
+    private ArrayList<Client> try_list_surname(String surname, ArrayList<Client> result){
+        ArrayList<Client> newresult = new ArrayList<>();
+        for (Client client: result){
+            if (surname.equals(client.getSurname())){
+                newresult.add(client);
+            }
+        }
+        return newresult;
     }
 
     public void update_client_adresse_by_id(int id, Adresse adresse) {

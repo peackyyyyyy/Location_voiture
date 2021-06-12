@@ -1,10 +1,10 @@
 package Persistence;
 
+import value_object.ICategorie;
 import value_object.model.Enumeration;
 
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 public class CarburantPersistence extends JdbcConnexion{
 
@@ -49,15 +49,5 @@ public class CarburantPersistence extends JdbcConnexion{
 
        }
        return -1;
-    }
-
-    public ArrayList<Enumeration.Carburant> getCarburants(){
-        ArrayList<Enumeration.Carburant> liste = new ArrayList<>();
-        liste.add(Enumeration.Carburant.Gazole);
-        liste.add(Enumeration.Carburant.Essence);
-        liste.add(Enumeration.Carburant.SP95);
-        liste.add(Enumeration.Carburant.GPL);
-        liste.add(Enumeration.Carburant.Electrique);
-        return liste;
     }
 }
