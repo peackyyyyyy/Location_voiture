@@ -23,6 +23,10 @@ public class Client extends Personne{
         this.id = -1;
     }
 
+    public Boolean client_fidelity(){
+        return this.getFidelite() != null;
+    }
+
     public void setLocation(Voiture location) {
         this.location = location;
     }

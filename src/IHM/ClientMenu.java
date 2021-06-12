@@ -36,6 +36,20 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JTextField SurnameRechercheClient;
     private JButton RechercheClient;
     private JScrollPane ListeRechercheClient;
+    private JCheckBox checkBox1;
+    private JTabbedPane tabbedPane3;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JComboBox comboBox1;
+    private JComboBox comboBox2;
+    private JComboBox comboBox3;
+    private JComboBox comboBox4;
+    private JComboBox comboBox5;
+    private JComboBox comboBox6;
+    private JCheckBox checkBox2;
+    private JButton ajouterButton;
+    private JTextField textField3;
+    private JCheckBox endommagementCheckBox;
     private JTable ClientTable;
     private JButton ajouterUnClientButton;
     private JButton rechercherUnClientButton;
@@ -52,7 +66,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         this.addActionEvent();
         JTable client_table = new JTable();
         // create a table model and set a Column Identifiers to this model
-        Object[] columns = {"Id", "Nom", "Prenom", "Email", "Adresse", "Phone"};
+        Object[] columns = {"Id", "Nom", "Prénom", "Email", "Adresse", "Phone", "Fidélité"};
         model = new DefaultTableModel();
         model.setColumnIdentifiers(columns);
         client_table.setModel(model);
@@ -76,13 +90,14 @@ public class ClientMenu extends JFrame implements ActionListener{
     private void setClient_table(){
         try {
             for (Client client: this.clientManager.getClients()){
-                Object[] row = new Object[6];
+                Object[] row = new Object[7];
                 row[0] = client.getId();
                 row[1] = client.getName();
                 row[2] = client.getSurname();
                 row[3] = client.getEmail();
                 row[4] = client.getAdresse().getVille();
                 row[5] = client.getPhone();
+                row[6] = client.client_fidelity();
                 model.addRow(row);
 
             }
@@ -158,7 +173,7 @@ public class ClientMenu extends JFrame implements ActionListener{
 
             JTable client_table = new JTable();
             // create a table model and set a Column Identifiers to this model
-            Object[] columns = {"Id", "Nom", "Prenom", "Email", "Adresse", "Phone"};
+            Object[] columns = {"Id", "Nom", "Prénom", "Email", "Adresse", "Phone", "Fidélité"};
             model = new DefaultTableModel();
             model.setColumnIdentifiers(columns);
             client_table.setModel(model);
@@ -171,13 +186,14 @@ public class ClientMenu extends JFrame implements ActionListener{
             client_pane.setBounds(0, 0, 1200, 800);
             try {
                 for (Client client: clients){
-                    Object[] row = new Object[6];
+                    Object[] row = new Object[7];
                     row[0] = client.getId();
                     row[1] = client.getName();
                     row[2] = client.getSurname();
                     row[3] = client.getEmail();
                     row[4] = client.getAdresse().getVille();
                     row[5] = client.getPhone();
+                    row[6] = client.client_fidelity();
                     model.addRow(row);
 
                 }
