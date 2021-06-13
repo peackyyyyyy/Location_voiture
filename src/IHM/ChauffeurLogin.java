@@ -95,7 +95,7 @@ public class ChauffeurLogin extends JFrame implements ActionListener {
             int c = 0;
             for (Employe employe : listeemploye) {
 
-                if (loginText.equalsIgnoreCase(employe.getLogin()) && mdpText.equalsIgnoreCase(employe.getMdp())) {
+                if (loginText.equalsIgnoreCase(employe.getLogin()) && mdpText.equalsIgnoreCase(employe.getMdp()) && (employe.getType().equals("admin") || employe.getType().equals("chauffeur"))) {
                     dispose();
                     try {
                         Chauffeur.main(null);

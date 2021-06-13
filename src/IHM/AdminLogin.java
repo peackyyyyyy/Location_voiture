@@ -103,8 +103,7 @@ public class AdminLogin extends JFrame implements ActionListener{
 	            mdpText = mdpField.getText();
 	            int c = 0;
 	            for (Employe employe : listeemploye) {
-	    		
-	            if (loginText.equalsIgnoreCase(employe.getLogin()) && mdpText.equalsIgnoreCase(employe.getMdp())) {
+	            if (loginText.equalsIgnoreCase(employe.getLogin()) && mdpText.equalsIgnoreCase(employe.getMdp()) && employe.getType().equals("admin")) {
 	            	dispose();
 					try {
 						ClientMenu.main(null);

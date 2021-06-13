@@ -24,7 +24,8 @@ public class EmployePersistence extends JdbcConnexion {
                 new Adresse(rs.getString("adresse")),
                 rs.getString("phone"),
                 rs.getString("login"),
-                rs.getString("mdp"));
+                rs.getString("mdp"),
+                rs.getString("type"));
     }
     public Employe getEmployeAvecId(int id) throws SQLException {
         if(id == 0)
@@ -51,6 +52,7 @@ public class EmployePersistence extends JdbcConnexion {
         ps.setString(5,emp.getPhone());
         ps.setString(6,emp.getLogin());
         ps.setString(7,emp.getMdp());
+        ps.setString(8,emp.getType());
         int retid = ps.executeUpdate();
         ResultSet rs = ps.getGeneratedKeys();
         rs.next();
@@ -66,7 +68,8 @@ public class EmployePersistence extends JdbcConnexion {
         ps.setString(5,emp.getPhone());
         ps.setString(6,emp.getLogin());
         ps.setString(7,emp.getMdp());
-        ps.setInt(8,id);
+        ps.setString(8,emp.getType());
+        ps.setInt(9,id);
         return ps.executeUpdate();
     }
     public boolean deleteEmploye(int id) throws SQLException {
