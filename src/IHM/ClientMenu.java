@@ -546,9 +546,11 @@ public class ClientMenu extends JFrame implements ActionListener{
             String codepostal = Codepostale.getText();
             String ville = Ville.getText();
             String phone = Phone.getText();
+            int id;
             try {
-                this.clientManager.add_client(name, surname, email, new Adresse(rue, ville, codepostal), phone);
+                id = this.clientManager.add_client(name, surname, email, new Adresse(rue, ville, codepostal), phone);
             } catch (SQLException throwables) {
+                id = -1;
                 throwables.printStackTrace();
             }
             Name.setText("");
@@ -559,7 +561,7 @@ public class ClientMenu extends JFrame implements ActionListener{
             Ville.setText("");
             Phone.setText("");
             Object[] row = new Object[6];
-            row[0] = 1;
+            row[0] = id;
             row[1] = name;
             row[2] = surname;
             row[3] = email;
