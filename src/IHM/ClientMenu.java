@@ -21,7 +21,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JTabbedPane tabbedPane2;
     private JPanel Client;
     private JPanel Voiture;
-    private JPanel Devis;
+    private JPanel LocationPanel;
     private JPanel Facture;
     private JPanel Ajouterunclient;
     private JPanel Rechercherunclient;
@@ -41,7 +41,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JButton RechercheClient;
     private JScrollPane ListeRechercheClient;
     private JCheckBox checkBox1;
-    private JTabbedPane tabbedPane3;
+    private JTabbedPane Location;
     private JTextField idVoiturefield;
     private JTextField idclientfield;
     private JComboBox daylocationdebutbox;
@@ -60,11 +60,17 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JComboBox datedefinlocation_month;
     private JComboBox datedefinlocation_year;
     private JLabel datedefinlabel;
+    private JPanel ajouterLocation;
+    private JPanel Findelocation;
+    private JPanel RechercheLocation;
+    private JPanel ListeLocation;
+    private JPanel listeclientpanel;
     private JTable ClientTable;
     private JButton ajouterUnClientButton;
     private JButton rechercherUnClientButton;
     private JButton supprimerUnClientButton;
-    private DefaultTableModel model;
+    private DefaultTableModel model_clients;
+    private DefaultTableModel model_locations;
 
     public ClientMenu (ClientManager clientManager, DevisManager devisManager, VoitureManager voitureManager) {
         super();
@@ -78,24 +84,66 @@ public class ClientMenu extends JFrame implements ActionListener{
         this.addActionEvent();
         JTable client_table = new JTable();
         // create a table model and set a Column Identifiers to this model
-        Object[] columns = {"Id", "Nom", "Prénom", "Email", "Adresse", "Phone", "Fidélité"};
-        model = new DefaultTableModel();
-        model.setColumnIdentifiers(columns);
-        client_table.setModel(model);
+        Object[] clients_columns = {"Id", "Nom", "Prénom", "Email", "Adresse", "Phone", "Fidélité"};
+        model_clients = new DefaultTableModel();
+        model_clients.setColumnIdentifiers(clients_columns);
+        client_table.setModel(model_clients);
         client_table.setBackground(Color.LIGHT_GRAY);
         client_table.setForeground(Color.black);
-        Font font = new Font("",1,14);
-        client_table.setFont(font);
+        Font font_client = new Font("",1,14);
+        client_table.setFont(font_client);
         client_table.setRowHeight(30);
         JScrollPane client_pane = new JScrollPane(client_table);
         client_pane.setBounds(0, 0, 1200, 800);
         setClient_table();
         Listedesclients.add(client_pane);
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        JTable location_table = new JTable();
+        Object[] columns = {"Id", "Id Client", "Nom", "Prenom", "Id Voiture", "Model", "Marque", "Début", "Fin"};
+        model_locations = new DefaultTableModel();
+        model_locations.setColumnIdentifiers(columns);
+        location_table.setModel(model_locations);
+        location_table.setBackground(Color.LIGHT_GRAY);
+        location_table.setForeground(Color.black);
+        Font font_location = new Font("",1,14);
+        location_table.setFont(font_location);
+        location_table.setRowHeight(30);
+        JScrollPane location_pane = new JScrollPane(location_table);
+        location_pane.setBounds(0, 0, 1200, 800);
+        setLocation_table();
+        ListeLocation.add(location_pane);
+
+
+
+    }
+
+    private void setLocation_table(){
+        try {
+            for (Devis devis: this.devisManager.getDevis()){
+                Object[] row = new Object[9];
+                row[0] = devis.getId();
+                row[1] = devis.getClient().getId();
+                row[2] = devis.getClient().getName();
+                row[3] = devis.getClient().getSurname();
+                row[4] = devis.getVoiture().getId();
+                row[5] = devis.getVoiture().getModel();
+                row[6] = devis.getVoiture().getMarque();
+                row[7] = devis.getDebut();
+                row[8] = devis.getFin();
+                model_locations.addRow(row);
+
+            }
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
 
     }
 
     public void setLayoutManager() {
         Listedesclients.setLayout(null);
+        ListeLocation.setLayout(null);
+
     }
 
 
@@ -110,7 +158,7 @@ public class ClientMenu extends JFrame implements ActionListener{
                 row[4] = client.getAdresse().getVille();
                 row[5] = client.getPhone();
                 row[6] = client.client_fidelity();
-                model.addRow(row);
+                model_clients.addRow(row);
 
             }
         }
@@ -194,7 +242,7 @@ public class ClientMenu extends JFrame implements ActionListener{
             row[3] = email;
             row[4] = ville;
             row[5] = phone;
-            model.addRow(row);
+            model_clients.addRow(row);
             JOptionPane.showMessageDialog(this, "Client Ajouté");
 
 
@@ -214,17 +262,28 @@ public class ClientMenu extends JFrame implements ActionListener{
             Date date_debut = new GregorianCalendar(year_debut, return_month(month_debut), day_debut).getTime();
             //#todo add id in all managers methodes
             this.devisManager.add_devi(voiture, client, date_debut, 1);
+            Date date_fin = null;
             if (checkdatefinlocation.isSelected()){
                 int day_fin = Integer.parseInt(String.valueOf(daylocationfinbox.getSelectedItem()));
                 int month_fin = Integer.parseInt(String.valueOf(monthlocationfinbox.getSelectedItem()));
                 int year_fin = Integer.parseInt(String.valueOf(yearlocationfinbox.getSelectedItem()));
-                Date date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
+                date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
                 this.devisManager.update_fin_devis_by_id(1, date_fin);
             }
+            Object[] row = new Object[9];
+            row[0] = 1;
+            row[1] = client.getId();
+            row[2] = client.getName();
+            row[3] = client.getSurname();
+            row[4] = voiture.getId();
+            row[5] = voiture.getModel();
+            row[6] = voiture.getMarque();
+            row[7] = date_debut;
+            row[8] = date_fin;
+            model_locations.addRow(row);
             JOptionPane.showMessageDialog(this, "Location Effectué");
         }
         else if (e.getSource() == enregistrerButton){
-            FinLocation.setVisible(false);
             int id = Integer.parseInt(idLocation.getText());
             Devis result = this.devisManager.get_devis_by_id(id);
             if (enregistrerButton.isSelected()){
@@ -261,6 +320,7 @@ public class ClientMenu extends JFrame implements ActionListener{
                     datedefinlocation_month.setVisible(true);
                     datedefinlocation_year.setVisible(true);
                     enregistrerButton.setVisible(true);
+                    FinLocation.setVisible(false);
                 }
             }
             catch (Exception exep){
@@ -297,10 +357,10 @@ public class ClientMenu extends JFrame implements ActionListener{
 
             JTable client_table = new JTable();
             // create a table model and set a Column Identifiers to this model
-            Object[] columns = {"Id", "Nom", "Prénom", "Email", "Adresse", "Phone", "Fidélité"};
-            model = new DefaultTableModel();
-            model.setColumnIdentifiers(columns);
-            client_table.setModel(model);
+            Object[] clients_columns = {"Id", "Nom", "Prénom", "Email", "Adresse", "Phone", "Fidélité"};
+            model_clients = new DefaultTableModel();
+            model_clients.setColumnIdentifiers(clients_columns);
+            client_table.setModel(model_clients);
             client_table.setBackground(Color.LIGHT_GRAY);
             client_table.setForeground(Color.black);
             Font font = new Font("",1,14);
@@ -318,7 +378,7 @@ public class ClientMenu extends JFrame implements ActionListener{
                     row[4] = client.getAdresse().getVille();
                     row[5] = client.getPhone();
                     row[6] = client.client_fidelity();
-                    model.addRow(row);
+                    model_clients.addRow(row);
 
                 }
             }
