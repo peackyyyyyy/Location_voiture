@@ -48,10 +48,11 @@ public class ClientManager {
         this.clients.removeIf(client -> client.getId() == id);
     }
 
-    public void updateClient(int id, Client client) throws SQLException {
-        clientPersistence.updateClient(id,client);
+    public int updateClient(int id, Client client) throws SQLException {
+        int ret = clientPersistence.updateClient(id,client);
         delete_client_by_id(id);
         clients.add(client);
+        return ret;
     }
 
     public ArrayList<Client> find_clients(Optional<Integer> id, Optional<String> name, Optional<String> surname){
@@ -110,6 +111,7 @@ public class ClientManager {
         delete_client_by_id(id);
         return clientPersistence.deleteClient(id);
     }
+
 
 
     public void update_client_adresse_by_id(int id, Adresse adresse) {
