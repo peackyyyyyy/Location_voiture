@@ -27,53 +27,9 @@ public class TstPersitence {
         ClientPersistence clientp = new ClientPersistence(con,connexion,vp,fp);
         EmployePersistence ep = new EmployePersistence(con,connexion);
         DevisPersistence dep = new DevisPersistence(connexion,con,vp,clientp);
-
-        Client cl = new Client("marie",
-                "loutre",
-                "lou@gmail.com",
-                new Adresse("la rue","la ville","codepostal"),
-                "06",
-                new Voiture(
-                        "marque",
-                        "model",
-                        200,
-                        true,
-                        true,
-                        true,
-                        new Agence("la rue","la ville","codepostal","06","beaucais","1535135","354345"), new Confort(),
-                        Enumeration.Carburant.Gazole,
-                        Enumeration.State.Reserver),
-                null);
-
-       Employe employe = new Employe(
-                "mari",
-                "lou",
-                "lou@gmail.com",
-                new Adresse("lrgrgrgrgrgggrgr","la ville","codepostal"),
-                "06",
-                "login","mdp"
-        );
-
-        Voiture voi = new Voiture(
-                "marque",
-                "model",
-                200,
-                true,
-                true,
-                true,
-                new Agence("la rue","la ville","codepostal","06","beaucais","1535135","354345"), new Confort(),
-                Enumeration.Carburant.Gazole,
-                Enumeration.State.Reserver);
-
-        Devis lede = new Devis(voi,
-                cl,
-                Utilities.strToDate("2021-11-22"),
-                Utilities.strToDate("2021-6-22")
-        );
-        System.out.println(vp.insertVoiture(voi));
-
-        for (Devis d:dep.getDevis()) {
-           System.out.println(d);
+      
+        for (Client c:clientp.getClients()) {
+           System.out.println(c);
         }
     }
 }

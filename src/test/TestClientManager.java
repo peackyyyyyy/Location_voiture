@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class TestClientManager {
     public static void main(String[] args) {
-        Adresse adresse = new Adresse("rue", "ville", "06600");
+       /* Adresse adresse = new Adresse("rue", "ville", "06600");
         ArrayList<Client> clientsArrayList = new ArrayList<>();
         ClientManager clientManager = new ClientManager(clientsArrayList);
         clientManager.add_client("name", "surname", "mail", adresse, "0658526192", 1);
@@ -15,6 +15,6 @@ public class TestClientManager {
         for (Client client : clientsArrayList) {
             System.out.println(client);
         }
-
+*/
     }
 }

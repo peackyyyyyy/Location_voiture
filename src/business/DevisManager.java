@@ -1,23 +1,28 @@
 package business;
 
+import Persistence.DevisPersistence;
 import value_object.Client;
 import value_object.Devis;
 import value_object.Facture;
 import value_object.Voiture;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class DevisManager {
     private final ArrayList<Devis> devis;
+    private DevisPersistence devisPersistence;
 
-    public DevisManager(ArrayList<Devis> devis){
+    public DevisManager(ArrayList<Devis> devis, DevisPersistence devisPersistence){
         this.devis = devis;
+        this.devisPersistence = devisPersistence;
     }
-    public void add_devi(Voiture voiture, Client client, Date debut, int id){
-        //#todo add devis to BDD and get id
+    public void add_devi(Voiture voiture, Client client, Date debut, int id) throws SQLException {
         Devis devi = new Devis(voiture, client, debut, id);
         if (!this.devis.contains(devi)) {
+            int leid = devisPersistence.insertDevis(devi);
+            devi.setId(leid);
             this.devis.add(devi);
         }
     }
