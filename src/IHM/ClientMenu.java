@@ -16,6 +16,7 @@ import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.*;
 
 public class ClientMenu extends JFrame implements ActionListener{
@@ -108,6 +109,9 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JButton modifierButton1;
     private JButton supprimerButton1;
     private JPanel paneldelistelocation;
+    private JButton genererFactureButton;
+    private JTextPane Facturetexte;
+    private JTextField IdLocationFacture;
     private JPanel paneldeliste;
     private JTable ClientTable;
     private JButton ajouterUnClientButton;
@@ -116,8 +120,6 @@ public class ClientMenu extends JFrame implements ActionListener{
     private DefaultTableModel model;
     private DefaultTableModel mod;
     private DefaultTableModel mod2;
-    private ClientPersistence clientPersistence;
-    private VoiturePersistence voiturePersistence;
     private CarburantPersistence carburantPersistence;
     private CategoriePersistence categoriePersistence;
     private AgencePersistence agencePersistence;
@@ -125,17 +127,11 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JTable tablefind;
     private DefaultTableModel model_locations;
 
-    public ClientMenu (ClientManager clientManager, DevisManager devisManager, VoitureManager voitureManager, ClientPersistence clientPersistence, VoiturePersistence voiturePersistence, CarburantPersistence carburantPersistence, CategoriePersistence categoriePersistence, StatePersistence statePersistence, AgencePersistence agencePersistence) throws SQLException {
+    public ClientMenu (ClientManager clientManager, DevisManager devisManager, VoitureManager voitureManager) throws SQLException, ParseException {
         //Mise en place les informations
         super();
-        this.clientPersistence = clientPersistence;
         this.voitureManager = voitureManager;
-        this.voiturePersistence = voiturePersistence;
         this.clientManager = clientManager;
-        this.carburantPersistence = carburantPersistence;
-        this.categoriePersistence = categoriePersistence;
-        this.agencePersistence = agencePersistence;
-        this.statePersistence = statePersistence;
         this.devisManager = devisManager;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(Fenetre);
@@ -298,6 +294,8 @@ public class ClientMenu extends JFrame implements ActionListener{
         listeVoiture.add(voi_pane);
         populateCombo();
         this.pack();
+
+        devisManager.getDevis();
 
         //Creation evenement pour ajouter une voiture
         ajouterVoitureButton.addActionListener(new ActionListener() {
@@ -590,6 +588,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         AjouterLocation.addActionListener(this);
         FinLocation.addActionListener(this);
         enregistrerButton.addActionListener(this);
+        genererFactureButton.addActionListener(this);
     }
 
 
@@ -649,9 +648,11 @@ public class ClientMenu extends JFrame implements ActionListener{
             String ville = Ville.getText();
             String phone = Phone.getText();
             //ajout d'un client en base
+            int id;
             try {
-                this.clientManager.add_client(name, surname, email, new Adresse(rue, ville, codepostal), phone);
+                id = this.clientManager.add_client(name, surname, email, new Adresse(rue, ville, codepostal), phone);
             } catch (SQLException throwables) {
+                id = -1;
                 throwables.printStackTrace();
             }
             Name.setText("");
@@ -663,7 +664,7 @@ public class ClientMenu extends JFrame implements ActionListener{
             Phone.setText("");
             //ajout du client dans le tableau
             Object[] row = new Object[6];
-            row[0] = 1;
+            row[0] = id;
             row[1] = name;
             row[2] = surname;
             row[3] = email;
@@ -675,8 +676,28 @@ public class ClientMenu extends JFrame implements ActionListener{
 
 
         }
+        else if(e.getSource() == genererFactureButton){
+            Facturetexte.setText("");
+            String id_location = IdLocationFacture.getText();
+            Devis devis;
+            try {
+                devis = this.devisManager.get_devis_by_id(Integer.parseInt(id_location));
+            }
+            catch (Exception exeptionfacture){
+                JOptionPane.showMessageDialog(this, "Pas de devis pour cette ID");
+                IdLocationFacture.setText("");
+                return;
+            }
+            this.devisManager.generate_facture_by_id(devis.getId());
+            if (devis.getClient().getFidelite() == null){
+                Facturetexte.setText("\t\t\tFacture numero "+devis.getId()+"\n\nClient numero "+devis.getClient().getId()+"\tNom: "+devis.getClient().getName()+"\n\tPrenom: "+devis.getClient().getSurname()+"\n\nVoiture numero "+devis.getVoiture().getId()+"\n\tMarque: "+devis.getVoiture().getMarque()+"\n\tModel: "+devis.getVoiture().getModel()+"\n\tPrix: "+devis.getVoiture().getCategorie().getTarif()+"\n\n      Début Location: "+devis.getDebut()+"\n\tFin Location: "+devis.getFin()+"\n\n\tMontant: "+devis.getFacture().getPrice()+"\n\tMontant à payer: "+devis.getFacture().getFinalprice());
+            }
+            else {
+                Facturetexte.setText("\t\t\tFacture numero "+devis.getId()+"\n\nClient numero "+devis.getClient().getId()+"\tNom: "+devis.getClient().getName()+"\n\tPrenom: "+devis.getClient().getSurname()+"\n\tFidélité: "+devis.getClient().getFidelite().getReduction()+"\n\nVoiture numero "+devis.getVoiture().getId()+"\n\tMarque: "+devis.getVoiture().getMarque()+"\n\tModel: "+devis.getVoiture().getModel()+"\n\tPrix: "+devis.getVoiture().getCategorie().getTarif()+"\n\n      Début Location: "+devis.getDebut()+"\n\tFin Location: "+devis.getFin()+"\n\n\tMontant: "+devis.getFacture().getPrice()+"\n\tMontant à payer: "+devis.getFacture().getFinalprice());
+
+            }
+        }
         else if (e.getSource() == AjouterLocation){
-            //recuperation des evenements
             String id_voiture = idVoiturefield.getText();
             String id_client = idclientfield.getText();
             int day_debut = Integer.parseInt(String.valueOf(daylocationdebutbox.getSelectedItem()));
@@ -685,26 +706,36 @@ public class ClientMenu extends JFrame implements ActionListener{
             Voiture voiture = this.voitureManager.get_voiture_by_id(Integer.parseInt(id_voiture));
             Client client = this.clientManager.get_client_by_id(Integer.parseInt(id_client));
             Date date_debut = new GregorianCalendar(year_debut, return_month(month_debut), day_debut).getTime();
-            System.out.println("date " + date_debut.getYear());
-            //ajout du devis en base
+            Date date_fin = null;
+            Devis devis = null;
             try {
-                Devis devis = this.devisManager.add_devi(voiture, client, date_debut);
+                devis = this.devisManager.add_devi(voiture, client, date_debut);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            //si la date de fin est selectionné on update le devis mis
             if (checkdatefinlocation.isSelected()){
                 int day_fin = Integer.parseInt(String.valueOf(daylocationfinbox.getSelectedItem()));
                 int month_fin = Integer.parseInt(String.valueOf(monthlocationfinbox.getSelectedItem()));
                 int year_fin = Integer.parseInt(String.valueOf(yearlocationfinbox.getSelectedItem()));
-                Date date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
+                date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
                 try {
-                    this.devisManager.update_fin_devis_by_id(1, date_fin);
-
+                    assert devis != null;
+                    this.devisManager.update_fin_devis_by_id(devis.getId(), date_fin);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
             }
+            Object[] row = new Object[9];
+            row[0] = devis.getId();
+            row[1] = client.getId();
+            row[2] = client.getName();
+            row[3] = client.getSurname();
+            row[4] = voiture.getId();
+            row[5] = voiture.getModel();
+            row[6] = voiture.getMarque();
+            row[7] = date_debut;
+            row[8] = date_fin;
+            model_locations.addRow(row);
             JOptionPane.showMessageDialog(this, "Location Effectué");
         }
         else if (e.getSource() == enregistrerButton){
@@ -825,7 +856,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         }
     }
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException, ParseException {
         JdbcConnexion jdbc = new JdbcConnexion();
 
         Statement con = jdbc.getConn();
@@ -847,7 +878,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         VoitureManager voitureManager = new VoitureManager(vp);
         DevisManager devisManager = new DevisManager(devisArrayList,dep);
         ClientManager clientManager = new ClientManager(clientsArrayList,clientp);
-        JFrame jFrame = new ClientMenu(clientManager,devisManager,voitureManager,clientp,vp,carbup,cp,stp,ap);
+        JFrame jFrame = new ClientMenu(clientManager,devisManager,voitureManager);
         jFrame.setVisible(true);
     }
 }
