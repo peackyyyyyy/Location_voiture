@@ -16,6 +16,7 @@ import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.*;
 
 public class ClientMenu extends JFrame implements ActionListener{
@@ -380,7 +381,6 @@ public class ClientMenu extends JFrame implements ActionListener{
                 row[7] = devis.getDebut();
                 row[8] = devis.getFin();
                 model_locations.addRow(row);
-
             }
         }
         catch (Exception ex){
@@ -388,6 +388,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         }
 
     }
+
 
     public void setLayoutManager() {
         Listedesclients.setLayout(null);
@@ -490,6 +491,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         AjouterLocation.addActionListener(this);
         FinLocation.addActionListener(this);
         enregistrerButton.addActionListener(this);
+        genererFactureButton.addActionListener(this);
     }
 
 
@@ -571,7 +573,12 @@ public class ClientMenu extends JFrame implements ActionListener{
         }
         else if(e.getSource() == genererFactureButton){
             String id_location = IdLocationFacture.getText();
-            Devis devis = null;
+            Devis devis;
+            try {
+                System.out.println(this.devisManager.getDevis());
+            } catch (SQLException | ParseException throwables) {
+                throwables.printStackTrace();
+            }
             try {
                 devis = this.devisManager.get_devis_by_id(Integer.parseInt(id_location));
             }
@@ -580,6 +587,9 @@ public class ClientMenu extends JFrame implements ActionListener{
                 IdLocationFacture.setText("");
                 return;
             }
+            this.devisManager.generate_facture_by_id(devis.getId());
+            Facturetexte.setText("  Facture numero "+devis.getId());
+            JOptionPane.showMessageDialog(this, "okkkkkkk");
         }
         else if (e.getSource() == AjouterLocation){
             String id_voiture = idVoiturefield.getText();
@@ -610,7 +620,7 @@ public class ClientMenu extends JFrame implements ActionListener{
                 }
             }
             Object[] row = new Object[9];
-            row[0] = 1;
+            row[0] = devis.getId();
             row[1] = client.getId();
             row[2] = client.getName();
             row[3] = client.getSurname();

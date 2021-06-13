@@ -7,11 +7,12 @@ import value_object.Facture;
 import value_object.Voiture;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class DevisManager {
-    private final ArrayList<Devis> devis;
+    private ArrayList<Devis> devis;
     private DevisPersistence devisPersistence;
 
     public DevisManager(ArrayList<Devis> devis, DevisPersistence devisPersistence){
@@ -88,7 +89,8 @@ public class DevisManager {
     }
 
 
-    public ArrayList<Devis> getDevis() {
+    public ArrayList<Devis> getDevis() throws SQLException, ParseException {
+        devis = devisPersistence.getDevis();
         return devis;
     }
 
