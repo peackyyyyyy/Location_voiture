@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class ClientMenu extends JFrame implements ActionListener{
     private final ClientManager clientManager;
@@ -69,6 +70,14 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JCheckBox autoCheck;
     private JButton ajouterVoitureButton;
     private JCheckBox endommageCheck;
+    private JTextField idTextfield;
+    private JTextField modelTextField;
+    private JComboBox comboAgence2;
+    private JLabel agencelabel;
+    private JLabel idlabel;
+    private JLabel modelLabel;
+    private JComboBox comboEtat2;
+    private JButton searchButton;
     private JPanel listevoiture;
     private ClientPersistence clientPersistence;
     private VoiturePersistence voiturePersistence;
@@ -207,6 +216,44 @@ public class ClientMenu extends JFrame implements ActionListener{
                     addRowTableVoiture(voiture);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
+                }
+            }
+        });
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = idTextfield.getText();
+                String modele = modelTextField.getText();
+                Agence agence = (Agence)  comboAgence2.getSelectedItem();
+                Enumeration.State etat = (Enumeration.State) comboEtat2.getSelectedItem();
+                Optional<Integer> opid;
+                Optional<String> opModele;
+                Optional<Agence> optionalAgence;
+                Optional<Enumeration.State> optionalState;
+                if(id.isEmpty()){
+                    opid = Optional.empty();
+                }
+                else {
+                    opid = Optional.of(Integer.parseInt(id));
+                }
+
+                if(modele.isEmpty()){
+                    opModele = Optional.empty();
+                }
+                else{
+                    opModele = Optional.of(modele);
+                }
+                if(agence == null){
+                    optionalAgence = Optional.empty();
+                }
+                else{
+                    optionalAgence = Optional.of(agence);
+                }
+                if (etat == null){
+                    optionalState = Optional.empty();
+                }
+                else{
+                    optionalState = Optional.of(etat)
                 }
             }
         });
