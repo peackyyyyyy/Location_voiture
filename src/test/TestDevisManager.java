@@ -12,7 +12,7 @@ import java.util.GregorianCalendar;
 
 public class TestDevisManager {
     public static void main(String[] args) {
-        ICategorie luxe = new Luxe();
+      /*  ICategorie luxe = new Luxe();
         ICategorie eco = new Economique();
         Agence agence = new Agence("rue1", "ville1", "06", 1, "agence1", "0657453434", "longitude1", "lattitude1");
         Voiture voiture = new Voiture(1,"marque", "model", 15, false, true, Enumeration.Carburant.SP95, false, agence);
@@ -58,7 +58,7 @@ public class TestDevisManager {
         }
 
 
-
+*/
 
     }
 }

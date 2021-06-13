@@ -1,38 +1,57 @@
 package business;
 
+import Persistence.ClientPersistence;
 import value_object.Adresse;
 import value_object.Client;
 import value_object.Personne;
+import value_object.Voiture;
 
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class ClientManager {
-    private final ArrayList<Client> clients;
+    private ArrayList<Client> clients;
+    private ClientPersistence clientPersistence;
 
-    public ClientManager(ArrayList<Client> clients) {
+    public ClientManager(ArrayList<Client> clients,ClientPersistence clientPersistence) {
         this.clients = clients;
+        this.clientPersistence = clientPersistence;
     }
 
-    public void add_client(String name, String surname, String email, Adresse adresse, String phone, int id) {
-        //#todo add client to BDD and get id
+    public int add_client(String name, String surname, String email, Adresse adresse, String phone) throws SQLException {
         Personne personne = new Personne(name, surname, email, adresse, phone);
-        Client client = new Client(personne, id);
+        Client client = new Client(personne);
+
         if (!this.clients.contains(client)) {
             this.clients.add(client);
+            int leid = clientPersistence.insertClient(client);
+            client.setId(leid);
+            return leid;
         }
+        return -1;
     }
-    public Client get_client_by_id(int id){
-        for (Client client: this.clients){
-            if (client.getId() == id){
-                return client;
-            }
+
+    public int add_client(Client client) throws SQLException {
+
+        if (!this.clients.contains(client)) {
+            this.clients.add(client);
+            int leid = clientPersistence.insertClient(client);
+            client.setId(leid);
+            return leid;
         }
-        return null;
+        return -1;
     }
 
     public void delete_client_by_id(int id) {
         this.clients.removeIf(client -> client.getId() == id);
+    }
+
+    public void updateClient(int id, Client client) throws SQLException {
+        clientPersistence.updateClient(id,client);
+        delete_client_by_id(id);
+        clients.add(client);
     }
 
     public ArrayList<Client> find_clients(Optional<Integer> id, Optional<String> name, Optional<String> surname){
@@ -78,6 +97,21 @@ public class ClientManager {
         return newresult;
     }
 
+    public Client get_client_by_id(int id){
+        for (Client client: this.clients){
+            if (client.getId() == id){
+                return client;
+            }
+        }
+        return null;
+    }
+
+    public boolean deleteClientBdd(int id) throws SQLException {
+        delete_client_by_id(id);
+        return clientPersistence.deleteClient(id);
+    }
+
+
     public void update_client_adresse_by_id(int id, Adresse adresse) {
         for (Client client : this.clients) {
             if (client.getId() == id) {
@@ -102,7 +136,8 @@ public class ClientManager {
         }
     }
 
-    public ArrayList<Client> getClients() {
+    public ArrayList<Client> getClients() throws SQLException, ParseException {
+        clients = clientPersistence.getClients();
         return clients;
     }
 

@@ -1,7 +1,7 @@
 package value_object;
 
 public class Client extends Personne{
-    private final int id;
+    private int id;
     private Voiture location;
     private Fidelite fidelite;
 
@@ -9,6 +9,11 @@ public class Client extends Personne{
         super(personne.getName(), personne.getSurname(), personne.getEmail(), personne.getAdresse(), personne.getPhone());
         this.id = id;
     }
+
+    public Client(Personne personne){
+        super(personne.getName(), personne.getSurname(), personne.getEmail(), personne.getAdresse(), personne.getPhone());
+    }
+
     public Client(int id, String name, String surname, String email, Adresse adresse, String phone,Voiture voiture, Fidelite fidelite){
         super(name, surname, email, adresse, phone);
         this.location = voiture;
@@ -45,6 +50,10 @@ public class Client extends Personne{
 
     public Fidelite getFidelite() {
         return fidelite;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

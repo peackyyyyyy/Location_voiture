@@ -5,13 +5,13 @@ public class Adresse {
     private final String ville;
     private final String codepostal;
 
-    public Adresse(String rue, String ville, String codepostal){
+    public Adresse(String rue, String ville, String codepostal) {
         this.rue = rue;
         this.ville = ville;
         this.codepostal = codepostal;
     }
 
-    public Adresse( String str){
+    public Adresse(String str) {
         //23 rue lol;Paris;75010
         String[] strsplit = str.split(";");
         this.rue = strsplit[0];
@@ -20,8 +20,8 @@ public class Adresse {
 
     }
 
-    public String getStrToBdd(){
-        return this.rue+";"+this.ville+";"+codepostal;
+    public String getStrToBdd() {
+        return this.rue + ";" + this.ville + ";" + codepostal;
     }
 
     public String getCodepostal() {

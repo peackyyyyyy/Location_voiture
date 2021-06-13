@@ -3,7 +3,7 @@ package value_object;
 import value_object.model.Enumeration;
 
 public class Voiture {
-    private final int id;
+    private int id;
     private final String marque;
     private final String model;
     private int kilometers;
@@ -14,6 +14,15 @@ public class Voiture {
     private ICategorie categorie;
     private final Enumeration.Carburant carburant;
     private Enumeration.State state;
+    private Agence agence_a_etre;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setAgence_a_etre(Agence agence_a_etre) {
+        this.agence_a_etre = agence_a_etre;
+    }
 
     public Voiture(int id, String marque, String model, int kilometers, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage, Agence agence){
         this.id = id;
@@ -25,6 +34,19 @@ public class Voiture {
         this.carburant = carburant;
         this.endommage = endommage;
         this.agence = agence;
+    }
+
+    public Voiture(int id, String marque, String model, int kilometers, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage, Agence agence, Agence agence_a_etre){
+        this.id = id;
+        this.marque = marque;
+        this.model = model;
+        this.kilometers = kilometers;
+        this.vitesse = vitesse;
+        this.clim = clim;
+        this.carburant = carburant;
+        this.endommage = endommage;
+        this.agence = agence;
+        this.agence_a_etre = agence_a_etre;
     }
 
     public Voiture(int id, String marque, String model, int kilometers, boolean endommage, boolean vitesse, boolean clim, Agence agence, ICategorie categorie, Enumeration.Carburant carburant, Enumeration.State state) {
@@ -41,7 +63,23 @@ public class Voiture {
         this.state = state;
     }
 
-    public Voiture(String marque, String model, int kilometers, boolean endommage, boolean vitesse, boolean clim, Agence agence, ICategorie categorie, Enumeration.Carburant carburant, Enumeration.State state) {
+    public Voiture(int id, String marque, String model, int kilometers, boolean endommage, boolean vitesse, boolean clim, Agence agence, Agence agence_a_etre, ICategorie categorie, Enumeration.Carburant carburant, Enumeration.State state) {
+        this.id = id;
+        this.marque = marque;
+        this.model = model;
+        this.kilometers = kilometers;
+        this.endommage = endommage;
+        this.vitesse = vitesse;
+        this.clim = clim;
+        this.agence = agence;
+        this.agence_a_etre = agence_a_etre;
+        this.categorie = categorie;
+        this.carburant = carburant;
+        this.state = state;
+    }
+
+    public Voiture(int id, String marque, String model, int kilometers, boolean endommage, boolean vitesse, boolean clim, Agence agence, ICategorie categorie, Enumeration.Carburant carburant, Enumeration.State state,  Agence agence_a_etre) {
+        this.id = id;
         this.marque = marque;
         this.model = model;
         this.kilometers = kilometers;
@@ -52,8 +90,26 @@ public class Voiture {
         this.categorie = categorie;
         this.carburant = carburant;
         this.state = state;
-        this.id = -1;
+        this.agence_a_etre = agence_a_etre;
     }
+
+
+    public Voiture(String marque, String model, int kilometers, boolean endommage, boolean vitesse, boolean clim, Agence agence,Agence agence_a_etre, ICategorie categorie, Enumeration.Carburant carburant, Enumeration.State state) {
+        this.marque = marque;
+        this.model = model;
+        this.kilometers = kilometers;
+        this.endommage = endommage;
+        this.vitesse = vitesse;
+        this.clim = clim;
+        this.agence = agence;
+        this.agence_a_etre = agence_a_etre;
+        this.categorie = categorie;
+        this.carburant = carburant;
+        this.state = state;
+    }
+
+
+
 
     public void setCategorie(ICategorie categorie) {
         this.categorie = categorie;
@@ -115,22 +171,13 @@ public class Voiture {
         return agence;
     }
 
-    @Override
-    public String toString() {
-        return "Voiture{" +
-                "id=" + id +
-                ", marque='" + marque + '\'' +
-                ", model='" + model + '\'' +
-                ", kilometers=" + kilometers +
-                ", endommage=" + endommage +
-                ", vitesse=" + vitesse +
-                ", clim=" + clim +
-                ", agence=" + agence +
-                ", categorie=" + categorie +
-                ", carburant=" + carburant +
-                ", state=" + state +
-                '}';
+    public Agence getAgence_a_etre() {
+        return agence_a_etre;
     }
 
+    @Override
+    public String toString() {
+        return model;
+    }
 
 }
