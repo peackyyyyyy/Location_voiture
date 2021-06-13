@@ -65,9 +65,6 @@ public class Devis{
     public Voiture getVoiture() {
         return voiture;
     }
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public void setId(int id) {
         this.id = id;
