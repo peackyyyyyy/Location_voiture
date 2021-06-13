@@ -69,6 +69,10 @@ public class VoitureManager {
         this.voitures.removeIf(voiture -> voiture.getId() == id);
     }
 
+    public void delete(int id) throws SQLException {
+        voiturePersistence.deleteVoiture(id);
+    }
+
     public void update_voiture_categorie_by_id(int id, ICategorie categorie) {
         for (Voiture voiture : this.voitures) {
             if (voiture.getId() == id) {

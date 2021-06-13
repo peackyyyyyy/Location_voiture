@@ -30,7 +30,6 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JPanel Facture;
     private JPanel Ajouterunclient;
     private JPanel Rechercherunclient;
-    private JPanel Modifierunclient;
     private JPanel Listedesclients;
     private JTextField Name;
     private JTextField Surname;
@@ -105,7 +104,11 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JTextField textfiledIdTobutton;
     private JButton modifierButton;
     private JButton supprimerButton;
+    private JTextField textfieldbuttonclient;
+    private JButton modifierButton1;
+    private JButton supprimerButton1;
     private JPanel paneldelistelocation;
+    private JPanel paneldeliste;
     private JTable ClientTable;
     private JButton ajouterUnClientButton;
     private JButton rechercherUnClientButton;
@@ -121,6 +124,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private AgencePersistence agencePersistence;
     private StatePersistence statePersistence;
     private JTable tablefind;
+    private DefaultTableModel model_locations;
 
     public ClientMenu (ClientManager clientManager, DevisManager devisManager, VoitureManager voitureManager, ClientPersistence clientPersistence, VoiturePersistence voiturePersistence, CarburantPersistence carburantPersistence, CategoriePersistence categoriePersistence, StatePersistence statePersistence, AgencePersistence agencePersistence) throws SQLException {
         super();
@@ -362,6 +366,78 @@ public class ClientMenu extends JFrame implements ActionListener{
                 }
             }
         });
+        supprimerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(textfiledIdTobutton.getText());
+                try {
+                    voitureManager.delete(id);
+                    voitureManager.delete_voiture_by_id(id);
+                    setVoiture_table();
+                    JOptionPane.showMessageDialog(listeVoiture, "Voiture supprimé");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
+        modifierButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(textfieldbuttonclient.getText());
+                TableModel model = client_table.getModel();
+                int i;
+                for( i = 0; i < client_table.getRowCount();i++){
+                    if(id == (Integer) model.getValueAt(i,0)) {
+                        break;
+                    }
+                }
+                try {
+
+
+                    clientManager.updateClient(id,new Client(
+                            (String) model.getValueAt(i,2),
+                            (String) model.getValueAt(i,1),
+                            (String) model.getValueAt(i,3),
+                            (Adresse) model.getValueAt(i,4),
+                            (String) model.getValueAt(i,5),
+                             null
+                    ));
+                    setClient_table();
+                JOptionPane.showMessageDialog(listeVoiture, "Client modfié");
+                }
+                catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+    });
+        supprimerButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(textfieldbuttonclient.getText());
+                try {
+                    clientManager.delete(id);
+                    setClient_table();
+                    JOptionPane.showMessageDialog(listeVoiture, "Client supprimé");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
+
+        JTable location_table = new JTable();
+        Object[] columns_location = {"Id", "Id Client", "Nom", "Prenom", "Id Voiture", "Model", "Marque", "Début", "Fin"};
+        model_locations = new DefaultTableModel();
+        model_locations.setColumnIdentifiers(columns_location);
+        location_table.setModel(model_locations);
+        location_table.setBackground(Color.LIGHT_GRAY);
+        location_table.setForeground(Color.black);
+        Font font_location = new Font("",1,14);
+        location_table.setFont(font_location);
+        location_table.setRowHeight(30);
+        JScrollPane location_pane = new JScrollPane(location_table);
+        location_pane.setBounds(0, 0, 1400, 1000);
+        setLocation_table();
+        paneldelistelocation.add(location_pane);
     }
     private void setLocation_table(){
         try {
@@ -438,6 +514,28 @@ public class ClientMenu extends JFrame implements ActionListener{
             modele.addRow(row);
     }
 
+    private void setLocation_table(){
+        try {
+            for (Devis devis: this.devisManager.getDevis()){
+                Object[] row = new Object[9];
+                row[0] = devis.getId();
+                row[1] = devis.getClient().getId();
+                row[2] = devis.getClient().getName();
+                row[3] = devis.getClient().getSurname();
+                row[4] = devis.getVoiture().getId();
+                row[5] = devis.getVoiture().getModel();
+                row[6] = devis.getVoiture().getMarque();
+                row[7] = devis.getDebut();
+                row[8] = devis.getFin();
+                model_locations.addRow(row);
+            }
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+    }
+
     private void setVoiture_table() throws SQLException {
             mod.setRowCount(0);
             Object[] row;
@@ -462,13 +560,14 @@ public class ClientMenu extends JFrame implements ActionListener{
 
     private void setClient_table(){
         try {
+            model.setRowCount(0);
+            Object[] row = new Object[7];
             for (Client client: this.clientManager.getClients()){
-                Object[] row = new Object[7];
                 row[0] = client.getId();
                 row[1] = client.getName();
                 row[2] = client.getSurname();
                 row[3] = client.getEmail();
-                row[4] = client.getAdresse().getVille();
+                row[4] = client.getAdresse();
                 row[5] = client.getPhone();
                 row[6] = client.client_fidelity();
                 model.addRow(row);
