@@ -508,6 +508,7 @@ public class ClientMenu extends JFrame implements ActionListener{
             Voiture voiture = this.voitureManager.get_voiture_by_id(Integer.parseInt(id_voiture));
             Client client = this.clientManager.get_client_by_id(Integer.parseInt(id_client));
             Date date_debut = new GregorianCalendar(year_debut, return_month(month_debut), day_debut).getTime();
+            System.out.println("date " + date_debut.getYear());
             try {
                 Devis devis = this.devisManager.add_devi(voiture, client, date_debut);
             } catch (SQLException throwables) {
