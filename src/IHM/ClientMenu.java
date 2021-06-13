@@ -112,6 +112,9 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JButton genererFactureButton;
     private JTextPane Facturetexte;
     private JTextField IdLocationFacture;
+    private JTextField textFieldIdLocation;
+    private JButton modifierButtonLocation;
+    private JButton supprimerButtonLocation;
     private JPanel paneldeliste;
     private JTable ClientTable;
     private JButton ajouterUnClientButton;
@@ -126,6 +129,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private StatePersistence statePersistence;
     private JTable tablefind;
     private DefaultTableModel model_locations;
+    private JTable location_table;
 
     public ClientMenu (ClientManager clientManager, DevisManager devisManager, VoitureManager voitureManager) throws SQLException, ParseException {
         //Mise en place les informations
@@ -203,8 +207,8 @@ public class ClientMenu extends JFrame implements ActionListener{
             }
         });
 
-        //creation de la table
-        JTable location_table = new JTable();
+        //creation de la table des locations
+        location_table = new JTable();
         Object[] columns_location = {"Id", "Id Client", "Nom", "Prenom", "Id Voiture", "Model", "Marque", "Début", "Fin"};
         model_locations = new DefaultTableModel();
         model_locations.setColumnIdentifiers(columns_location);
@@ -440,6 +444,47 @@ public class ClientMenu extends JFrame implements ActionListener{
                 }
             }
         });
+        //creation event modification d'une location
+        modifierButtonLocation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(textFieldIdLocation.getText());
+                TableModel model = location_table.getModel();
+                int i;
+                for( i = 0; i < location_table.getRowCount();i++){
+                    if(id == (Integer) model.getValueAt(i,0)) {
+                        break;
+                    }
+                }
+                try {
+                    devisManager.updateClient(id, new Devis(
+                                    (Voiture) model.getValueAt(i,5),
+                                    (Client) model.getValueAt(i,2),
+                                    (Date) model.getValueAt(i,7),
+                                    (Date) model.getValueAt(i,8),
+                                    (Integer) model.getValueAt(i,0)
+                            )
+                    );
+                    setLocation_table();
+                    JOptionPane.showMessageDialog(listeVoiture, "Location modifié");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
+        supprimerButtonLocation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(textFieldIdLocation.getText());
+                try {
+                    devisManager.deleteDevis(id);
+                    setLocation_table();
+                    JOptionPane.showMessageDialog(listeVoiture, "Location supprimé");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
     }
 
     public void setLayoutManager() {
@@ -508,14 +553,15 @@ public class ClientMenu extends JFrame implements ActionListener{
      */
     private void setLocation_table(){
         try {
+            model_locations.setRowCount(0);
             for (Devis devis: this.devisManager.getDevis()){
                 Object[] row = new Object[9];
                 row[0] = devis.getId();
                 row[1] = devis.getClient().getId();
-                row[2] = devis.getClient().getName();
+                row[2] = devis.getClient();
                 row[3] = devis.getClient().getSurname();
                 row[4] = devis.getVoiture().getId();
-                row[5] = devis.getVoiture().getModel();
+                row[5] = devis.getVoiture();
                 row[6] = devis.getVoiture().getMarque();
                 row[7] = devis.getDebut();
                 row[8] = devis.getFin();
