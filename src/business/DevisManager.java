@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DevisManager {
-    private final ArrayList<Devis> devis;
+    private ArrayList<Devis> devis;
     private DevisPersistence devisPersistence;
 
     public DevisManager(ArrayList<Devis> devis, DevisPersistence devisPersistence){
@@ -90,7 +90,8 @@ public class DevisManager {
 
 
     public ArrayList<Devis> getDevis() throws SQLException, ParseException {
-        return devisPersistence.getDevis();
+        devis = devisPersistence.getDevis();
+        return devis;
     }
 
     @Override
