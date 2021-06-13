@@ -18,7 +18,11 @@ public class CategoriePersistence extends JdbcConnexion {
     public CategoriePersistence(Statement conn) throws ClassNotFoundException, SQLException {
         this.conn = conn;
     }
-
+    /**
+     * Retourne une categorie par rapport à ub id
+     * @param id l'id de la categorie voulue
+     * @return
+     */
     public ICategorie getCategorieAvecId(int id) throws SQLException {
         switch (id){
             case(1):
@@ -31,6 +35,11 @@ public class CategoriePersistence extends JdbcConnexion {
         return null;
     }
 
+    /**
+     * Retourne l'id d'une categorie
+     * @param categorie la categorie recherché
+     * @return
+     */
     public int getIdCategorie(ICategorie categorie){
         if (categorie.getName() == Enumeration.Categorie.Confort)
             return 1;
@@ -41,6 +50,10 @@ public class CategoriePersistence extends JdbcConnexion {
         return -1;
     }
 
+    /**
+     * Methode qui liste toutes les categories
+     * @return une liste des categories
+     */
     public ArrayList<ICategorie> getCategories(){
         ArrayList<ICategorie> liste = new ArrayList<>();
         liste.add(new Confort());

@@ -5,11 +5,19 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Calsse permettant de faire le lien avec le java et le SQL
+ */
 public class JdbcConnexion implements IConnexion{
 
     protected Statement conn;
     protected Connection connexion;
 
+    /**
+     * Constructeur de la connexion avec la base de donnée
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public JdbcConnexion() throws ClassNotFoundException, SQLException {
         try {
             Class.forName("org.mariadb.jdbc.Driver");

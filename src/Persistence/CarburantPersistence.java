@@ -13,6 +13,11 @@ public class CarburantPersistence extends JdbcConnexion{
         this.conn = conn;
     }
 
+    /**
+     * Retourne un carburant par rapport à ub id
+     * @param id l'id du carburant voulu
+     * @return
+     */
     public Enumeration.Carburant getCarburantAvecId(int id){
         switch(id){
             case 1:
@@ -29,6 +34,11 @@ public class CarburantPersistence extends JdbcConnexion{
         return null;
     }
 
+    /**
+     * Retourne l'id d'un carburant
+     * @param carbu le carburant recherché
+     * @return
+     */
     public int getIdCarbu(Enumeration.Carburant carbu){
         switch (carbu){
             case Gazole -> {
@@ -51,6 +61,10 @@ public class CarburantPersistence extends JdbcConnexion{
         return -1;
     }
 
+    /**
+     * Methode qui liste tous les carburants
+     * @return une liste de carburant
+     */
     public ArrayList<Enumeration.Carburant> getCarburants(){
         ArrayList<Enumeration.Carburant> liste = new ArrayList<>();
         liste.add(Enumeration.Carburant.Gazole);

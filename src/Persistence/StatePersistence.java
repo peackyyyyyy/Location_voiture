@@ -14,6 +14,11 @@ public class StatePersistence {
         this.conn = conn;
     }
 
+    /**
+     * Retourne un état par rapport à un id
+     * @param id l'id de l'etat souhaité
+     * @return l'etat souhaité
+     */
     public Enumeration.State getStateAvecId(int id){
         switch(id){
             case 1:
@@ -27,6 +32,11 @@ public class StatePersistence {
         return null;
     }
 
+    /**
+     * Retourne un id par rapport à un etat
+     * @param state l'eat que l'on recherche
+     * @return l'id de l'etat souhaité
+     */
     public int getIdState(Enumeration.State state){
         switch (state){
             case Reserver -> {
@@ -43,6 +53,10 @@ public class StatePersistence {
         return -1;
     }
 
+    /**
+     * Liste tous les états
+     * @return la liste des états
+     */
     public ArrayList<Enumeration.State> getStats(){
         ArrayList<Enumeration.State> liste = new ArrayList<>();
         liste.add(Enumeration.State.Reserver);
