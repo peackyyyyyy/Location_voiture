@@ -73,7 +73,12 @@ public class ChoiceUser extends JFrame implements ActionListener{
     	agentButton.addActionListener(this);
     	utilisateurButton.addActionListener(this);
     }
-    @Override
+
+	/**
+	 *
+	 * @param e
+	 */
+	@Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == administrateurButton) {
         	try {
@@ -106,7 +111,11 @@ public class ChoiceUser extends JFrame implements ActionListener{
 			}
         }
     }
-    public void changerMenu(){
+
+	/**
+	 * Méthode qui permet de changer de jpanel
+	 */
+	public void changerMenu(){
         this.setContentPane(this.panel);
         this.revalidate();
     }
