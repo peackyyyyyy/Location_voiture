@@ -109,6 +109,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private DefaultTableModel model;
     private DefaultTableModel mod;
     private DefaultTableModel mod2;
+    private DefaultTableModel model_locations;
     private ClientPersistence clientPersistence;
     private VoiturePersistence voiturePersistence;
     private CarburantPersistence carburantPersistence;
@@ -315,6 +316,30 @@ public class ClientMenu extends JFrame implements ActionListener{
         Listedesclients.setLayout(null);
         listeVoiture.setLayout(null);
     }
+
+    private void setLocation_table(){
+        try {
+            for (Devis devis: this.devisManager.getDevis()){
+                Object[] row = new Object[9];
+                row[0] = devis.getId();
+                row[1] = devis.getClient().getId();
+                row[2] = devis.getClient().getName();
+                row[3] = devis.getClient().getSurname();
+                row[4] = devis.getVoiture().getId();
+                row[5] = devis.getVoiture().getModel();
+                row[6] = devis.getVoiture().getMarque();
+                row[7] = devis.getDebut();
+                row[8] = devis.getFin();
+                model_locations.addRow(row);
+
+            }
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+    }
+
 
     private void populateCombo() throws SQLException{
         try{
