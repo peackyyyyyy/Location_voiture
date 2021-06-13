@@ -111,8 +111,10 @@ public class AdminLogin extends JFrame implements ActionListener{
 						throwables.printStackTrace();
 					} catch (ClassNotFoundException classNotFoundException) {
 						classNotFoundException.printStackTrace();
+					} catch (ParseException parseException) {
+						parseException.printStackTrace();
 					}
-	            	c=1;
+					c=1;
 	            	break;
 	            } else {
 	                continue;
