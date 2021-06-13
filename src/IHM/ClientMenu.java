@@ -218,12 +218,32 @@ public class ClientMenu extends JFrame implements ActionListener{
                 int day_fin = Integer.parseInt(String.valueOf(daylocationfinbox.getSelectedItem()));
                 int month_fin = Integer.parseInt(String.valueOf(monthlocationfinbox.getSelectedItem()));
                 int year_fin = Integer.parseInt(String.valueOf(yearlocationfinbox.getSelectedItem()));
-                Date date_fin = new GregorianCalendar(year_debut, return_month(month_fin), day_debut).getTime();
+                Date date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
                 this.devisManager.update_fin_devis_by_id(1, date_fin);
             }
             JOptionPane.showMessageDialog(this, "Location Effectué");
         }
         else if (e.getSource() == enregistrerButton){
+            FinLocation.setVisible(false);
+            int id = Integer.parseInt(idLocation.getText());
+            Devis result = this.devisManager.get_devis_by_id(id);
+            if (enregistrerButton.isSelected()){
+                result.getVoiture().setEndommage(true);
+            }
+            int day_fin = Integer.parseInt(String.valueOf(datedefinlocation_day.getSelectedItem()));
+            int month_fin = Integer.parseInt(String.valueOf(datedefinlocation_month.getSelectedItem()));
+            int year_fin = Integer.parseInt(String.valueOf(datedefinlocation_year.getSelectedItem()));
+            Date date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
+            this.devisManager.update_fin_devis_by_id(id, date_fin);
+            endommageCheckBox.setVisible(false);
+            datedefinlabel.setVisible(false);
+            datedefinlocation_day.setVisible(false);
+            datedefinlocation_month.setVisible(false);
+            datedefinlocation_year.setVisible(false);
+            enregistrerButton.setVisible(false);
+            FinLocation.setVisible(true);
+            idLocation.setText("");
+
 
         }
         else if(e.getSource() == FinLocation){
