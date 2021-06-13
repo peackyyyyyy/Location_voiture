@@ -575,7 +575,11 @@ public class ClientMenu extends JFrame implements ActionListener{
             try {
                 devis = this.devisManager.get_devis_by_id(Integer.parseInt(id_location));
             }
-
+            catch (Exception exeptionfacture){
+                JOptionPane.showMessageDialog(this, "Pas de devis pour cette ID");
+                IdLocationFacture.setText("");
+                return;
+            }
         }
         else if (e.getSource() == AjouterLocation){
             String id_voiture = idVoiturefield.getText();
