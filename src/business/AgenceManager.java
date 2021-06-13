@@ -13,12 +13,32 @@ public class AgenceManager extends VoitureManager{
     private ArrayList<Agence> agences;
     private AgencePersistence agencePersistence;
 
+    /**
+     * L'agence manager contient toutes les méthodes liées aux agences (ajouter, modifier, rechercher ....)
+     * @param agences  liste de toutes les agences
+     * @param voitures  listes des voitures diponible dans les agences
+     * @param agencePersistence la classe agence persistence est responsable de l'interaction avec la BDD pour la table agence
+     */
+
     public AgenceManager(ArrayList<Agence> agences, ArrayList<Voiture> voitures, AgencePersistence agencePersistence){
         super(voitures);
         this.agences = agences;
         this.agencePersistence = agencePersistence;
 
     }
+
+    /**
+     * Ajouter une agence en base et en mémoire
+     * @param rue
+     * @param ville
+     * @param codepostal
+     * @param id
+     * @param name
+     * @param phone
+     * @param longitude
+     * @param lattitude
+     * @throws SQLException
+     */
 
     public void add_agence(String rue, String ville, String codepostal, int id, String name, String phone, String longitude,
                            String lattitude) throws SQLException {
@@ -38,6 +58,13 @@ public class AgenceManager extends VoitureManager{
         }
     }
 
+    /**
+     * Retourner les voitures disponible dans l'agence
+     * @param id id de l'agence en question
+     * @return list de voitures
+     * @throws SQLException
+     */
+
     public ArrayList<Voiture> get_voiture_available_by_agence_id(int id) throws SQLException {
         ArrayList<Voiture> voitures = new ArrayList<>();
         for (Voiture voiture: super.getVoitures()){
@@ -49,6 +76,12 @@ public class AgenceManager extends VoitureManager{
         }
         return voitures;
     }
+
+    /**
+     * Recuperers toutes les agences dans la BDD pour les mettre en RAM
+     * @return  list d'agences
+     * @throws SQLException
+     */
 
     public ArrayList<Agence> getAgences() throws SQLException {
         agences = agencePersistence.getAgences();

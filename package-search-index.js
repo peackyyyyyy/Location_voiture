@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"business"},{"l":"IHM"},{"l":"Persistence"},{"l":"value_object"},{"l":"value_object.Categorie"},{"l":"value_object.model"}];updateSearchResults();

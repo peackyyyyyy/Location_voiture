@@ -15,6 +15,13 @@ public class VoitureManager {
     private ArrayList<Voiture> voitures;
     private VoiturePersistence voiturePersistence;
 
+    /**
+     * Le Voiture manager contient toutes les méthodes liées aux voitures (ajouter, modifier, rechercher ....)
+     * il y a plusieurs constructeurs du aux différents besoins
+     * @param voitures
+     * @param voiturePersistence
+     */
+
     public VoitureManager(ArrayList<Voiture> voitures, VoiturePersistence voiturePersistence){
         this.voitures = voitures;
         this.voiturePersistence = voiturePersistence;
@@ -31,6 +38,22 @@ public class VoitureManager {
     public void setVoiturePersistence(VoiturePersistence voiturePersistence) {
         this.voiturePersistence = voiturePersistence;
     }
+
+    /**
+     * Ajouter une voiture en RAM et en BDD
+     * @param marque
+     * @param model
+     * @param kilometers
+     * @param categorie
+     * @param vitesse
+     * @param clim
+     * @param carburant
+     * @param endommage
+     * @param state
+     * @param agence
+     * @param agence_a_etre
+     * @throws SQLException
+     */
 
     public void add_voiture(String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage, Enumeration.State state, Agence agence, Agence agence_a_etre) throws SQLException {
         Voiture voiture = new Voiture(marque,model,kilometers,endommage,vitesse,clim,agence,agence_a_etre,categorie,carburant,state);
@@ -50,11 +73,24 @@ public class VoitureManager {
         return -1;
     }
 
+    /**
+     * Mis a jour d'une voiture
+     * @param id
+     * @param voiture
+     * @throws SQLException
+     */
+
     public void updateVoiture(int id, Voiture voiture) throws SQLException {
         voiturePersistence.updateVoiture(id,voiture);
         delete_voiture_by_id(id);
         voitures.add(voiture);
     }
+
+    /**
+     * Récuperer une voiture en RAM par son ID
+     * @param id
+     * @return
+     */
 
     public Voiture get_voiture_by_id(int id){
         for (Voiture voiture: this.voitures){
@@ -65,9 +101,19 @@ public class VoitureManager {
         return null;
     }
 
+    /**
+     * Supprimer voiture en RAM par ID
+     * @param id
+     */
+
     public void delete_voiture_by_id(int id){
         this.voitures.removeIf(voiture -> voiture.getId() == id);
     }
+
+    /**
+     * Supprimer voiture en BDD par ID
+     * @param id
+     */
 
     public void delete(int id) throws SQLException {
         voiturePersistence.deleteVoiture(id);
@@ -105,6 +151,16 @@ public class VoitureManager {
         }
     }
 
+    /**
+     * Recherche de voitures en RAM en fonction de paramettre entrées. Les paramettres sont optionnel, la méthodes réalise des filtres successif de parametre, dans le cas ou il y en a un.
+     * Ce qui permet d'avoir des recherches flexibles
+     * @param id
+     * @param modele
+     * @param etat
+     * @param agence
+     * @return
+     */
+
     public ArrayList<Voiture> findVoiture(Optional<Integer> id, Optional<String> modele, Optional<Enumeration.State> etat,Optional<Agence> agence){
         ArrayList<Voiture> result = this.voitures;
         if(id.isPresent()){
@@ -122,6 +178,13 @@ public class VoitureManager {
         return result;
     }
 
+    /**
+     * Trie la liste de voitures en fonction de l'ID
+     * @param id
+     * @param result
+     * @return list de voitures avec id correspondant
+     */
+
     private ArrayList<Voiture> try_list_id(int id, ArrayList<Voiture> result){
         ArrayList<Voiture> newresult = new ArrayList<>();
         for (Voiture vt: result){
@@ -132,6 +195,13 @@ public class VoitureManager {
         return newresult;
     }
 
+    /**
+     * Trie la list de voitures en fonction de l'agence
+     * @param agence
+     * @param result
+     * @return list de voitures avec agence correspondante
+     */
+
     private ArrayList<Voiture> try_list_agence(Agence agence, ArrayList<Voiture> result){
         ArrayList<Voiture> newresult = new ArrayList<>();
         for (Voiture vt: result){
@@ -141,6 +211,13 @@ public class VoitureManager {
         }
         return newresult;
     }
+
+    /**
+     * Trie la list de voitures en fonction du model
+     * @param name
+     * @param result
+     * @return list de voitures avec model correspondant
+     */
 
     private ArrayList<Voiture> try_list_modele(String name, ArrayList<Voiture> result){
         ArrayList<Voiture> newresult = new ArrayList<>();

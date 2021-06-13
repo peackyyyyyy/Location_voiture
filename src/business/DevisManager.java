@@ -15,10 +15,26 @@ public class DevisManager {
     private ArrayList<Devis> devis;
     private DevisPersistence devisPersistence;
 
+    /**
+     * Le Devis manager contient toutes les méthodes liées aux devis (ajouter, modifier, rechercher ....)
+     * A noter que nous considérons un devi comme une "location"
+     * @param devis
+     * @param devisPersistence
+     */
+
     public DevisManager(ArrayList<Devis> devis, DevisPersistence devisPersistence){
         this.devis = devis;
         this.devisPersistence = devisPersistence;
     }
+
+    /**
+     * Ajouter un client en RAM et en BDD
+     * @param voiture
+     * @param client
+     * @param debut
+     * @return id du devi
+     * @throws SQLException
+     */
     public Devis add_devi(Voiture voiture, Client client, Date debut) throws SQLException {
         Devis devi = new Devis(voiture, client, debut);
         if (!this.devis.contains(devi)) {
@@ -42,6 +58,12 @@ public class DevisManager {
         this.devis.removeIf(devis -> devis.getId() == id);
     }
 
+    /**
+     * Recuperer un devi par l'id en RAM
+     * @param id
+     * @return
+     */
+
     public Devis get_devis_by_id(int id){
         for (Devis devis: this.devis){
             if (devis.getId() == id){
@@ -50,9 +72,22 @@ public class DevisManager {
         }
         return null;
     }
+
+    /**
+     * Mis a jour d'un devi en BDD
+     * @param id
+     * @param devis
+     * @return
+     * @throws SQLException
+     */
     public int updateClient(int id, Devis devis) throws SQLException {
         return devisPersistence.updateDevis(id,devis);
     }
+
+    /**
+     * Gener une facture pour par l'id d'un devi, on recuperer la date de debut et la date de fin multiplié par le prix de la voiture moins la reduction
+     * @param id
+     */
     public void generate_facture_by_id(int id){
         int temp;
         for (Devis devi : this.devis) {
@@ -73,6 +108,14 @@ public class DevisManager {
         }
     }
 
+    /**
+     * Mis a jour de la date de fin du devi en RAM et en BDD
+     * @param id
+     * @param fin
+     * @throws SQLException
+     */
+
+
     public void update_fin_devis_by_id(int id, Date fin) throws SQLException {
         for (Devis devi : this.devis) {
             if (devi.getId() == id) {
@@ -91,10 +134,24 @@ public class DevisManager {
     }
 
 
+    /**
+     * Recuperer tous les devis en BDD et le ajouter en RAM
+     * @return
+     * @throws SQLException
+     * @throws ParseException
+     */
+
     public ArrayList<Devis> getDevis() throws SQLException, ParseException {
         devis = devisPersistence.getDevis();
         return devis;
     }
+
+    /**
+     * Supprimer en RAM
+     * @param id
+     * @return
+     * @throws SQLException
+     */
 
     public boolean deleteDevis(int id) throws SQLException {
         return devisPersistence.deleteDevis(id);
