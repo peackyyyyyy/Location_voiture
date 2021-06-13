@@ -446,7 +446,6 @@ public class ClientMenu extends JFrame implements ActionListener{
         Enregistrer.addActionListener(this);
     }
 
-
     private int return_month(int i){
         if (i == 1) {
             return GregorianCalendar.JANUARY;
