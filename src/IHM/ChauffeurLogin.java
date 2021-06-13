@@ -19,16 +19,18 @@ public class ChauffeurLogin extends JFrame implements ActionListener {
      */
     private static final long serialVersionUID = 1L;
 
-    JPanel panel = new JPanel(new GridLayout(3, 1));
-    JLabel loginlabel = new JLabel("Login");
-    JLabel mdplabel = new JLabel("Mot de passe");
-    JTextField loginTextField = new JTextField();
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    JPasswordField mdpField = new JPasswordField();
-    JButton loginButton = new JButton("LOGIN");
-    JButton resetButton = new JButton("RESET");
-    JCheckBox showPassword = new JCheckBox("Montrer Mot de passe");
-    ArrayList<Employe> listeemploye =new ArrayList<Employe>();
+    private JPanel panel = new JPanel(new GridLayout(3, 1));
+    private JLabel loginlabel = new JLabel("Login");
+    private JLabel mdplabel = new JLabel("Mot de passe");
+    private JTextField loginTextField = new JTextField();
+    private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private JPasswordField mdpField = new JPasswordField();
+    private JButton loginButton = new JButton("LOGIN");
+    private JButton resetButton = new JButton("RESET");
+    private JCheckBox showPassword = new JCheckBox("Montrer Mot de passe");
+    private ArrayList<Employe> listeemploye =new ArrayList<Employe>();
+    private JButton button1=new JButton("Retour");;
+
 
 
     public ChauffeurLogin() throws ClassNotFoundException, SQLException {
@@ -55,6 +57,7 @@ public class ChauffeurLogin extends JFrame implements ActionListener {
     }
 
     public void setLocationAndSize() {
+        button1.setBounds(150, 0, 100, 30);
         loginlabel.setBounds(50, 150, 100, 30);
         mdplabel.setBounds(50, 220, 100, 30);
         loginTextField.setBounds(150, 150, 150, 30);
@@ -74,12 +77,14 @@ public class ChauffeurLogin extends JFrame implements ActionListener {
         panel.add(showPassword);
         panel.add(loginButton);
         panel.add(resetButton);
+        panel.add(button1);
     }
 
     public void addActionEvent() {
         loginButton.addActionListener(this);
         resetButton.addActionListener(this);
         showPassword.addActionListener(this);
+        button1.addActionListener(this);
     }
     public void changerMenu(){
         this.setContentPane(this.panel);
@@ -115,6 +120,10 @@ public class ChauffeurLogin extends JFrame implements ActionListener {
             }
 
 
+        }
+        if (e.getSource() == button1) {
+            dispose();
+            ChoiceUser admin=new ChoiceUser();
         }
         if (e.getSource() == resetButton) {
             loginTextField.setText("");

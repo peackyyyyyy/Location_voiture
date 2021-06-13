@@ -86,6 +86,7 @@ public class UtilisateurMenu extends JFrame implements ActionListener{
     private JButton modifierButton;
     private JButton supprimerButton;
     private JPanel paneldelistelocation;
+    private JButton button1;
     private JTextField IdLocationFacture;
     private JButton genererFactureButton;
     private JTextPane Facturetexte;
@@ -194,6 +195,13 @@ public class UtilisateurMenu extends JFrame implements ActionListener{
         populateCombo();
         this.pack();
 
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                ChoiceUser admin=new ChoiceUser();
+            }
+        });
     }
     private void setLocation_table(){
         try {

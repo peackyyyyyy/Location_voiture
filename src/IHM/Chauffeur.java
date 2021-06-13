@@ -34,6 +34,7 @@ public class Chauffeur extends JFrame implements ActionListener{
     private JLabel etat;
     private JLabel agence;
     private JLabel agenceaetre;
+    private JButton button1;
     private DefaultTableModel mod;
     private VoiturePersistence voiturePersistence;
     private ArrayList<Voiture> liste;
@@ -124,7 +125,15 @@ public class Chauffeur extends JFrame implements ActionListener{
         listevoiture.add(voi_pane);
         tabed.add("Liste Voiture",listevoiture);
 
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                ChoiceUser admin=new ChoiceUser();
 
+
+            }
+        });
     }
 
     private void setVoiture_table(){
