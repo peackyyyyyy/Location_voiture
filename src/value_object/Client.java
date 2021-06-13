@@ -21,10 +21,10 @@ public class Client extends Personne{
         this.id = id;
     }
 
-    public Client(String name, String surname, String email, Adresse adresse, String phone,Voiture voiture, Fidelite fidelite){
+
+    public Client(String name, String surname, String email, Adresse adresse, String phone,Voiture voiture){
         super(name, surname, email, adresse, phone);
         this.location = voiture;
-        this.fidelite = fidelite;
         this.id = -1;
     }
 

@@ -56,12 +56,16 @@ public class DevisPersistence extends JdbcConnexion{
         int retid = ps.executeUpdate();
         ResultSet rs = ps.getGeneratedKeys();
         rs.next();
-        return rs.getInt(1);
+        return retid;
     }
     public boolean updateDevis(int id,Devis devis) throws SQLException {
         PreparedStatement ps = connexion.prepareStatement("update devis set debut = ? ,fin = ? ,voiture_id = ? ,client_id = ? where id = ?");
         ps.setString(1,Utilities.dateToString(devis.getDebut()));
-        ps.setString(2,Utilities.dateToString(devis.getFin()));
+        if(devis.getFin() != null) {
+            ps.setString(2, Utilities.dateToString(devis.getFin()));
+        }else{
+            ps.setNull(2, Types.CHAR);
+        }
         ps.setInt(3,devis.getVoiture().getId());
         ps.setInt(4,devis.getClient().getId());
         ps.setInt(5,id);

@@ -30,7 +30,6 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JPanel Facture;
     private JPanel Ajouterunclient;
     private JPanel Rechercherunclient;
-    private JPanel Modifierunclient;
     private JPanel Listedesclients;
     private JTextField Name;
     private JTextField Surname;
@@ -105,6 +104,9 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JTextField textfiledIdTobutton;
     private JButton modifierButton;
     private JButton supprimerButton;
+    private JTextField textfieldbuttonclient;
+    private JButton modifierButton1;
+    private JButton supprimerButton1;
     private JPanel paneldeliste;
     private JTable ClientTable;
     private JButton ajouterUnClientButton;
@@ -345,6 +347,63 @@ public class ClientMenu extends JFrame implements ActionListener{
                 }
             }
         });
+        supprimerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(textfiledIdTobutton.getText());
+                try {
+                    voitureManager.delete(id);
+                    voitureManager.delete_voiture_by_id(id);
+                    setVoiture_table();
+                    JOptionPane.showMessageDialog(listeVoiture, "Voiture supprimé");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
+        modifierButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(textfieldbuttonclient.getText());
+                TableModel model = client_table.getModel();
+                int i;
+                for( i = 0; i < client_table.getRowCount();i++){
+                    if(id == (Integer) model.getValueAt(i,0)) {
+                        break;
+                    }
+                }
+                try {
+
+
+                    clientManager.updateClient(id,new Client(
+                            (String) model.getValueAt(i,2),
+                            (String) model.getValueAt(i,1),
+                            (String) model.getValueAt(i,3),
+                            (Adresse) model.getValueAt(i,4),
+                            (String) model.getValueAt(i,5),
+                             null
+                    ));
+                    setClient_table();
+                JOptionPane.showMessageDialog(listeVoiture, "Client modfié");
+                }
+                catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+    });
+        supprimerButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(textfieldbuttonclient.getText());
+                try {
+                    clientManager.delete(id);
+                    setClient_table();
+                    JOptionPane.showMessageDialog(listeVoiture, "Client supprimé");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
     }
 
     public void setLayoutManager() {
@@ -422,13 +481,14 @@ public class ClientMenu extends JFrame implements ActionListener{
 
     private void setClient_table(){
         try {
+            model.setRowCount(0);
+            Object[] row = new Object[7];
             for (Client client: this.clientManager.getClients()){
-                Object[] row = new Object[7];
                 row[0] = client.getId();
                 row[1] = client.getName();
                 row[2] = client.getSurname();
                 row[3] = client.getEmail();
-                row[4] = client.getAdresse().getVille();
+                row[4] = client.getAdresse();
                 row[5] = client.getPhone();
                 row[6] = client.client_fidelity();
                 model.addRow(row);
