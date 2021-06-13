@@ -2,7 +2,7 @@ package value_object;
 import java.util.Date;
 
 public class Devis{
-    private final int id;
+    private int id;
     private Date debut;
     private Date fin;
     private Facture facture;
@@ -64,6 +64,9 @@ public class Devis{
 
     public Voiture getVoiture() {
         return voiture;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

@@ -123,7 +123,7 @@ public class ClientMenu extends JFrame implements ActionListener{
 
 
 
-        this.liste = voiturePersistence.getVoitures();
+        this.liste = voitureManager.getVoitures();
         voitureManager.setVoitures(liste);
 
         Voiture vt = liste.get(0);
@@ -215,7 +215,7 @@ public class ClientMenu extends JFrame implements ActionListener{
                             (Enumeration.Carburant) comboCarburant.getSelectedItem(),
                             (Enumeration.State) comboEtat.getSelectedItem()
                     );
-                    int id = voiturePersistence.insertVoiture(voiture);
+                    int id = voitureManager.add_voiture(voiture);
                     voiture.setId(id);
                     JOptionPane.showMessageDialog(listevoiture, "Voiture Ajouté");
                     addRowTableVoiture(mod,voiture);
@@ -297,7 +297,7 @@ public class ClientMenu extends JFrame implements ActionListener{
 
     private void populateCombo() throws SQLException{
         try{
-            for (value_object.Voiture vt:voiturePersistence.getVoitures()) {
+            for (value_object.Voiture vt:voitureManager.getVoitures()) {
                 comboModele.addItem(vt);
             }
             for (ICategorie cat: categoriePersistence.getCategories()) {
@@ -373,7 +373,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     }
     private void setClient_table(){
         try {
-            for (Client client: this.clientPersistence.getClients()){
+            for (Client client: clientManager.getClients()){
                 Object[] row = new Object[6];
                 row[0] = client.getId();
                 row[1] = client.getName();
@@ -415,7 +415,9 @@ public class ClientMenu extends JFrame implements ActionListener{
             Phone.setText("");*/
             int id = -1;
             try {
-                id = this.clientPersistence.insertClient(new Client(name,surname,email,new Adresse(rue, ville, codepostal), phone,null,null));
+                id = clientManager.add_client(name,surname,email,
+                        new Adresse(rue,ville,codepostal),
+                        phone);
                 Object[] row = new Object[6];
                 row[0] = id;
                 row[1] = name;
@@ -448,8 +450,8 @@ public class ClientMenu extends JFrame implements ActionListener{
         DevisPersistence dep = new DevisPersistence(connexion,con,vp,clientp);
 
         ArrayList<Client> clientsArrayList = new ArrayList<>();
-        ClientManager clientManager = new ClientManager(clientsArrayList);
-        VoitureManager voitureManager  = new VoitureManager();
+        ClientManager clientManager = new ClientManager(clientsArrayList, clientp);
+        VoitureManager voitureManager  = new VoitureManager(vp);
         JFrame jFrame = new ClientMenu(clientManager,voitureManager,clientp,vp,carbup,cp,stp,ap);
         jFrame.setVisible(true);
     }

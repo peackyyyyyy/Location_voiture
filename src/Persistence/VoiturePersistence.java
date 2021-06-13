@@ -11,6 +11,7 @@ public class VoiturePersistence extends JdbcConnexion{
     Connection connexion;
     CategoriePersistence cp;
     CarburantPersistence carbup;
+    AgencePersistence ap;
     StatePersistence stp;
     AgencePersistence ap;
     ArrayList<Voiture> liseVoiture;
@@ -42,7 +43,6 @@ public class VoiturePersistence extends JdbcConnexion{
     }
     public Voiture getVoitureAvecId(Integer id) throws SQLException {
         Statement con = super.getConn();
-        ArrayList<Voiture> listeVoitures = new ArrayList<Voiture>();
         ResultSet rs = con.executeQuery("Select * from voiture where id="+id);
         if(rs.next() == false)
             return null;
@@ -90,9 +90,9 @@ public class VoiturePersistence extends JdbcConnexion{
         ps.setInt(7,cp.getIdCategorie(vt.getCategorie()));
         ps.setInt(8,carbup.getIdCarbu(vt.getCarburant()));
         ps.setInt(9,stp.getIdState(vt.getState()));
-        ps.setInt(9,vt.getAgence().getId());
-        ps.setInt(10,vt.getAgence_a_etre().getId());
-        ps.setInt(11,id);
+        ps.setInt(10,vt.getAgence().getId());
+        ps.setInt(11,vt.getAgence_a_etre().getId());
+        ps.setInt(12,id);
         return ps.executeUpdate();
     }
 

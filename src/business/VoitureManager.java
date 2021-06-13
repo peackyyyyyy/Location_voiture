@@ -1,31 +1,72 @@
 package business;
 
+import Persistence.VoiturePersistence;
 import value_object.Agence;
 import value_object.ICategorie;
 import value_object.Voiture;
 import value_object.model.Enumeration;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class VoitureManager {
 
     private ArrayList<Voiture> voitures;
+    private VoiturePersistence voiturePersistence;
+
+    public VoitureManager(ArrayList<Voiture> voitures, VoiturePersistence voiturePersistence){
+        this.voitures = voitures;
+        this.voiturePersistence = voiturePersistence;
+    }
 
     public VoitureManager(ArrayList<Voiture> voitures){
         this.voitures = voitures;
     }
+
+    public VoitureManager(VoiturePersistence voiturePersistence){
+        this.voiturePersistence = voiturePersistence;
+    }
+
+    public void setVoiturePersistence(VoiturePersistence voiturePersistence) {
+        this.voiturePersistence = voiturePersistence;
+    }
+
     public VoitureManager(){ }
 
-     public void add_voiture(String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant, int id, boolean endommage, Agence agence){
-        //#todo add voiture to BDD and get id
-        Voiture voiture = new Voiture(id, marque, model, kilometers, vitesse, clim, carburant, endommage, agence);
-        voiture.setCategorie(categorie);
+     public void add_voiture(String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage, Enumeration.State state, Agence agence, Agence agence_a_etre) throws SQLException {
+        Voiture voiture = new Voiture(marque,model,kilometers,endommage,vitesse,clim,agence,agence_a_etre,categorie,carburant,state);
         if (!this.voitures.contains(voiture)) {
+            int id = voiturePersistence.insertVoiture(voiture);
+            voiture.setId(id);
             this.voitures.add(voiture);
         }
      }
+    public int add_voiture(Voiture voiture) throws SQLException {
+        if (!this.voitures.contains(voiture)) {
+            int id = voiturePersistence.insertVoiture(voiture);
+            voiture.setId(id);
+            this.voitures.add(voiture);
+            return id;
+        }
+        return -1;
+    }
+
+     public void updateVoiture(int id, Voiture voiture) throws SQLException {
+         voiturePersistence.updateVoiture(id,voiture);
+         delete_voiture_by_id(id);
+         voitures.add(voiture);
+     }
+
+    public Voiture get_voiture_by_id(int id){
+        for (Voiture voiture: this.voitures){
+            if (voiture.getId() == id){
+                return voiture;
+            }
+        }
+        return null;
+    }
+
     public void delete_voiture_by_id(int id){
         this.voitures.removeIf(voiture -> voiture.getId() == id);
     }
@@ -119,13 +160,11 @@ public class VoitureManager {
         return newresult;
     }
 
-    public ArrayList<Voiture> getVoiture() {
+    public ArrayList<Voiture> getVoitures() throws SQLException {
+        voitures = voiturePersistence.getVoitures();
         return voitures;
     }
 
-    public ArrayList<Voiture> getVoitures() {
-        return voitures;
-    }
 
     public void setVoitures(ArrayList<Voiture> voitures) {
         this.voitures = voitures;

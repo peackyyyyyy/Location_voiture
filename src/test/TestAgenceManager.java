@@ -14,7 +14,7 @@ public class TestAgenceManager {
     public static void main(String[] args) {
         ICategorie luxe = new Luxe();
         ArrayList<Agence> agenceArrayList = new ArrayList<>();
-        ArrayList<Voiture> voitureArrayList = new ArrayList<>();
+        /*ArrayList<Voiture> voitureArrayList = new ArrayList<>();
         Agence agence1 = new Agence("rue1", "ville1", "06", 1, "agence1", "0657453434", "longitude1", "lattitude1");
         Agence agence2 = new Agence("rue2", "ville2", "06", 2, "agence2", "0657453434", "longitude2", "lattitude2");
         VoitureManager voitureManager = new VoitureManager(voitureArrayList);
@@ -30,6 +30,6 @@ public class TestAgenceManager {
         ArrayList<Voiture> voitures2 = agenceManager.get_voiture_available_by_agence_id(2);
         for (Voiture voiture: voitures2){
             System.out.println(voiture);
-        }
+        }*/
     }
 }

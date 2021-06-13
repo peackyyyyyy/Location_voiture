@@ -27,7 +27,7 @@ public class TstPersitence {
         ClientPersistence clientp = new ClientPersistence(con,connexion,vp,fp);
         EmployePersistence ep = new EmployePersistence(con,connexion);
         DevisPersistence dep = new DevisPersistence(connexion,con,vp,clientp);
-
+      
         for (Client c:clientp.getClients()) {
            System.out.println(c);
         }
