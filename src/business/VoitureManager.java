@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.Optional;
 
 public class VoitureManager {
-    private final ArrayList<Voiture> voitures;
+
+    private ArrayList<Voiture> voitures;
 
     public VoitureManager(ArrayList<Voiture> voitures){
         this.voitures = voitures;
     }
+    public VoitureManager(){ }
 
      public void add_voiture(String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant, int id, boolean endommage, Agence agence){
         //#todo add voiture to BDD and get id
@@ -119,6 +121,14 @@ public class VoitureManager {
 
     public ArrayList<Voiture> getVoiture() {
         return voitures;
+    }
+
+    public ArrayList<Voiture> getVoitures() {
+        return voitures;
+    }
+
+    public void setVoitures(ArrayList<Voiture> voitures) {
+        this.voitures = voitures;
     }
 
     @Override
