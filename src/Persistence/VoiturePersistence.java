@@ -13,7 +13,6 @@ public class VoiturePersistence extends JdbcConnexion{
     CarburantPersistence carbup;
     AgencePersistence ap;
     StatePersistence stp;
-    AgencePersistence ap;
     ArrayList<Voiture> liseVoiture;
 
     public VoiturePersistence(Statement conn, Connection connexion, CategoriePersistence cp, CarburantPersistence carbup, StatePersistence stp,AgencePersistence ap) throws ClassNotFoundException, SQLException {

@@ -97,13 +97,14 @@ public class ChoiceUser extends JFrame implements ActionListener{
         }
         if (e.getSource() == utilisateurButton) {
         	dispose();
-			try {
+			/*try {
 				UtilisateurMenu.main(null);
 			} catch (SQLException throwables) {
 				throwables.printStackTrace();
 			} catch (ClassNotFoundException classNotFoundException) {
 				classNotFoundException.printStackTrace();
-			}
+			}*/
+			System.out.println("utilistauer");
         }
     }
     public void changerMenu(){
