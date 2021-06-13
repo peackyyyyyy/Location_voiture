@@ -508,9 +508,8 @@ public class ClientMenu extends JFrame implements ActionListener{
             Voiture voiture = this.voitureManager.get_voiture_by_id(Integer.parseInt(id_voiture));
             Client client = this.clientManager.get_client_by_id(Integer.parseInt(id_client));
             Date date_debut = new GregorianCalendar(year_debut, return_month(month_debut), day_debut).getTime();
-            //#todo add id in all managers methodes
             try {
-                this.devisManager.add_devi(voiture, client, date_debut, 1);
+                Devis devis = this.devisManager.add_devi(voiture, client, date_debut);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -519,7 +518,11 @@ public class ClientMenu extends JFrame implements ActionListener{
                 int month_fin = Integer.parseInt(String.valueOf(monthlocationfinbox.getSelectedItem()));
                 int year_fin = Integer.parseInt(String.valueOf(yearlocationfinbox.getSelectedItem()));
                 Date date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
-                this.devisManager.update_fin_devis_by_id(1, date_fin);
+                try {
+                    this.devisManager.update_fin_devis_by_id(1, date_fin);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
             JOptionPane.showMessageDialog(this, "Location Effectué");
         }
@@ -534,7 +537,11 @@ public class ClientMenu extends JFrame implements ActionListener{
             int month_fin = Integer.parseInt(String.valueOf(datedefinlocation_month.getSelectedItem()));
             int year_fin = Integer.parseInt(String.valueOf(datedefinlocation_year.getSelectedItem()));
             Date date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
-            this.devisManager.update_fin_devis_by_id(id, date_fin);
+            try {
+                this.devisManager.update_fin_devis_by_id(id, date_fin);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             endommageCheckBox.setVisible(false);
             datedefinlabel.setVisible(false);
             datedefinlocation_day.setVisible(false);
