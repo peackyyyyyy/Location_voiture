@@ -30,7 +30,6 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JPanel Facture;
     private JPanel Ajouterunclient;
     private JPanel Rechercherunclient;
-    private JPanel Modifierunclient;
     private JPanel Listedesclients;
     private JTextField Name;
     private JTextField Surname;
