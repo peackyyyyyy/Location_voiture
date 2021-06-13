@@ -37,9 +37,13 @@ public class Chauffeur extends JFrame implements ActionListener{
     private DefaultTableModel mod;
     private VoiturePersistence voiturePersistence;
     private ArrayList<Voiture> liste;
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     public Chauffeur(VoiturePersistence voiturePersistence) throws SQLException {
         super();
+        this.setBounds((int) (screenSize.width/2.5),10,500,600);
+        this.setTitle("Chauffeur");
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel1 = new JPanel();
         panel1.add(tabed);
@@ -47,7 +51,6 @@ public class Chauffeur extends JFrame implements ActionListener{
         this.setContentPane(panel1);
         tabed.setVisible(true);
         this.voiturePersistence = voiturePersistence;
-        this.pack();
         this.liste = voiturePersistence.getVoitures();
         for (Voiture vt:liste) {
             comboBox1.addItem(vt);
