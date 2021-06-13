@@ -1,4 +1,4 @@
-package test;
+/*package test;
 
 import Persistence.*;
 import value_object.*;
@@ -76,3 +76,4 @@ public class TstPersitence {
         }
     }
 }
+*/

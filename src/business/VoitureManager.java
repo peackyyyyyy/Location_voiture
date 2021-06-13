@@ -7,7 +7,6 @@ import value_object.model.Enumeration;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class VoitureManager {
     private final ArrayList<Voiture> voitures;
@@ -60,62 +59,7 @@ public class VoitureManager {
         }
     }
 
-    public ArrayList<Voiture> findVoiture(Optional<Integer> id, Optional<String> modele, Optional<Enumeration.State> etat,Optional<Agence> agence){
-        ArrayList<Voiture> result = this.voitures;
-        if(id.isPresent()){
-            result = try_list_id(id.get(),result);
-        }
-        if(modele.isPresent()){
-            result = try_list_modele(modele.get(), result);
-        }
-        if(etat.isPresent()){
-            result = try_list_etat(etat.get(),result);
-        }
-        if(agence.isPresent()){
-            result = try_list_agence(agence.get(),result);
-        }
-        return result;
-    }
 
-    private ArrayList<Voiture> try_list_id(int id, ArrayList<Voiture> result){
-        ArrayList<Voiture> newresult = new ArrayList<>();
-        for (Voiture vt: result){
-            if (id==vt.getId()){
-                newresult.add(vt);
-            }
-        }
-        return newresult;
-    }
-
-    private ArrayList<Voiture> try_list_agence(Agence agence, ArrayList<Voiture> result){
-        ArrayList<Voiture> newresult = new ArrayList<>();
-        for (Voiture vt: result){
-            if (agence.getId() == vt.getAgence().getId()){
-                newresult.add(vt);
-            }
-        }
-        return newresult;
-    }
-
-    private ArrayList<Voiture> try_list_modele(String name, ArrayList<Voiture> result){
-        ArrayList<Voiture> newresult = new ArrayList<>();
-        for (Voiture vt: result){
-            if (name.equals(vt.getModel())){
-                newresult.add(vt);
-            }
-        }
-        return newresult;
-    }
-
-    private ArrayList<Voiture> try_list_etat(Enumeration.State state, ArrayList<Voiture> result){
-        ArrayList<Voiture> newresult = new ArrayList<>();
-        for (Voiture vt: result){
-            if (state.equals(vt.getState())){
-                newresult.add(vt);
-            }
-        }
-        return newresult;
-    }
 
     public ArrayList<Voiture> getVoiture() {
         return voitures;
