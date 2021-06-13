@@ -40,7 +40,7 @@ public class DevisPersistence extends JdbcConnexion{
                 Utilities.strToDate(rs.getString("debut")),
                 Utilities.strToDate(rs.getString("fin")),
                 rs.getInt("id")
-                );
+        );
     }
     public int insertDevis(Devis devis) throws SQLException {
         PreparedStatement ps = connexion.prepareStatement("insert into devis (debut,fin,voiture_id,client_id) values (?,?,?,?)",Statement.RETURN_GENERATED_KEYS);

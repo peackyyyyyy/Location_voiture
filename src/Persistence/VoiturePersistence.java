@@ -13,7 +13,6 @@ public class VoiturePersistence extends JdbcConnexion{
     CarburantPersistence carbup;
     AgencePersistence ap;
     StatePersistence stp;
-    AgencePersistence ap;
     ArrayList<Voiture> liseVoiture;
 
     public VoiturePersistence(Statement conn, Connection connexion, CategoriePersistence cp, CarburantPersistence carbup, StatePersistence stp,AgencePersistence ap) throws ClassNotFoundException, SQLException {
@@ -39,7 +38,7 @@ public class VoiturePersistence extends JdbcConnexion{
                 carbup.getCarburantAvecId(rs.getInt("carburant_id")),
                 stp.getStateAvecId(rs.getInt("state_id")),
                 ap.getAgenceWithId(rs.getInt("agence_id_a_etre"))
-                );
+        );
     }
     public Voiture getVoitureAvecId(Integer id) throws SQLException {
         Statement con = super.getConn();

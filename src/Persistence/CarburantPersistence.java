@@ -30,25 +30,25 @@ public class CarburantPersistence extends JdbcConnexion{
     }
 
     public int getIdCarbu(Enumeration.Carburant carbu){
-       switch (carbu){
-           case Gazole -> {
-               return 1;
-           }
-           case Essence -> {
-               return 2;
-           }
-           case SP95 -> {
-               return 3;
-           }
-           case GPL -> {
-               return 4;
-           }
-           case Electrique -> {
-               return 5;
-           }
+        switch (carbu){
+            case Gazole -> {
+                return 1;
+            }
+            case Essence -> {
+                return 2;
+            }
+            case SP95 -> {
+                return 3;
+            }
+            case GPL -> {
+                return 4;
+            }
+            case Electrique -> {
+                return 5;
+            }
 
-       }
-       return -1;
+        }
+        return -1;
     }
 
     public ArrayList<Enumeration.Carburant> getCarburants(){

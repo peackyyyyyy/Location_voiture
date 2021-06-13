@@ -1,8 +1,10 @@
 package IHM;
 import Persistence.*;
 import business.ClientManager;
+import business.DevisManager;
 import business.VoitureManager;
 import value_object.*;
+import value_object.Categorie.Luxe;
 import value_object.model.Enumeration;
 
 import javax.swing.*;
@@ -13,20 +15,20 @@ import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 
 public class ClientMenu extends JFrame implements ActionListener{
     private final ClientManager clientManager;
+    private final DevisManager devisManager;
+    private final VoitureManager voitureManager;
     private JTabbedPane tabbedPane1;
     private JPanel Fenetre;
     private JTabbedPane tabbedPane2;
     private JPanel Client;
-    private JPanel Voiture;
     private JPanel Devis;
     private JPanel Facture;
     private JPanel Ajouterunclient;
-    private JPanel Supprimerunclient;
+    private JPanel Rechercherunclient;
     private JPanel Modifierunclient;
     private JPanel Listedesclients;
     private JTextField Name;
@@ -37,31 +39,46 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JButton Ajouterclient;
     private JTextField Codepostale;
     private JTextField Ville;
+    private JTextField IdRechercheclient;
+    private JTextField NameRechercheClient;
+    private JTextField SurnameRechercheClient;
+    private JButton RechercheClient;
+    private JScrollPane ListeRechercheClient;
+    private JCheckBox checkBox1;
     private JTabbedPane tabbedPane3;
-    private JTable tablefind;
-    private JComboBox comboModele;
-    private JTable ClientTable;
-    private JButton ajouterUnClientButton;
-    private JButton rechercherUnClientButton;
-    private JButton supprimerUnClientButton;
-    private  DefaultTableModel modele;
-    private  DefaultTableModel mod;
-    private  DefaultTableModel mod2;
+    private JTextField idVoiturefield;
+    private JTextField idclientfield;
+    private JComboBox daylocationdebutbox;
+    private JComboBox monthlocationdebutbox;
+    private JComboBox yearlocationdebutbox;
+    private JComboBox daylocationfinbox;
+    private JComboBox monthlocationfinbox;
+    private JComboBox yearlocationfinbox;
+    private JCheckBox checkdatefinlocation;
+    private JButton AjouterLocation;
+    private JTextField idLocation;
+    private JButton FinLocation;
+    private JCheckBox endommageCheckBox;
+    private JButton enregistrerButton;
+    private JComboBox datedefinlocation_day;
+    private JComboBox datedefinlocation_month;
+    private JComboBox datedefinlocation_year;
+    private JLabel datedefinlabel;
+    private JPanel uneVoiture;
     private JLabel agenceA_Etre;
+    private JLabel kilometre;
+    private JLabel clim;
+    private JLabel carburant;
+    private JLabel etat;
     private JLabel marque;
     private JLabel categorie;
-    private JLabel etat;
-    private JLabel carburant;
-    private JLabel clim;
-    private JLabel kilometre;
     private JLabel auto;
     private JLabel agence;
     private JLabel endommage;
-    private JPanel uneVoiture;
+    private JComboBox comboModele;
     private JLabel lemodele;
     private JTextField textModele;
     private JTextField textMarque;
-    private JTextField textEndommage;
     private JTextField textKilommetre;
     private JComboBox comcoCategorie;
     private JComboBox comboCarburant;
@@ -70,28 +87,36 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JComboBox comboAgenceAEtre;
     private JCheckBox climCherck;
     private JCheckBox autoCheck;
-    private JButton ajouterVoitureButton;
     private JCheckBox endommageCheck;
-    private JTextField idTextfield;
-    private JTextField modelTextField;
-    private JComboBox comboAgence2;
-    private JLabel agencelabel;
-    private JLabel modelLabel;
-    private JComboBox comboEtat2;
-    private JButton searchButton;
+    private JButton ajouterVoitureButton;
     private JPanel trouveVoiture;
+    private JLabel modelLabel;
+    private JTextField modelTextField;
+    private JComboBox comboEtat2;
+    private JLabel agencelabel;
+    private JComboBox comboAgence2;
+    private JButton searchButton;
+    private JTextField idTextfield;
     private JScrollPane scronnpane;
-    private JScrollPane scronnpan;
-    private JPanel listevoiture;
+    private JPanel Voiture;
+
+    private JPanel listeVoiture;
+    private JPanel paneldeliste;
+    private JTable ClientTable;
+    private JButton ajouterUnClientButton;
+    private JButton rechercherUnClientButton;
+    private JButton supprimerUnClientButton;
+    private DefaultTableModel model;
+    private DefaultTableModel mod;
+    private DefaultTableModel mod2;
     private ClientPersistence clientPersistence;
     private VoiturePersistence voiturePersistence;
-    private ArrayList<Voiture> liste;
-    private CategoriePersistence categoriePersistence;
     private CarburantPersistence carburantPersistence;
+    private CategoriePersistence categoriePersistence;
     private AgencePersistence agencePersistence;
     private StatePersistence statePersistence;
-    private VoitureManager voitureManager;
-    public ClientMenu (ClientManager clientManager, VoitureManager voitureManager, ClientPersistence clientPersistence, VoiturePersistence voiturePersistence, CarburantPersistence carburantPersistence, CategoriePersistence categoriePersistence, StatePersistence statePersistence, AgencePersistence agencePersistence) throws SQLException {
+
+    public ClientMenu (ClientManager clientManager, DevisManager devisManager, VoitureManager voitureManager, ClientPersistence clientPersistence, VoiturePersistence voiturePersistence, CarburantPersistence carburantPersistence, CategoriePersistence categoriePersistence, StatePersistence statePersistence, AgencePersistence agencePersistence) throws SQLException {
         super();
         this.clientPersistence = clientPersistence;
         this.voitureManager = voitureManager;
@@ -101,16 +126,18 @@ public class ClientMenu extends JFrame implements ActionListener{
         this.categoriePersistence = categoriePersistence;
         this.agencePersistence = agencePersistence;
         this.statePersistence = statePersistence;
+        this.devisManager = devisManager;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(Fenetre);
+        this.pack();
         this.setLayoutManager();
         this.addActionEvent();
         JTable client_table = new JTable();
-        // create a table modele and set a Column Identifiers to this modele
-        Object[] columns = {"Id", "Nom", "Prenom", "Email", "Adresse", "Phone"};
-        modele = new DefaultTableModel();
-        modele.setColumnIdentifiers(columns);
-        client_table.setModel(modele);
+        // create a table model and set a Column Identifiers to this model
+        Object[] columns = {"Id", "Nom", "Prénom", "Email", "Adresse", "Phone", "Fidélité"};
+        model = new DefaultTableModel();
+        model.setColumnIdentifiers(columns);
+        client_table.setModel(model);
         client_table.setBackground(Color.LIGHT_GRAY);
         client_table.setForeground(Color.black);
         Font font = new Font("",1,14);
@@ -121,12 +148,9 @@ public class ClientMenu extends JFrame implements ActionListener{
         setClient_table();
         Listedesclients.add(client_pane);
 
+        voitureManager.setVoitures(voitureManager.getVoitures());
 
-
-        this.liste = voitureManager.getVoitures();
-        voitureManager.setVoitures(liste);
-
-        Voiture vt = liste.get(0);
+        Voiture vt = voitureManager.getVoitures().get(0);
         lemodele.setText("Modele : " + vt.getModel());
         marque.setText("Marque : " + vt.getMarque());
         kilometre.setText("Nombre de kilomettre : "+ String.valueOf(vt.getKilometers()));
@@ -160,9 +184,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         Object[] columnss = {"Id", "Modele", "Marque", "Kilometre", "Automatique", "Climatisé","Endommagé","Type de Carburant","Catégorie","Etat","Agence","Agence a etre"};
         this.mod = new DefaultTableModel();
         mod.setColumnIdentifiers(columnss);
-        listevoiture = new JPanel();
-        listevoiture.setVisible(true);
-        tablefind =  new JTable(mod)
+        JTable tablefind =  new JTable(mod)
         {
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
             {
@@ -193,9 +215,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         voi_pane.setVisible(true);
         setVoiture_table();
         voi_pane.setSize(1400,1000);
-        listevoiture.setSize(1400,1000);
-        listevoiture.add(voi_pane);
-        tabbedPane3.add("Liste Voiture",listevoiture);
+        listeVoiture.add(voi_pane);
         populateCombo();
         this.pack();
         ajouterVoitureButton.addActionListener(new ActionListener() {
@@ -217,7 +237,7 @@ public class ClientMenu extends JFrame implements ActionListener{
                     );
                     int id = voitureManager.add_voiture(voiture);
                     voiture.setId(id);
-                    JOptionPane.showMessageDialog(listevoiture, "Voiture Ajouté");
+                    JOptionPane.showMessageDialog(listeVoiture, "Voiture Ajouté");
                     addRowTableVoiture(mod,voiture);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -293,6 +313,7 @@ public class ClientMenu extends JFrame implements ActionListener{
 
     public void setLayoutManager() {
         Listedesclients.setLayout(null);
+        listeVoiture.setLayout(null);
     }
 
     private void populateCombo() throws SQLException{
@@ -320,9 +341,7 @@ public class ClientMenu extends JFrame implements ActionListener{
             System.out.println(ex.getMessage());
         }
     }
-    private void setCombocategorie(){
 
-    }
     private void addRowTableVoiture(DefaultTableModel modele,Voiture vt){
         try {
             Object[] row;
@@ -345,10 +364,11 @@ public class ClientMenu extends JFrame implements ActionListener{
             System.out.println(ex.getMessage());
         }
     }
+
     private void setVoiture_table(){
         try {
             Object[] row;
-            for (Voiture vt: liste) {
+            for (Voiture vt: voitureManager.getVoitures()) {
                 row = new Object[12];
                 row[0] = vt.getId();
                 row[1] = vt.getModel();
@@ -371,17 +391,19 @@ public class ClientMenu extends JFrame implements ActionListener{
         }
 
     }
+
     private void setClient_table(){
         try {
-            for (Client client: clientManager.getClients()){
-                Object[] row = new Object[6];
+            for (Client client: this.clientManager.getClients()){
+                Object[] row = new Object[7];
                 row[0] = client.getId();
                 row[1] = client.getName();
                 row[2] = client.getSurname();
                 row[3] = client.getEmail();
                 row[4] = client.getAdresse().getVille();
                 row[5] = client.getPhone();
-                modele.addRow(row);
+                row[6] = client.client_fidelity();
+                model.addRow(row);
 
             }
         }
@@ -393,6 +415,51 @@ public class ClientMenu extends JFrame implements ActionListener{
 
     private void addActionEvent() {
         Ajouterclient.addActionListener(this);
+        RechercheClient.addActionListener(this);
+        AjouterLocation.addActionListener(this);
+        FinLocation.addActionListener(this);
+        enregistrerButton.addActionListener(this);
+    }
+
+    private int return_month(int i){
+        if (i == 1) {
+            return GregorianCalendar.JANUARY;
+        }
+        else if(i == 2){
+            return GregorianCalendar.FEBRUARY;
+        }
+        else if(i == 3){
+            return GregorianCalendar.MARCH;
+        }
+        else if(i == 4){
+            return GregorianCalendar.APRIL;
+        }
+        else if(i == 5){
+            return GregorianCalendar.MAY;
+        }
+        else if(i == 6){
+            return GregorianCalendar.JUNE;
+        }
+        else if(i == 7){
+            return GregorianCalendar.JULY;
+        }
+        else if(i == 8){
+            return GregorianCalendar.AUGUST;
+        }
+        else if(i == 9){
+            return GregorianCalendar.SEPTEMBER;
+        }
+        else if(i == 10){
+            return GregorianCalendar.OCTOBER;
+        }
+        else if(i == 11){
+            return GregorianCalendar.NOVEMBER;
+        }
+        else if(i == 12){
+            return GregorianCalendar.DECEMBER;
+        }
+
+        return i;
     }
 
 
@@ -405,31 +472,163 @@ public class ClientMenu extends JFrame implements ActionListener{
             String codepostal = Codepostale.getText();
             String ville = Ville.getText();
             String phone = Phone.getText();
-            /*this.clientManager.add_client(name, surname, email, new Adresse(rue, ville, codepostal), phone, 1);
+            try {
+                this.clientManager.add_client(name, surname, email, new Adresse(rue, ville, codepostal), phone);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             Name.setText("");
             Surname.setText("");
             Email.setText("");
             Rue.setText("");
             Codepostale.setText("");
             Ville.setText("");
-            Phone.setText("");*/
-            int id = -1;
+            Phone.setText("");
+            Object[] row = new Object[6];
+            row[0] = 1;
+            row[1] = name;
+            row[2] = surname;
+            row[3] = email;
+            row[4] = ville;
+            row[5] = phone;
+            model.addRow(row);
+            JOptionPane.showMessageDialog(this, "Client Ajouté");
+
+
+
+        }
+        else if (e.getSource() == AjouterLocation){
+            ICategorie luxe = new Luxe();
+            Agence agence = new Agence("rue", "ville", "06", 1, "agence", "0657453434", "longitude", "lattitude");
+            String id_voiture = idVoiturefield.getText();
+            String id_client = idclientfield.getText();
+            int day_debut = Integer.parseInt(String.valueOf(daylocationdebutbox.getSelectedItem()));
+            int month_debut = Integer.parseInt(String.valueOf(monthlocationdebutbox.getSelectedItem()));
+            int year_debut = Integer.parseInt(String.valueOf(yearlocationdebutbox.getSelectedItem()));
+            Voiture voiture = this.voitureManager.get_voiture_by_id(Integer.parseInt(id_voiture));
+            Client client = this.clientManager.get_client_by_id(Integer.parseInt(id_client));
+            Date date_debut = new GregorianCalendar(year_debut, return_month(month_debut), day_debut).getTime();
+            //#todo add id in all managers methodes
             try {
-                id = clientManager.add_client(name,surname,email,
-                        new Adresse(rue,ville,codepostal),
-                        phone);
-                Object[] row = new Object[6];
-                row[0] = id;
-                row[1] = name;
-                row[2] = surname;
-                row[3] = email;
-                row[4] = ville;
-                row[5] = phone;
-                modele.addRow(row);
-                JOptionPane.showMessageDialog(this, "Client Ajouté");
+                this.devisManager.add_devi(voiture, client, date_debut, 1);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+            if (checkdatefinlocation.isSelected()){
+                int day_fin = Integer.parseInt(String.valueOf(daylocationfinbox.getSelectedItem()));
+                int month_fin = Integer.parseInt(String.valueOf(monthlocationfinbox.getSelectedItem()));
+                int year_fin = Integer.parseInt(String.valueOf(yearlocationfinbox.getSelectedItem()));
+                Date date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
+                this.devisManager.update_fin_devis_by_id(1, date_fin);
+            }
+            JOptionPane.showMessageDialog(this, "Location Effectué");
+        }
+        else if (e.getSource() == enregistrerButton){
+            FinLocation.setVisible(false);
+            int id = Integer.parseInt(idLocation.getText());
+            Devis result = this.devisManager.get_devis_by_id(id);
+            if (enregistrerButton.isSelected()){
+                result.getVoiture().setEndommage(true);
+            }
+            int day_fin = Integer.parseInt(String.valueOf(datedefinlocation_day.getSelectedItem()));
+            int month_fin = Integer.parseInt(String.valueOf(datedefinlocation_month.getSelectedItem()));
+            int year_fin = Integer.parseInt(String.valueOf(datedefinlocation_year.getSelectedItem()));
+            Date date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
+            this.devisManager.update_fin_devis_by_id(id, date_fin);
+            endommageCheckBox.setVisible(false);
+            datedefinlabel.setVisible(false);
+            datedefinlocation_day.setVisible(false);
+            datedefinlocation_month.setVisible(false);
+            datedefinlocation_year.setVisible(false);
+            enregistrerButton.setVisible(false);
+            FinLocation.setVisible(true);
+            idLocation.setText("");
+        }
+        else if(e.getSource() == FinLocation){
+            try {
+                int id = Integer.parseInt(idLocation.getText());
+                Devis result = this.devisManager.get_devis_by_id(id);
+                if (result == null){
+                    JOptionPane.showMessageDialog(this, "Il n'y a pas de location pour cet ID");
+                    return;
+                }
+                endommageCheckBox.setVisible(true);
+                if(result.getFin() == null){
+                    datedefinlabel.setVisible(true);
+                    datedefinlocation_day.setVisible(true);
+                    datedefinlocation_month.setVisible(true);
+                    datedefinlocation_year.setVisible(true);
+                    enregistrerButton.setVisible(true);
+                }
+            }
+            catch (Exception exep){
+                JOptionPane.showMessageDialog(this, "ID non valable");
+                return;
+            }
+
+        }
+        else if (e.getSource() == RechercheClient) {
+            String id = IdRechercheclient.getText();
+            String name = NameRechercheClient.getText();
+            String surname = SurnameRechercheClient.getText();
+            Optional<Integer> opid;
+            Optional<String> opname, opsurname;
+            if (id.isEmpty()){
+                opid = Optional.empty();
+            }
+            else {
+                opid = Optional.of(Integer.parseInt(id));
+            }
+            if (name.isEmpty()){
+                opname = Optional.empty();
+            }
+            else {
+                opname = Optional.of(name);
+            }
+            if (surname.isEmpty()){
+                opsurname = Optional.empty();
+            }
+            else {
+                opsurname = Optional.of(surname);
+            }
+            ArrayList<Client> clients = clientManager.find_clients(opid, opname, opsurname);
+
+            JTable client_table = new JTable();
+            // create a table model and set a Column Identifiers to this model
+            Object[] columns = {"Id", "Nom", "Prénom", "Email", "Adresse", "Phone", "Fidélité"};
+            model = new DefaultTableModel();
+            model.setColumnIdentifiers(columns);
+            client_table.setModel(model);
+            client_table.setBackground(Color.LIGHT_GRAY);
+            client_table.setForeground(Color.black);
+            Font font = new Font("",1,14);
+            client_table.setFont(font);
+            client_table.setRowHeight(30);
+            JScrollPane client_pane = new JScrollPane(client_table);
+            client_pane.setBounds(0, 0, 1200, 800);
+            try {
+                for (Client client: clients){
+                    Object[] row = new Object[7];
+                    row[0] = client.getId();
+                    row[1] = client.getName();
+                    row[2] = client.getSurname();
+                    row[3] = client.getEmail();
+                    row[4] = client.getAdresse().getVille();
+                    row[5] = client.getPhone();
+                    row[6] = client.client_fidelity();
+                    model.addRow(row);
+
+                }
+            }
+            catch (Exception ex){
+                System.out.println(ex.getMessage());
+            }
+
+            ListeRechercheClient.add(client_pane);
+            IdRechercheclient.setText("");
+            NameRechercheClient.setText("");
+            SurnameRechercheClient.setText("");
+
 
         }
     }
@@ -451,9 +650,12 @@ public class ClientMenu extends JFrame implements ActionListener{
         DevisPersistence dep = new DevisPersistence(connexion,con,vp,clientp);
 
         ArrayList<Client> clientsArrayList = new ArrayList<>();
-        ClientManager clientManager = new ClientManager(clientsArrayList, clientp);
-        VoitureManager voitureManager  = new VoitureManager(vp);
-        JFrame jFrame = new ClientMenu(clientManager,voitureManager,clientp,vp,carbup,cp,stp,ap);
+        ArrayList<Voiture> voitureArrayList = new ArrayList<>();
+        ArrayList<Devis> devisArrayList = new ArrayList<>();
+        VoitureManager voitureManager = new VoitureManager(vp);
+        DevisManager devisManager = new DevisManager(devisArrayList,dep);
+        ClientManager clientManager = new ClientManager(clientsArrayList,clientp);
+        JFrame jFrame = new ClientMenu(clientManager,devisManager,voitureManager,clientp,vp,carbup,cp,stp,ap);
         jFrame.setVisible(true);
     }
 }

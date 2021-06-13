@@ -5,14 +5,11 @@ public class Client extends Personne{
     private Voiture location;
     private Fidelite fidelite;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public Client(Personne personne, int id){
         super(personne.getName(), personne.getSurname(), personne.getEmail(), personne.getAdresse(), personne.getPhone());
         this.id = id;
     }
+
     public Client(Personne personne){
         super(personne.getName(), personne.getSurname(), personne.getEmail(), personne.getAdresse(), personne.getPhone());
     }
@@ -29,6 +26,10 @@ public class Client extends Personne{
         this.location = voiture;
         this.fidelite = fidelite;
         this.id = -1;
+    }
+
+    public Boolean client_fidelity(){
+        return this.getFidelite() != null;
     }
 
     public void setLocation(Voiture location) {
@@ -49,6 +50,10 @@ public class Client extends Personne{
 
     public Fidelite getFidelite() {
         return fidelite;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

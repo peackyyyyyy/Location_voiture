@@ -27,8 +27,25 @@ public class DevisManager {
         }
     }
 
+    public void add_devi(Devis devis) throws SQLException {
+        if (!this.devis.contains(devis)) {
+            int leid = devisPersistence.insertDevis(devis);
+            devis.setId(leid);
+            this.devis.add(devis);
+        }
+    }
+
     public void delete_devis_by_id(int id){
         this.devis.removeIf(devis -> devis.getId() == id);
+    }
+
+    public Devis get_devis_by_id(int id){
+        for (Devis devis: this.devis){
+            if (devis.getId() == id){
+                return devis;
+            }
+        }
+        return null;
     }
 
     public void generate_facture_by_id(int id){
