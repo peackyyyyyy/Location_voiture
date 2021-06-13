@@ -7,14 +7,14 @@ import java.awt.event.ActionListener;
 
 public class Menu extends JFrame{
 	Container container = getContentPane();
-    JLabel userLabel = new JLabel("Menu");
-    JLabel passwordLabel = new JLabel("Mot de passe");
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    JTextField userTextField = new JTextField();
-    JPasswordField passwordField = new JPasswordField();
-    JButton loginButton = new JButton("page 2");
-    JButton resetButton = new JButton("page 2");
-    JCheckBox showPassword = new JCheckBox("Montrer Mot de passe");
+    JButton clientButton = new JButton("Client");
+    JButton voitureButton = new JButton("Voiture");
+    JButton devisButton = new JButton("Devis");
+    JButton factureButton = new JButton("Facture");
+    JLabel informationsLabel = new JLabel("Serum calcium and immunoreactive parathyroid hormone levels increase within the normal range in 80% of patients during the first four weeks of lithium carbonate administration and may rise above normal in 10% after long-term therapy. Since the lithium ion in vitro makes the parathyroid cell less sensitive to calcium, and since several lithium carbonate-treated patients with parathyroid adenomas have been described, it has been suggested that the lithium ion can stimulate parathyroid growth. The data are inconclusive, however, since the adenomas could be sporadic and there has been no direct proof of increased parathyroid mass or biologic activity. Based on the available studies, we have formulated a reasonable scheme for monitoring calcium metabolism during lithium carbonate treatment. Proper treatment of hypercalcemic lithium carbonate-treated patients remains uncertain, but we have outlined some tentative management guidelines.");
+    ImageIcon icone = new ImageIcon("background.png");
+    JLabel image = new JLabel(icone);
     
     public Menu() {
     	this.setTitle("Menu");
@@ -33,25 +33,25 @@ public class Menu extends JFrame{
     }
 
     public void setLocationAndSize() {
-        userLabel.setBounds(50, 150, 100, 30);
-        passwordLabel.setBounds(50, 220, 100, 30);
-        userTextField.setBounds(150, 150, 150, 30);
-        passwordField.setBounds(150, 220, 150, 30);
-        showPassword.setBounds(150, 250, 150, 30);
-        loginButton.setBounds(50, 300, 100, 30);
-        resetButton.setBounds(200, 300, 100, 30);
-
-
+    	clientButton.setBounds(50, 150, 100, 25);
+    	voitureButton.setBounds(250, 150, 100, 25);
+    	devisButton.setBounds(450, 150, 100, 25);
+    	factureButton.setBounds(650, 150, 100, 25);
+    	informationsLabel.setBounds(50, 200, 650, 50);
     }
 
     public void addComponentsToContainer() {
-        container.add(userLabel);
-        container.add(passwordLabel);
-        container.add(userTextField);
-        container.add(passwordField);
-        container.add(showPassword);
-        container.add(loginButton);
-        container.add(resetButton);
+        container.add(clientButton);
+        container.add(voitureButton);
+        container.add(devisButton);
+        container.add(factureButton);
+        container.add(informationsLabel);
+        container.add(image);
+    }
+    public void informationsEmploy() {
+    	informationsLabel.setText("infos employé");
+    	informationsLabel.setText("");
+    	
     }
     public void changerMenu(){
         this.setContentPane(this.container);
