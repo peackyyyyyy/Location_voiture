@@ -10,6 +10,7 @@ import value_object.model.Enumeration;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
@@ -101,6 +102,9 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JPanel Voiture;
 
     private JPanel listeVoiture;
+    private JTextField textfiledIdTobutton;
+    private JButton modifierButton;
+    private JButton supprimerButton;
     private JPanel paneldeliste;
     private JTable ClientTable;
     private JButton ajouterUnClientButton;
@@ -115,6 +119,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private CategoriePersistence categoriePersistence;
     private AgencePersistence agencePersistence;
     private StatePersistence statePersistence;
+    private JTable tablefind;
 
     public ClientMenu (ClientManager clientManager, DevisManager devisManager, VoitureManager voitureManager, ClientPersistence clientPersistence, VoiturePersistence voiturePersistence, CarburantPersistence carburantPersistence, CategoriePersistence categoriePersistence, StatePersistence statePersistence, AgencePersistence agencePersistence) throws SQLException {
         super();
@@ -184,7 +189,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         Object[] columnss = {"Id", "Modele", "Marque", "Kilometre", "Automatique", "Climatisé","Endommagé","Type de Carburant","Catégorie","Etat","Agence","Agence a etre"};
         this.mod = new DefaultTableModel();
         mod.setColumnIdentifiers(columnss);
-        JTable tablefind =  new JTable(mod)
+        tablefind =  new JTable(mod)
         {
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
             {
@@ -309,6 +314,37 @@ public class ClientMenu extends JFrame implements ActionListener{
                 scronnpane.add(voiturescrol);
             }
         });
+        modifierButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(textfiledIdTobutton.getText());
+                TableModel model = tablefind.getModel();
+                int i;
+                for( i = 0; i < tablefind.getRowCount();i++){
+                    if(id == (Integer) model.getValueAt(i,0)) {
+                        break;
+                    }
+                }
+                try {
+                    voitureManager.updateVoiture(id,new Voiture(
+                            (String) model.getValueAt(i,2),
+                            (String)model.getValueAt(i,1),
+                            (Integer) model.getValueAt(i,3),
+                            model.getValueAt(i, 6).equals("true"),
+                            model.getValueAt(i, 4).equals("true"),
+                            model.getValueAt(i, 5).equals("true"),
+                            (Agence) model.getValueAt(i,10),
+                            (Agence)model.getValueAt(i,11),
+                            (ICategorie) model.getValueAt(i,8),
+                            (Enumeration.Carburant) model.getValueAt(i,7),
+                            (Enumeration.State) model.getValueAt(i,9)
+                    ));
+                    setVoiture_table();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
     }
 
     public void setLayoutManager() {
@@ -345,7 +381,6 @@ public class ClientMenu extends JFrame implements ActionListener{
     }
 
     private void addRowTableVoiture(DefaultTableModel modele,Voiture vt){
-        try {
             Object[] row;
             row = new Object[12];
             row[0] = vt.getId();
@@ -361,14 +396,10 @@ public class ClientMenu extends JFrame implements ActionListener{
             row[10] = vt.getAgence();
             row[11] = vt.getAgence_a_etre();
             modele.addRow(row);
-        }
-        catch (Exception ex){
-            System.out.println(ex.getMessage());
-        }
     }
 
-    private void setVoiture_table(){
-        try {
+    private void setVoiture_table() throws SQLException {
+            mod.setRowCount(0);
             Object[] row;
             for (Voiture vt: voitureManager.getVoitures()) {
                 row = new Object[12];
@@ -385,11 +416,6 @@ public class ClientMenu extends JFrame implements ActionListener{
                 row[10] = vt.getAgence();
                 row[11] = vt.getAgence_a_etre();
                 mod.addRow(row);
-            }
-
-        }
-        catch (Exception ex){
-            System.out.println(ex.getMessage());
         }
 
     }
@@ -422,6 +448,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         FinLocation.addActionListener(this);
         enregistrerButton.addActionListener(this);
     }
+
 
     private int return_month(int i){
         if (i == 1) {
