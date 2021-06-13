@@ -47,7 +47,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JComboBox comboBox5;
     private JComboBox comboBox6;
     private JCheckBox checkBox2;
-    private JButton ajouterButton;
+    private JButton ajouterLocation;
     private JTextField textField3;
     private JCheckBox endommagementCheckBox;
     private JTable ClientTable;
