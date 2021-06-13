@@ -28,6 +28,7 @@ public class AgencePersistence {
         );
     }
     public ArrayList<Agence> getAgences() throws SQLException {
+
         ArrayList<Agence> listeAgence = new ArrayList<Agence>();
         ResultSet rs = con.executeQuery("Select * from agence");
         while(rs.next())
@@ -41,6 +42,7 @@ public class AgencePersistence {
             return null;
         return createAgence(rs);
     }
+
     public int insertAgence(Agence agence) throws SQLException {
         PreparedStatement ps = connexion.prepareStatement("Insert into agence (name,phone,longitude,lattitude,rue,ville,codepostal) values (?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
         ps.setString(1,agence.getName());
@@ -74,3 +76,4 @@ public class AgencePersistence {
         return ps.execute();
     }
 }
+
