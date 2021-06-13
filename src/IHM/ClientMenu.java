@@ -431,7 +431,6 @@ public class ClientMenu extends JFrame implements ActionListener{
 
         }
     }
-
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         JdbcConnexion jdbc = new JdbcConnexion();
 

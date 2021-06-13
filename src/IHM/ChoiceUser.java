@@ -86,10 +86,24 @@ public class ChoiceUser extends JFrame implements ActionListener{
 			}
         }
         if (e.getSource() == agentButton) {
-        	System.out.println("agent");
+			try {
+				dispose();
+				ChauffeurLogin chauffeur=new ChauffeurLogin();
+				chauffeur.changerMenu();
+			} catch (ClassNotFoundException | SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         }
         if (e.getSource() == utilisateurButton) {
-        	System.out.println("utilisateur");
+        	dispose();
+			try {
+				UtilisateurMenu.main(null);
+			} catch (SQLException throwables) {
+				throwables.printStackTrace();
+			} catch (ClassNotFoundException classNotFoundException) {
+				classNotFoundException.printStackTrace();
+			}
         }
     }
     public void changerMenu(){

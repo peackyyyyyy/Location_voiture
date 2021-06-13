@@ -47,7 +47,7 @@ public class AdminLogin extends JFrame implements ActionListener{
 	        EmployePersistence ep = new EmployePersistence(con,connexion);
 	        ArrayList<Employe> listeemploye =ep.getEmployes();
 	        this.listeemploye=listeemploye;
-	    	this.setTitle("Page de connexion");
+	    	this.setTitle("Page de connexion Administrateur");
 	    	this.setVisible(true);
 	    	this.setBounds((int) (screenSize.width/2.5),10,350,600);
 	    	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -106,8 +106,13 @@ public class AdminLogin extends JFrame implements ActionListener{
 	    		
 	            if (loginText.equalsIgnoreCase(employe.getLogin()) && mdpText.equalsIgnoreCase(employe.getMdp())) {
 	            	dispose();
-	            	Menu menu= new Menu();
-	            	menu.changerMenu();
+					try {
+						ClientMenu.main(null);
+					} catch (SQLException throwables) {
+						throwables.printStackTrace();
+					} catch (ClassNotFoundException classNotFoundException) {
+						classNotFoundException.printStackTrace();
+					}
 	            	c=1;
 	            	break;
 	            } else {
@@ -135,7 +140,7 @@ public class AdminLogin extends JFrame implements ActionListener{
 	        }
 	    }
 	    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-	        AdminLogin jFrame = new AdminLogin();
+	        JFrame jFrame = new AdminLogin();
 	        jFrame.setVisible(true);
 	    }
     }
