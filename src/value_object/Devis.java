@@ -26,6 +26,7 @@ public class Devis{
         this.debut = debut;
         this.voiture = voiture;
         this.client = client;
+        this.fin = fin;
     }
 
     public Devis(Voiture voiture, Client client, Date debut, Date fin){

@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import java.sql.*;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DevisPersistence extends JdbcConnexion{
     private Statement conn;
@@ -35,11 +36,19 @@ public class DevisPersistence extends JdbcConnexion{
     }
 
     private Devis createDevis(ResultSet rs) throws SQLException, ParseException {
+        String fin = rs.getString("fin");
+        Date finDate;
+        if(fin == null || fin.equals("")){
+            finDate = null;
+        }
+        else {
+            finDate = Utilities.strToDate(rs.getString("fin"));
+        }
         return new Devis(
                 vp.getVoitureAvecId(rs.getInt("voiture_id")),
                 cp.getClientWithId(rs.getInt("client_id")),
                 Utilities.strToDate(rs.getString("debut")),
-                Utilities.strToDate(rs.getString("fin")),
+                finDate,
                 rs.getInt("id")
         );
     }
