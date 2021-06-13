@@ -9,8 +9,7 @@ public class Devis{
     private final Voiture voiture;
     private final Client client;
 
-    public Devis(Voiture voiture, Client client, Date debut, int id){
-        this.id = id;
+    public Devis(Voiture voiture, Client client, Date debut){
         this.debut = debut;
         this.voiture = voiture;
         this.client = client;

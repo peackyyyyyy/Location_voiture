@@ -59,7 +59,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JTextField idLocation;
     private JButton FinLocation;
     private JCheckBox endommageCheckBox;
-    private JButton enregistrerButton;
+    private JButton Enregistrer;
     private JComboBox datedefinlocation_day;
     private JComboBox datedefinlocation_month;
     private JComboBox datedefinlocation_year;
@@ -443,7 +443,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         RechercheClient.addActionListener(this);
         AjouterLocation.addActionListener(this);
         FinLocation.addActionListener(this);
-        enregistrerButton.addActionListener(this);
+        Enregistrer.addActionListener(this);
     }
 
     private int return_month(int i){
@@ -534,8 +534,9 @@ public class ClientMenu extends JFrame implements ActionListener{
             Client client = this.clientManager.get_client_by_id(Integer.parseInt(id_client));
             Date date_debut = new GregorianCalendar(year_debut, return_month(month_debut), day_debut).getTime();
             //#todo add id in all managers methodes
+            Date date_fin = null;
             try {
-                this.devisManager.add_devi(voiture, client, date_debut, 1);
+                this.devisManager.add_devi(voiture, client, date_debut);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -543,29 +544,48 @@ public class ClientMenu extends JFrame implements ActionListener{
                 int day_fin = Integer.parseInt(String.valueOf(daylocationfinbox.getSelectedItem()));
                 int month_fin = Integer.parseInt(String.valueOf(monthlocationfinbox.getSelectedItem()));
                 int year_fin = Integer.parseInt(String.valueOf(yearlocationfinbox.getSelectedItem()));
-                Date date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
-                this.devisManager.update_fin_devis_by_id(1, date_fin);
+                date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
+                try {
+                    this.devisManager.update_fin_devis_by_id(1, date_fin);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
+            Object[] row = new Object[9];
+            row[0] = 1;
+            row[1] = client.getId();
+            row[2] = client.getName();
+            row[3] = client.getSurname();
+            row[4] = voiture.getId();
+            row[5] = voiture.getModel();
+            row[6] = voiture.getMarque();
+            row[7] = date_debut;
+            row[8] = date_fin;
+            model_locations.addRow(row);
             JOptionPane.showMessageDialog(this, "Location Effectué");
         }
-        else if (e.getSource() == enregistrerButton){
+        else if (e.getSource() == Enregistrer){
             FinLocation.setVisible(false);
             int id = Integer.parseInt(idLocation.getText());
             Devis result = this.devisManager.get_devis_by_id(id);
-            if (enregistrerButton.isSelected()){
+            if (Enregistrer.isSelected()){
                 result.getVoiture().setEndommage(true);
             }
             int day_fin = Integer.parseInt(String.valueOf(datedefinlocation_day.getSelectedItem()));
             int month_fin = Integer.parseInt(String.valueOf(datedefinlocation_month.getSelectedItem()));
             int year_fin = Integer.parseInt(String.valueOf(datedefinlocation_year.getSelectedItem()));
             Date date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
-            this.devisManager.update_fin_devis_by_id(id, date_fin);
+            try {
+                this.devisManager.update_fin_devis_by_id(id, date_fin);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             endommageCheckBox.setVisible(false);
             datedefinlabel.setVisible(false);
             datedefinlocation_day.setVisible(false);
             datedefinlocation_month.setVisible(false);
             datedefinlocation_year.setVisible(false);
-            enregistrerButton.setVisible(false);
+            Enregistrer.setVisible(false);
             FinLocation.setVisible(true);
             idLocation.setText("");
         }
@@ -583,7 +603,7 @@ public class ClientMenu extends JFrame implements ActionListener{
                     datedefinlocation_day.setVisible(true);
                     datedefinlocation_month.setVisible(true);
                     datedefinlocation_year.setVisible(true);
-                    enregistrerButton.setVisible(true);
+                    Enregistrer.setVisible(true);
                 }
             }
             catch (Exception exep){
