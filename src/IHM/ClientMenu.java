@@ -1,6 +1,7 @@
 package IHM;
 import Persistence.*;
 import business.ClientManager;
+import business.VoitureManager;
 import value_object.*;
 import value_object.model.Enumeration;
 
@@ -13,6 +14,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class ClientMenu extends JFrame implements ActionListener{
     private final ClientManager clientManager;
@@ -44,6 +46,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JButton supprimerUnClientButton;
     private  DefaultTableModel modele;
     private  DefaultTableModel mod;
+    private  DefaultTableModel mod2;
     private JLabel agenceA_Etre;
     private JLabel marque;
     private JLabel categorie;
@@ -69,6 +72,14 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JCheckBox autoCheck;
     private JButton ajouterVoitureButton;
     private JCheckBox endommageCheck;
+    private JTextField idTextfield;
+    private JTextField modelTextField;
+    private JComboBox comboAgence2;
+    private JLabel agencelabel;
+    private JLabel idlabel;
+    private JLabel modelLabel;
+    private JComboBox comboEtat2;
+    private JButton searchButton;
     private JPanel listevoiture;
     private ClientPersistence clientPersistence;
     private VoiturePersistence voiturePersistence;
@@ -77,10 +88,11 @@ public class ClientMenu extends JFrame implements ActionListener{
     private CarburantPersistence carburantPersistence;
     private AgencePersistence agencePersistence;
     private StatePersistence statePersistence;
-
-    public ClientMenu (ClientManager clientManager, ClientPersistence clientPersistence,VoiturePersistence voiturePersistence,  CarburantPersistence carburantPersistence, CategoriePersistence categoriePersistence, StatePersistence statePersistence, AgencePersistence agencePersistence) throws SQLException {
+    private VoitureManager voitureManager;
+    public ClientMenu (ClientManager clientManager, VoitureManager voitureManager, ClientPersistence clientPersistence, VoiturePersistence voiturePersistence, CarburantPersistence carburantPersistence, CategoriePersistence categoriePersistence, StatePersistence statePersistence, AgencePersistence agencePersistence) throws SQLException {
         super();
         this.clientPersistence = clientPersistence;
+        this.voitureManager = voitureManager;
         this.voiturePersistence = voiturePersistence;
         this.clientManager = clientManager;
         this.carburantPersistence = carburantPersistence;
@@ -110,7 +122,7 @@ public class ClientMenu extends JFrame implements ActionListener{
 
 
         this.liste = voiturePersistence.getVoitures();
-
+        voitureManager.setVoitures(liste);
 
         Voiture vt = liste.get(0);
         lemodele.setText("Modele : " + vt.getModel());
@@ -204,9 +216,65 @@ public class ClientMenu extends JFrame implements ActionListener{
                     int id = voiturePersistence.insertVoiture(voiture);
                     voiture.setId(id);
                     JOptionPane.showMessageDialog(listevoiture, "Voiture Ajouté");
-                    addRowTableVoiture(voiture);
+                    addRowTableVoiture(mod,voiture);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
+                }
+            }
+        });
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = idTextfield.getText();
+                String modele = modelTextField.getText();
+                Agence agence = (Agence)  comboAgence2.getSelectedItem();
+                Enumeration.State etat = (Enumeration.State) comboEtat2.getSelectedItem();
+                Optional<Integer> opid;
+                Optional<String> opModele;
+                Optional<Agence> optionalAgence;
+                Optional<Enumeration.State> optionalState;
+                if(id.isEmpty()){
+                    opid = Optional.empty();
+                }
+                else {
+                    opid = Optional.of(Integer.parseInt(id));
+                }
+
+                if(modele.isEmpty()){
+                    opModele = Optional.empty();
+                }
+                else{
+                    opModele = Optional.of(modele);
+                }
+                if(agence == null){
+                    optionalAgence = Optional.empty();
+                }
+                else{
+                    optionalAgence = Optional.of(agence);
+                }
+                if (etat == null){
+                    optionalState = Optional.empty();
+                }
+                else{
+                    optionalState = Optional.of(etat);
+                }
+                ArrayList<Voiture> laliste = voitureManager.findVoiture(opid,opModele,optionalState,optionalAgence);
+                JTable tableVoiture = new JTable();
+                Object[] columnss = {"Id", "Modele", "Marque", "Kilometre", "Automatique", "Climatisé","Endommagé","Type de Carburant","Catégorie","Etat","Agence","Agence a etre"};
+                mod2 = new DefaultTableModel();
+                mod2.setColumnIdentifiers(columnss);
+                tableVoiture.setBackground(Color.LIGHT_GRAY);
+                tableVoiture.setForeground(Color.black);
+                Font font = new Font("",1,14);
+                tableVoiture.setFont(font);
+                tableVoiture.setRowHeight(30);
+                JScrollPane voiturepanel = new JScrollPane(tableVoiture);
+                try{
+                    for (Voiture vt:laliste) {
+                        addRowTableVoiture(mod2,vt);
+                    }
+                }catch (Exception ex){
+                    System.out.println(ex.getMessage());
                 }
             }
         });
@@ -230,9 +298,11 @@ public class ClientMenu extends JFrame implements ActionListener{
             for (value_object.Agence agence: agencePersistence.getAgences()) {
                 comboAgence.addItem(agence);
                 comboAgenceAEtre.addItem(agence);
+                comboAgence2.addItem(agence);
             }
             for (Enumeration.State state: statePersistence.getStats()){
                 comboEtat.addItem(state);
+                comboEtat2.addItem(state);
             }
 
         }
@@ -243,7 +313,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private void setCombocategorie(){
 
     }
-    private void addRowTableVoiture(Voiture vt){
+    private void addRowTableVoiture(DefaultTableModel modele,Voiture vt){
         try {
             Object[] row;
             row = new Object[12];
@@ -259,8 +329,7 @@ public class ClientMenu extends JFrame implements ActionListener{
             row[9] = vt.getState();
             row[10] = vt.getAgence();
             row[11] = vt.getAgence_a_etre();
-            mod.addRow(row);
-
+            modele.addRow(row);
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());
@@ -371,7 +440,8 @@ public class ClientMenu extends JFrame implements ActionListener{
 
         ArrayList<Client> clientsArrayList = new ArrayList<>();
         ClientManager clientManager = new ClientManager(clientsArrayList);
-        JFrame jFrame = new ClientMenu(clientManager,clientp,vp,carbup,cp,stp,ap);
+        VoitureManager voitureManager  = new VoitureManager();
+        JFrame jFrame = new ClientMenu(clientManager,voitureManager,clientp,vp,carbup,cp,stp,ap);
         jFrame.setVisible(true);
     }
 }
