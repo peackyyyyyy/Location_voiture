@@ -340,6 +340,21 @@ public class ClientMenu extends JFrame implements ActionListener{
                             (Enumeration.State) model.getValueAt(i,9)
                     ));
                     setVoiture_table();
+                    JOptionPane.showMessageDialog(listeVoiture, "Voiture modfié");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
+        supprimerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(textfiledIdTobutton.getText());
+                try {
+                    voitureManager.delete(id);
+                    voitureManager.delete_voiture_by_id(id);
+                    setVoiture_table();
+                    JOptionPane.showMessageDialog(listeVoiture, "Voiture supprimé");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
