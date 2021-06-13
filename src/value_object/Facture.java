@@ -21,8 +21,6 @@ public class Facture {
         this.finalprice = price*duree*reduction;
     }
 
-
-
     public int getPrice() {
         return price;
     }

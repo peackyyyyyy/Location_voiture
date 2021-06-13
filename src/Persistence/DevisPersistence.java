@@ -93,7 +93,7 @@ public class DevisPersistence extends JdbcConnexion{
         int retid = ps.executeUpdate();
         ResultSet rs = ps.getGeneratedKeys();
         rs.next();
-        return retid;
+        return rs.getInt(1);
     }
 
     /**
