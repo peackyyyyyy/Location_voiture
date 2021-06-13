@@ -572,13 +572,9 @@ public class ClientMenu extends JFrame implements ActionListener{
 
         }
         else if(e.getSource() == genererFactureButton){
+            Facturetexte.setText("");
             String id_location = IdLocationFacture.getText();
             Devis devis;
-            try {
-                System.out.println(this.devisManager.getDevis());
-            } catch (SQLException | ParseException throwables) {
-                throwables.printStackTrace();
-            }
             try {
                 devis = this.devisManager.get_devis_by_id(Integer.parseInt(id_location));
             }
@@ -588,8 +584,13 @@ public class ClientMenu extends JFrame implements ActionListener{
                 return;
             }
             this.devisManager.generate_facture_by_id(devis.getId());
-            Facturetexte.setText("  Facture numero "+devis.getId());
-            JOptionPane.showMessageDialog(this, "okkkkkkk");
+            if (devis.getClient().getFidelite() == null){
+                Facturetexte.setText("                  Facture numero "+devis.getId()+"\n\nClient numero "+devis.getClient().getId()+"     Nom: "+devis.getClient().getName()+"\n    Prenom: "+devis.getClient().getSurname()+"\n\nVoiture numero "+devis.getVoiture().getId()+"\n     Marque: "+devis.getVoiture().getMarque()+"\n    Model: "+devis.getVoiture().getModel()+"\n      Prix: "+devis.getVoiture().getCategorie().getTarif()+"\n\n      Début Location: "+devis.getDebut()+"\n      Fin Location: "+devis.getFin()+"\n\n       Montant: "+devis.getFacture().getPrice()+"\n     Montant à payer: "+devis.getFacture().getFinalprice());
+            }
+            else {
+                Facturetexte.setText("                  Facture numero "+devis.getId()+"\n\nClient numero "+devis.getClient().getId()+"\tNom: "+devis.getClient().getName()+"\n\tPrenom: "+devis.getClient().getSurname()+"\n\tFidélité: "+devis.getClient().getFidelite().getReduction()+"\n\nVoiture numero "+devis.getVoiture().getId()+"\n     Marque: "+devis.getVoiture().getMarque()+"\n    Model: "+devis.getVoiture().getModel()+"\n      Prix: "+devis.getVoiture().getCategorie().getTarif()+"\n\n      Début Location: "+devis.getDebut()+"\n\tFin Location: "+devis.getFin()+"\n\n\tMontant: "+devis.getFacture().getPrice()+"\n\tMontant à payer: "+devis.getFacture().getFinalprice());
+
+            }
         }
         else if (e.getSource() == AjouterLocation){
             String id_voiture = idVoiturefield.getText();
