@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class TestAgenceManager {
     public static void main(String[] args) {
-        ICategorie luxe = new Luxe();
+        /*ICategorie luxe = new Luxe();
         ArrayList<Agence> agenceArrayList = new ArrayList<>();
         /*ArrayList<Voiture> voitureArrayList = new ArrayList<>();
         Agence agence1 = new Agence("rue1", "ville1", "06", 1, "agence1", "0657453434", "longitude1", "lattitude1");

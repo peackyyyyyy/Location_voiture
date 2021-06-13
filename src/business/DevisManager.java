@@ -18,17 +18,36 @@ public class DevisManager {
         this.devis = devis;
         this.devisPersistence = devisPersistence;
     }
-    public void add_devi(Voiture voiture, Client client, Date debut, int id) throws SQLException {
-        Devis devi = new Devis(voiture, client, debut, id);
+    public Devis add_devi(Voiture voiture, Client client, Date debut) throws SQLException {
+        Devis devi = new Devis(voiture, client, debut);
         if (!this.devis.contains(devi)) {
             int leid = devisPersistence.insertDevis(devi);
             devi.setId(leid);
             this.devis.add(devi);
+            return devi;
+        }
+        return null;
+    }
+
+    public void add_devi(Devis devis) throws SQLException {
+        if (!this.devis.contains(devis)) {
+            int leid = devisPersistence.insertDevis(devis);
+            devis.setId(leid);
+            this.devis.add(devis);
         }
     }
 
     public void delete_devis_by_id(int id){
         this.devis.removeIf(devis -> devis.getId() == id);
+    }
+
+    public Devis get_devis_by_id(int id){
+        for (Devis devis: this.devis){
+            if (devis.getId() == id){
+                return devis;
+            }
+        }
+        return null;
     }
 
     public void generate_facture_by_id(int id){
@@ -51,10 +70,11 @@ public class DevisManager {
         }
     }
 
-    public void update_fin_devis_by_id(int id, Date fin) {
+    public void update_fin_devis_by_id(int id, Date fin) throws SQLException {
         for (Devis devi : this.devis) {
             if (devi.getId() == id) {
                 devi.setFin(fin);
+                devisPersistence.updateDevis(id,devi);
             }
         }
     }

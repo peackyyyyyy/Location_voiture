@@ -2,6 +2,7 @@ package Persistence;
 
 import value_object.Devis;
 
+import java.lang.reflect.Type;
 import java.sql.*;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -40,12 +41,16 @@ public class DevisPersistence extends JdbcConnexion{
                 Utilities.strToDate(rs.getString("debut")),
                 Utilities.strToDate(rs.getString("fin")),
                 rs.getInt("id")
-                );
+        );
     }
     public int insertDevis(Devis devis) throws SQLException {
         PreparedStatement ps = connexion.prepareStatement("insert into devis (debut,fin,voiture_id,client_id) values (?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, Utilities.dateToString(devis.getDebut()));
-        ps.setString(2, Utilities.dateToString(devis.getFin()));
+        if(devis.getFin() != null) {
+            ps.setString(2, Utilities.dateToString(devis.getFin()));
+        }else{
+            ps.setNull(2, Types.CHAR);
+        }
         ps.setInt(3, devis.getVoiture().getId());
         ps.setInt(4, devis.getClient().getId());
         int retid = ps.executeUpdate();

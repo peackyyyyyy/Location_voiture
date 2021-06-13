@@ -9,6 +9,7 @@ import value_object.Voiture;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class ClientManager {
     private ArrayList<Client> clients;
@@ -32,20 +33,85 @@ public class ClientManager {
         return -1;
     }
 
+    public int add_client(Client client) throws SQLException {
+
+        if (!this.clients.contains(client)) {
+            this.clients.add(client);
+            int leid = clientPersistence.insertClient(client);
+            client.setId(leid);
+            return leid;
+        }
+        return -1;
+    }
+
     public void delete_client_by_id(int id) {
         this.clients.removeIf(client -> client.getId() == id);
     }
 
-    public void updateClient(int id, Client client) throws SQLException {
-        clientPersistence.updateClient(id,client);
+    public int updateClient(int id, Client client) throws SQLException {
+        int ret = clientPersistence.updateClient(id,client);
         delete_client_by_id(id);
         clients.add(client);
+        return ret;
+    }
+
+    public ArrayList<Client> find_clients(Optional<Integer> id, Optional<String> name, Optional<String> surname){
+        ArrayList<Client> result = this.clients;
+        if (id.isPresent()){
+            result = try_list_id(id.get(), result);
+        }
+        if (name.isPresent()){
+            result = try_list_name(name.get(), result);
+        }
+        if (surname.isPresent()){
+            result = try_list_surname(surname.get(), result);
+        }
+        return result;
+    }
+    private ArrayList<Client> try_list_id(int id, ArrayList<Client> result){
+        ArrayList<Client> newresult = new ArrayList<>();
+        for (Client client: result){
+            if (id==client.getId()){
+                newresult.add(client);
+            }
+        }
+        return newresult;
+    }
+
+    private ArrayList<Client> try_list_name(String name, ArrayList<Client> result){
+        ArrayList<Client> newresult = new ArrayList<>();
+        for (Client client: result){
+            if (name.equals(client.getName())){
+                newresult.add(client);
+            }
+        }
+        return newresult;
+    }
+
+    private ArrayList<Client> try_list_surname(String surname, ArrayList<Client> result){
+        ArrayList<Client> newresult = new ArrayList<>();
+        for (Client client: result){
+            if (surname.equals(client.getSurname())){
+                newresult.add(client);
+            }
+        }
+        return newresult;
+    }
+
+    public Client get_client_by_id(int id){
+        for (Client client: this.clients){
+            if (client.getId() == id){
+                return client;
+            }
+        }
+        return null;
     }
 
     public boolean deleteClientBdd(int id) throws SQLException {
         delete_client_by_id(id);
         return clientPersistence.deleteClient(id);
     }
+
 
 
     public void update_client_adresse_by_id(int id, Adresse adresse) {

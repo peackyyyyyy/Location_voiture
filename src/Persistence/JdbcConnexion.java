@@ -18,7 +18,6 @@ public class JdbcConnexion implements IConnexion{
                             , "hugo", "labibine");
             this.connexion = con;
             Statement stmt = con.createStatement();
-            System.out.println("Created DB Connection....");
             conn = stmt;
         } catch (ClassNotFoundException e) {
 
