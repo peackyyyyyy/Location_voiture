@@ -34,7 +34,7 @@ public class VoitureManager {
 
     public VoitureManager(){ }
 
-    public void add_voiture(String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage, Enumeration.State state, Agence agence, Agence agence_a_etre) throws SQLException {
+    public int add_voiture(String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage, Enumeration.State state, Agence agence, Agence agence_a_etre) throws SQLException {
         Voiture voiture = new Voiture(marque,model,kilometers,endommage,vitesse,clim,agence,agence_a_etre,categorie,carburant,state);
         if (!this.voitures.contains(voiture)) {
             int id = voiturePersistence.insertVoiture(voiture);
@@ -42,6 +42,7 @@ public class VoitureManager {
             this.voitures.add(voiture);
             return id;
         }
+        return -1;
     }
     public int add_voiture(Voiture voiture) throws SQLException {
         if (!this.voitures.contains(voiture)) {
