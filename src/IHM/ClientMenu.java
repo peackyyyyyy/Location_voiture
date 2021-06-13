@@ -38,7 +38,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JTextField Codepostale;
     private JTextField Ville;
     private JTabbedPane tabbedPane3;
-    private JTable table1;
+    private JTable tablefind;
     private JComboBox comboModele;
     private JTable ClientTable;
     private JButton ajouterUnClientButton;
@@ -76,10 +76,12 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JTextField modelTextField;
     private JComboBox comboAgence2;
     private JLabel agencelabel;
-    private JLabel idlabel;
     private JLabel modelLabel;
     private JComboBox comboEtat2;
     private JButton searchButton;
+    private JPanel trouveVoiture;
+    private JScrollPane scronnpane;
+    private JScrollPane scronnpan;
     private JPanel listevoiture;
     private ClientPersistence clientPersistence;
     private VoiturePersistence voiturePersistence;
@@ -160,7 +162,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         mod.setColumnIdentifiers(columnss);
         listevoiture = new JPanel();
         listevoiture.setVisible(true);
-        table1 =  new JTable(mod)
+        tablefind =  new JTable(mod)
         {
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
             {
@@ -177,16 +179,16 @@ public class ClientMenu extends JFrame implements ActionListener{
                 return comp;
             }
         };
-        table1.setModel(mod);
-        table1.setBackground(Color.LIGHT_GRAY);
-        table1.setForeground(Color.black);
-        table1.setSize(1400,1000);
+        tablefind.setModel(mod);
+        tablefind.setBackground(Color.LIGHT_GRAY);
+        tablefind.setForeground(Color.black);
+        tablefind.setSize(1400,1000);
         Font fonti = new Font("",1,14);
-        table1.setFont(fonti);
-        table1.setRowHeight(30);
-        table1.setVisible(true);
+        tablefind.setFont(fonti);
+        tablefind.setRowHeight(30);
+        tablefind.setVisible(true);
 
-        JScrollPane voi_pane = new JScrollPane(table1);
+        JScrollPane voi_pane = new JScrollPane(tablefind);
         voi_pane.setBounds(0, 0, 1200, 800);
         voi_pane.setVisible(true);
         setVoiture_table();
@@ -233,6 +235,7 @@ public class ClientMenu extends JFrame implements ActionListener{
                 Optional<String> opModele;
                 Optional<Agence> optionalAgence;
                 Optional<Enumeration.State> optionalState;
+
                 if(id.isEmpty()){
                     opid = Optional.empty();
                 }
@@ -259,23 +262,31 @@ public class ClientMenu extends JFrame implements ActionListener{
                     optionalState = Optional.of(etat);
                 }
                 ArrayList<Voiture> laliste = voitureManager.findVoiture(opid,opModele,optionalState,optionalAgence);
+
                 JTable tableVoiture = new JTable();
                 Object[] columnss = {"Id", "Modele", "Marque", "Kilometre", "Automatique", "Climatisé","Endommagé","Type de Carburant","Catégorie","Etat","Agence","Agence a etre"};
-                mod2 = new DefaultTableModel();
+                DefaultTableModel mod2 = new DefaultTableModel();
                 mod2.setColumnIdentifiers(columnss);
+                tableVoiture.setModel(mod2);
+
                 tableVoiture.setBackground(Color.LIGHT_GRAY);
                 tableVoiture.setForeground(Color.black);
                 Font font = new Font("",1,14);
                 tableVoiture.setFont(font);
                 tableVoiture.setRowHeight(30);
-                JScrollPane voiturepanel = new JScrollPane(tableVoiture);
+
+                JScrollPane voiturescrol = new JScrollPane(tableVoiture);
+                voiturescrol.setBounds(0, 0, 1200, 800);
+
                 try{
                     for (Voiture vt:laliste) {
+                        System.out.println(vt.getModel());
                         addRowTableVoiture(mod2,vt);
                     }
                 }catch (Exception ex){
                     System.out.println(ex.getMessage());
                 }
+                scronnpane.add(voiturescrol);
             }
         });
     }
@@ -304,7 +315,6 @@ public class ClientMenu extends JFrame implements ActionListener{
                 comboEtat.addItem(state);
                 comboEtat2.addItem(state);
             }
-
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());
