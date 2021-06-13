@@ -22,6 +22,14 @@ public class ClientManager {
             this.clients.add(client);
         }
     }
+    public Client get_client_by_id(int id){
+        for (Client client: this.clients){
+            if (client.getId() == id){
+                return client;
+            }
+        }
+        return null;
+    }
 
     public void delete_client_by_id(int id) {
         this.clients.removeIf(client -> client.getId() == id);

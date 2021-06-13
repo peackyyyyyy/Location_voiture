@@ -22,6 +22,15 @@ public class DevisManager {
         }
     }
 
+    public Devis get_devis_by_id(int id){
+        for (Devis devis: this.devis){
+            if (devis.getId() == id){
+                return devis;
+            }
+        }
+        return null;
+    }
+
     public void delete_devis_by_id(int id){
         this.devis.removeIf(devis -> devis.getId() == id);
     }

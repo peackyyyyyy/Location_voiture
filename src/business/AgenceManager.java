@@ -13,7 +13,6 @@ public class AgenceManager extends VoitureManager{
     public AgenceManager(ArrayList<Agence> agences, ArrayList<Voiture> voitures){
         super(voitures);
         this.agences = agences;
-
     }
 
     public void add_agence(String rue, String ville, String codepostal, int id, String name, String phone, String longitude,

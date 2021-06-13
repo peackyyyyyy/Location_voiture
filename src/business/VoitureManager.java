@@ -1,6 +1,7 @@
 package business;
 
 import value_object.Agence;
+import value_object.Client;
 import value_object.ICategorie;
 import value_object.Voiture;
 import value_object.model.Enumeration;
@@ -23,6 +24,16 @@ public class VoitureManager {
             this.voitures.add(voiture);
         }
      }
+
+    public Voiture get_voiture_by_id(int id){
+        for (Voiture voiture: this.voitures){
+            if (voiture.getId() == id){
+                return voiture;
+            }
+        }
+        return null;
+    }
+
     public void delete_voiture_by_id(int id){
         this.voitures.removeIf(voiture -> voiture.getId() == id);
     }
