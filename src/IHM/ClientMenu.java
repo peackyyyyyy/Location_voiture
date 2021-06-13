@@ -336,6 +336,8 @@ public class ClientMenu extends JFrame implements ActionListener{
                 comboEtat.addItem(state);
                 comboEtat2.addItem(state);
             }
+            comboEtat2.insertItemAt(null,0);
+            comboAgence2.insertItemAt(null,0);
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());
@@ -498,8 +500,6 @@ public class ClientMenu extends JFrame implements ActionListener{
 
         }
         else if (e.getSource() == AjouterLocation){
-            ICategorie luxe = new Luxe();
-            Agence agence = new Agence("rue", "ville", "06", 1, "agence", "0657453434", "longitude", "lattitude");
             String id_voiture = idVoiturefield.getText();
             String id_client = idclientfield.getText();
             int day_debut = Integer.parseInt(String.valueOf(daylocationdebutbox.getSelectedItem()));
