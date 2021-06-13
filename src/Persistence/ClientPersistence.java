@@ -69,9 +69,8 @@ public class ClientPersistence extends JdbcConnexion{
         this.listeClient = liste;
         return liste;
     }
-
     public int insertClient(Client client) throws SQLException {
-        PreparedStatement ps = connexion.prepareStatement("insert into client (name,surname,email,adresse,phone,voiture_id,fidelite_id) values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement ps = connexion.prepareStatement("insert into client (name,surname,email,adresse,phone,voiture_id,fidelite_id) values (?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
         ps.setString(1,client.getName());
         ps.setString(2,client.getSurname());
         ps.setString(3,client.getEmail());
@@ -89,9 +88,9 @@ public class ClientPersistence extends JdbcConnexion{
             ps.setNull(7, Types.INTEGER);
         }
         int retid = ps.executeUpdate();
-        client.setId(retid);
-        listeClient.add(client);
-        return retid;
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+        return rs.getInt(1);
     }
 
     public int updateClient(int id, Client client) throws SQLException {

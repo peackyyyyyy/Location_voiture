@@ -46,7 +46,7 @@ public class EmployePersistence extends JdbcConnexion {
         return liste;
     }
     public int insertEmploye(Employe emp) throws SQLException {
-        PreparedStatement ps = connexion.prepareStatement("insert into employe (name,surname,email,adresse,phone,login,mdp) values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement ps = connexion.prepareStatement("insert into employe (name,surname,email,adresse,phone,login,mdp) values (?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
         ps.setString(1,emp.getName());
         ps.setString(2,emp.getSurname());
         ps.setString(3,emp.getEmail());
@@ -56,9 +56,9 @@ public class EmployePersistence extends JdbcConnexion {
         ps.setString(6,emp.getLogin());
         ps.setString(7,emp.getMdp());
         int retid = ps.executeUpdate();
-        emp.setId(retid);
-        listeEmploye.add(emp);
-        return retid;
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+        return rs.getInt(1);
     }
     public int updateEmploye(int id, Employe emp) throws SQLException {
         PreparedStatement ps = connexion.prepareStatement("update employe set name = ? , surname = ? ,email = ? ,adresse = ? ,phone = ? ,login = ? ,mdp = ? where id = ?");
