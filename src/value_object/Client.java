@@ -58,11 +58,6 @@ public class Client extends Personne{
 
     @Override
     public String toString() {
-        return "Client{" +
-                "id=" + id +
-                super.toString() +
-                ", location=" + location +
-                ", fidelite=" + fidelite +
-                '}';
+        return getName();
     }
 }

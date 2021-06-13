@@ -107,7 +107,7 @@ public class VoiturePersistence extends JdbcConnexion{
      * Changer les informations d'une voiture
      * @param id l'id de la voiture que l'on veut changer
      * @param vt les informations à mettre
-     * @return le nombre de ligne à mettre
+     * @return le nombre de ligne changées
      * @throws SQLException
      */
     public int updateVoiture(int id, Voiture vt) throws SQLException {
