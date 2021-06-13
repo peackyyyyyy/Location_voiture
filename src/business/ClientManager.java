@@ -55,6 +55,11 @@ public class ClientManager {
         return ret;
     }
 
+    public void delete(int id) throws SQLException {
+        clientPersistence.deleteClient(id);
+        delete_client_by_id(id);
+    }
+
     public ArrayList<Client> find_clients(Optional<Integer> id, Optional<String> name, Optional<String> surname){
         ArrayList<Client> result = this.clients;
         if (id.isPresent()){
