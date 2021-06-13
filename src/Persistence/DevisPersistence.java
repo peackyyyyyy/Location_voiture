@@ -103,7 +103,7 @@ public class DevisPersistence extends JdbcConnexion{
      * @return le nombre de ligne changé en base
      * @throws SQLException
      */
-    public boolean updateDevis(int id,Devis devis) throws SQLException {
+    public int updateDevis(int id,Devis devis) throws SQLException {
         PreparedStatement ps = connexion.prepareStatement("update devis set debut = ? ,fin = ? ,voiture_id = ? ,client_id = ? where id = ?");
         ps.setString(1,Utilities.dateToString(devis.getDebut()));
         if(devis.getFin() != null) {
@@ -114,7 +114,7 @@ public class DevisPersistence extends JdbcConnexion{
         ps.setInt(3,devis.getVoiture().getId());
         ps.setInt(4,devis.getClient().getId());
         ps.setInt(5,id);
-        return ps.execute();
+        return ps.executeUpdate();
     }
 
     /**

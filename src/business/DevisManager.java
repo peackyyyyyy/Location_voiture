@@ -50,7 +50,9 @@ public class DevisManager {
         }
         return null;
     }
-
+    public int updateClient(int id, Devis devis) throws SQLException {
+        return devisPersistence.updateDevis(id,devis);
+    }
     public void generate_facture_by_id(int id){
         int temp;
         for (Devis devi : this.devis) {
@@ -92,6 +94,10 @@ public class DevisManager {
     public ArrayList<Devis> getDevis() throws SQLException, ParseException {
         devis = devisPersistence.getDevis();
         return devis;
+    }
+
+    public boolean deleteDevis(int id) throws SQLException {
+        return devisPersistence.deleteDevis(id);
     }
 
     @Override
