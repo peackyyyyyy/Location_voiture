@@ -27,14 +27,7 @@ public class AgenceManager extends VoitureManager{
             int leid = agencePersistence.insertAgence(agence);
             agence.setId(leid);
             this.agences.add(agence);
-        }
-    }
-
-    public void add_agence(Agence agence) throws SQLException {
-        if (!this.agences.contains(agence)) {
-            int leid = agencePersistence.insertAgence(agence);
-            this.agences.add(agence);
-            agence.setId(leid);
+            agence.setId(id);
         }
     }
 

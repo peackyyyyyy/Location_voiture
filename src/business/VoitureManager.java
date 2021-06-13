@@ -32,13 +32,17 @@ public class VoitureManager {
         this.voiturePersistence = voiturePersistence;
     }
 
-    public void add_voiture(String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage, Enumeration.State state, Agence agence, Agence agence_a_etre) throws SQLException {
+    public VoitureManager(){ }
+
+    public int add_voiture(String marque, String model, int kilometers, ICategorie categorie, boolean vitesse, boolean clim, Enumeration.Carburant carburant, boolean endommage, Enumeration.State state, Agence agence, Agence agence_a_etre) throws SQLException {
         Voiture voiture = new Voiture(marque,model,kilometers,endommage,vitesse,clim,agence,agence_a_etre,categorie,carburant,state);
         if (!this.voitures.contains(voiture)) {
             int id = voiturePersistence.insertVoiture(voiture);
             voiture.setId(id);
             this.voitures.add(voiture);
+            return id;
         }
+        return -1;
     }
     public int add_voiture(Voiture voiture) throws SQLException {
         if (!this.voitures.contains(voiture)) {
@@ -163,10 +167,10 @@ public class VoitureManager {
         return voitures;
     }
 
-
     public void setVoitures(ArrayList<Voiture> voitures) {
         this.voitures = voitures;
     }
+
 
     @Override
     public String toString() {

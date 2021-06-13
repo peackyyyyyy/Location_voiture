@@ -10,7 +10,6 @@ import value_object.model.Enumeration;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
@@ -60,7 +59,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JTextField idLocation;
     private JButton FinLocation;
     private JCheckBox endommageCheckBox;
-    private JButton enregistrerButton;
+    private JButton Enregistrer;
     private JComboBox datedefinlocation_day;
     private JComboBox datedefinlocation_month;
     private JComboBox datedefinlocation_year;
@@ -102,9 +101,6 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JPanel Voiture;
 
     private JPanel listeVoiture;
-    private JTextField textfiledIdTobutton;
-    private JButton modifierButton;
-    private JButton supprimerButton;
     private JPanel paneldeliste;
     private JTable ClientTable;
     private JButton ajouterUnClientButton;
@@ -113,13 +109,13 @@ public class ClientMenu extends JFrame implements ActionListener{
     private DefaultTableModel model;
     private DefaultTableModel mod;
     private DefaultTableModel mod2;
+    private DefaultTableModel model_locations;
     private ClientPersistence clientPersistence;
     private VoiturePersistence voiturePersistence;
     private CarburantPersistence carburantPersistence;
     private CategoriePersistence categoriePersistence;
     private AgencePersistence agencePersistence;
     private StatePersistence statePersistence;
-    private JTable tablefind;
 
     public ClientMenu (ClientManager clientManager, DevisManager devisManager, VoitureManager voitureManager, ClientPersistence clientPersistence, VoiturePersistence voiturePersistence, CarburantPersistence carburantPersistence, CategoriePersistence categoriePersistence, StatePersistence statePersistence, AgencePersistence agencePersistence) throws SQLException {
         super();
@@ -189,7 +185,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         Object[] columnss = {"Id", "Modele", "Marque", "Kilometre", "Automatique", "Climatisé","Endommagé","Type de Carburant","Catégorie","Etat","Agence","Agence a etre"};
         this.mod = new DefaultTableModel();
         mod.setColumnIdentifiers(columnss);
-        tablefind =  new JTable(mod)
+        JTable tablefind =  new JTable(mod)
         {
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
             {
@@ -314,43 +310,36 @@ public class ClientMenu extends JFrame implements ActionListener{
                 scronnpane.add(voiturescrol);
             }
         });
-        modifierButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int id = Integer.parseInt(textfiledIdTobutton.getText());
-                TableModel model = tablefind.getModel();
-                int i;
-                for( i = 0; i < tablefind.getRowCount();i++){
-                    if(id == (Integer) model.getValueAt(i,0)) {
-                        break;
-                    }
-                }
-                try {
-                    voitureManager.updateVoiture(id,new Voiture(
-                            (String) model.getValueAt(i,2),
-                            (String)model.getValueAt(i,1),
-                            (Integer) model.getValueAt(i,3),
-                            model.getValueAt(i, 6).equals("true"),
-                            model.getValueAt(i, 4).equals("true"),
-                            model.getValueAt(i, 5).equals("true"),
-                            (Agence) model.getValueAt(i,10),
-                            (Agence)model.getValueAt(i,11),
-                            (ICategorie) model.getValueAt(i,8),
-                            (Enumeration.Carburant) model.getValueAt(i,7),
-                            (Enumeration.State) model.getValueAt(i,9)
-                    ));
-                    setVoiture_table();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            }
-        });
     }
 
     public void setLayoutManager() {
         Listedesclients.setLayout(null);
         listeVoiture.setLayout(null);
     }
+
+    private void setLocation_table(){
+        try {
+            for (Devis devis: this.devisManager.getDevis()){
+                Object[] row = new Object[9];
+                row[0] = devis.getId();
+                row[1] = devis.getClient().getId();
+                row[2] = devis.getClient().getName();
+                row[3] = devis.getClient().getSurname();
+                row[4] = devis.getVoiture().getId();
+                row[5] = devis.getVoiture().getModel();
+                row[6] = devis.getVoiture().getMarque();
+                row[7] = devis.getDebut();
+                row[8] = devis.getFin();
+                model_locations.addRow(row);
+
+            }
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+    }
+
 
     private void populateCombo() throws SQLException{
         try{
@@ -372,8 +361,6 @@ public class ClientMenu extends JFrame implements ActionListener{
                 comboEtat.addItem(state);
                 comboEtat2.addItem(state);
             }
-            comboEtat2.insertItemAt(null,0);
-            comboAgence2.insertItemAt(null,0);
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());
@@ -381,6 +368,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     }
 
     private void addRowTableVoiture(DefaultTableModel modele,Voiture vt){
+        try {
             Object[] row;
             row = new Object[12];
             row[0] = vt.getId();
@@ -396,10 +384,14 @@ public class ClientMenu extends JFrame implements ActionListener{
             row[10] = vt.getAgence();
             row[11] = vt.getAgence_a_etre();
             modele.addRow(row);
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
     }
 
-    private void setVoiture_table() throws SQLException {
-            mod.setRowCount(0);
+    private void setVoiture_table(){
+        try {
             Object[] row;
             for (Voiture vt: voitureManager.getVoitures()) {
                 row = new Object[12];
@@ -416,6 +408,11 @@ public class ClientMenu extends JFrame implements ActionListener{
                 row[10] = vt.getAgence();
                 row[11] = vt.getAgence_a_etre();
                 mod.addRow(row);
+            }
+
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
         }
 
     }
@@ -446,7 +443,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         RechercheClient.addActionListener(this);
         AjouterLocation.addActionListener(this);
         FinLocation.addActionListener(this);
-        enregistrerButton.addActionListener(this);
+        Enregistrer.addActionListener(this);
     }
 
 
@@ -527,6 +524,8 @@ public class ClientMenu extends JFrame implements ActionListener{
 
         }
         else if (e.getSource() == AjouterLocation){
+            ICategorie luxe = new Luxe();
+            Agence agence = new Agence("rue", "ville", "06", 1, "agence", "0657453434", "longitude", "lattitude");
             String id_voiture = idVoiturefield.getText();
             String id_client = idclientfield.getText();
             int day_debut = Integer.parseInt(String.valueOf(daylocationdebutbox.getSelectedItem()));
@@ -535,9 +534,10 @@ public class ClientMenu extends JFrame implements ActionListener{
             Voiture voiture = this.voitureManager.get_voiture_by_id(Integer.parseInt(id_voiture));
             Client client = this.clientManager.get_client_by_id(Integer.parseInt(id_client));
             Date date_debut = new GregorianCalendar(year_debut, return_month(month_debut), day_debut).getTime();
-            System.out.println("date " + date_debut.getYear());
+            //#todo add id in all managers methodes
+            Date date_fin = null;
             try {
-                Devis devis = this.devisManager.add_devi(voiture, client, date_debut);
+                this.devisManager.add_devi(voiture, client, date_debut);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -545,20 +545,31 @@ public class ClientMenu extends JFrame implements ActionListener{
                 int day_fin = Integer.parseInt(String.valueOf(daylocationfinbox.getSelectedItem()));
                 int month_fin = Integer.parseInt(String.valueOf(monthlocationfinbox.getSelectedItem()));
                 int year_fin = Integer.parseInt(String.valueOf(yearlocationfinbox.getSelectedItem()));
-                Date date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
+                date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
                 try {
                     this.devisManager.update_fin_devis_by_id(1, date_fin);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
             }
+            Object[] row = new Object[9];
+            row[0] = 1;
+            row[1] = client.getId();
+            row[2] = client.getName();
+            row[3] = client.getSurname();
+            row[4] = voiture.getId();
+            row[5] = voiture.getModel();
+            row[6] = voiture.getMarque();
+            row[7] = date_debut;
+            row[8] = date_fin;
+            model_locations.addRow(row);
             JOptionPane.showMessageDialog(this, "Location Effectué");
         }
-        else if (e.getSource() == enregistrerButton){
+        else if (e.getSource() == Enregistrer){
             FinLocation.setVisible(false);
             int id = Integer.parseInt(idLocation.getText());
             Devis result = this.devisManager.get_devis_by_id(id);
-            if (enregistrerButton.isSelected()){
+            if (Enregistrer.isSelected()){
                 result.getVoiture().setEndommage(true);
             }
             int day_fin = Integer.parseInt(String.valueOf(datedefinlocation_day.getSelectedItem()));
@@ -575,7 +586,7 @@ public class ClientMenu extends JFrame implements ActionListener{
             datedefinlocation_day.setVisible(false);
             datedefinlocation_month.setVisible(false);
             datedefinlocation_year.setVisible(false);
-            enregistrerButton.setVisible(false);
+            Enregistrer.setVisible(false);
             FinLocation.setVisible(true);
             idLocation.setText("");
         }
@@ -593,7 +604,7 @@ public class ClientMenu extends JFrame implements ActionListener{
                     datedefinlocation_day.setVisible(true);
                     datedefinlocation_month.setVisible(true);
                     datedefinlocation_year.setVisible(true);
-                    enregistrerButton.setVisible(true);
+                    Enregistrer.setVisible(true);
                 }
             }
             catch (Exception exep){
@@ -667,6 +678,9 @@ public class ClientMenu extends JFrame implements ActionListener{
 
         }
     }
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        JdbcConnexion jdbc = new JdbcConnexion();
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         JdbcConnexion jdbc = new JdbcConnexion();
 

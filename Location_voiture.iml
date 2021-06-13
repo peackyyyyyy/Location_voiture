@@ -10,7 +10,11 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
+<<<<<<< HEAD
           <root url="jar://$MODULE_DIR$/../../Telechargements/mariadb-java-client-2.7.3.jar!/" />
+=======
+          <root url="jar://$USER_HOME$/Telechargements/mariadb-java-client-2.7.3.jar!/" />
+>>>>>>> mergehugo2
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -28,7 +32,11 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
+<<<<<<< HEAD
           <root url="jar://$MODULE_DIR$/../../Téléchargemenrts/mariadb-java-client-2.7.3.jar!/" />
+=======
+          <root url="jar://$USER_HOME$/Téléchargements/mariadb-java-client-2.7.3.jar!/" />
+>>>>>>> mergehugo2
         </CLASSES>
         <JAVADOC />
         <SOURCES />
