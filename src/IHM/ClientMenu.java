@@ -94,7 +94,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         client_table.setFont(font_client);
         client_table.setRowHeight(30);
         JScrollPane client_pane = new JScrollPane(client_table);
-        client_pane.setBounds(0, 0, 1200, 800);
+        client_pane.setBounds(0, 0, 1400, 1000);
         setClient_table();
         Listedesclients.add(client_pane);
         /////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,7 +109,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         location_table.setFont(font_location);
         location_table.setRowHeight(30);
         JScrollPane location_pane = new JScrollPane(location_table);
-        location_pane.setBounds(0, 0, 1200, 800);
+        location_pane.setBounds(0, 0, 1400, 1000);
         setLocation_table();
         ListeLocation.add(location_pane);
 
@@ -367,7 +367,7 @@ public class ClientMenu extends JFrame implements ActionListener{
             client_table.setFont(font);
             client_table.setRowHeight(30);
             JScrollPane client_pane = new JScrollPane(client_table);
-            client_pane.setBounds(0, 0, 1200, 800);
+            client_pane.setBounds(0, 0, 1400, 1000);
             try {
                 for (Client client: clients){
                     Object[] row = new Object[7];
