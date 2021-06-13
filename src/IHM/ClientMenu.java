@@ -115,6 +115,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JTextField textFieldIdLocation;
     private JButton modifierButtonLocation;
     private JButton supprimerButtonLocation;
+    private JButton button1;
     private JPanel paneldeliste;
     private JTable ClientTable;
     private JButton ajouterUnClientButton;
@@ -485,6 +486,13 @@ public class ClientMenu extends JFrame implements ActionListener{
                 }
             }
         });
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                ChoiceUser admin=new ChoiceUser();
+            }
+        });
     }
 
     public void setLayoutManager() {
@@ -531,21 +539,21 @@ public class ClientMenu extends JFrame implements ActionListener{
      * @param vt la voiture à ajouter
      */
     private void addRowTableVoiture(DefaultTableModel modele,Voiture vt){
-            Object[] row;
-            row = new Object[12];
-            row[0] = vt.getId();
-            row[1] = vt.getModel();
-            row[2] = vt.getMarque();
-            row[3] = vt.getKilometers();
-            row[4] = vt.isVitesse();
-            row[5] = vt.isClim();
-            row[6] = vt.isEndommage();
-            row[7] = vt.getCarburant();
-            row[8] = vt.getCategorie();
-            row[9] = vt.getState();
-            row[10] = vt.getAgence();
-            row[11] = vt.getAgence_a_etre();
-            modele.addRow(row);
+        Object[] row;
+        row = new Object[12];
+        row[0] = vt.getId();
+        row[1] = vt.getModel();
+        row[2] = vt.getMarque();
+        row[3] = vt.getKilometers();
+        row[4] = vt.isVitesse();
+        row[5] = vt.isClim();
+        row[6] = vt.isEndommage();
+        row[7] = vt.getCarburant();
+        row[8] = vt.getCategorie();
+        row[9] = vt.getState();
+        row[10] = vt.getAgence();
+        row[11] = vt.getAgence_a_etre();
+        modele.addRow(row);
     }
 
     /**
@@ -579,23 +587,23 @@ public class ClientMenu extends JFrame implements ActionListener{
      * @throws SQLException
      */
     private void setVoiture_table() throws SQLException {
-            mod.setRowCount(0);
-            Object[] row;
-            for (Voiture vt: voitureManager.getVoitures()) {
-                row = new Object[12];
-                row[0] = vt.getId();
-                row[1] = vt.getModel();
-                row[2] = vt.getMarque();
-                row[3] = vt.getKilometers();
-                row[4] = vt.isVitesse();
-                row[5] = vt.isClim();
-                row[6] = vt.isEndommage();
-                row[7] = vt.getCarburant();
-                row[8] = vt.getCategorie();
-                row[9] = vt.getState();
-                row[10] = vt.getAgence();
-                row[11] = vt.getAgence_a_etre();
-                mod.addRow(row);
+        mod.setRowCount(0);
+        Object[] row;
+        for (Voiture vt: voitureManager.getVoitures()) {
+            row = new Object[12];
+            row[0] = vt.getId();
+            row[1] = vt.getModel();
+            row[2] = vt.getMarque();
+            row[3] = vt.getKilometers();
+            row[4] = vt.isVitesse();
+            row[5] = vt.isClim();
+            row[6] = vt.isEndommage();
+            row[7] = vt.getCarburant();
+            row[8] = vt.getCategorie();
+            row[9] = vt.getState();
+            row[10] = vt.getAgence();
+            row[11] = vt.getAgence_a_etre();
+            mod.addRow(row);
         }
 
     }
