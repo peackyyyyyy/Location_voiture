@@ -25,7 +25,7 @@ public class AgenceManager extends VoitureManager{
         Agence agence = new Agence(rue, ville, codepostal, id, name, phone, longitude, lattitude);
         if (!this.agences.contains(agence)) {
             this.agences.add(agence);
-            agence.setId(leid);
+            agence.setId(id);
         }
     }
 

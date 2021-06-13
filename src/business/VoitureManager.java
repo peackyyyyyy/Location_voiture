@@ -166,24 +166,10 @@ public class VoitureManager {
         return voitures;
     }
 
-    private ArrayList<Voiture> try_list_agence(Agence agence, ArrayList<Voiture> result){
-        ArrayList<Voiture> newresult = new ArrayList<>();
-        for (Voiture vt: result){
-            if (agence.getId() == vt.getAgence().getId()){
-                newresult.add(vt);
-            }
-        }
-        return newresult;
-    }
-
     public void setVoitures(ArrayList<Voiture> voitures) {
         this.voitures = voitures;
     }
 
-
-    public void setVoitures(ArrayList<Voiture> voitures) {
-        this.voitures = voitures;
-    }
 
     @Override
     public String toString() {
