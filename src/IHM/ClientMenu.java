@@ -765,7 +765,6 @@ public class ClientMenu extends JFrame implements ActionListener{
                 int year_fin = Integer.parseInt(String.valueOf(yearlocationfinbox.getSelectedItem()));
                 date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
                 try {
-                    assert devis != null;
                     this.devisManager.update_fin_devis_by_id(devis.getId(), date_fin);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -785,7 +784,6 @@ public class ClientMenu extends JFrame implements ActionListener{
             JOptionPane.showMessageDialog(this, "Location Effectué");
         }
         else if (e.getSource() == enregistrerButton){
-            FinLocation.setVisible(false);
             int id = Integer.parseInt(idLocation.getText());
             Devis result = this.devisManager.get_devis_by_id(id);
             if (enregistrerButton.isSelected()){
@@ -797,6 +795,7 @@ public class ClientMenu extends JFrame implements ActionListener{
             Date date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
             try {
                 this.devisManager.update_fin_devis_by_id(id, date_fin);
+                setLocation_table();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -825,6 +824,7 @@ public class ClientMenu extends JFrame implements ActionListener{
                     datedefinlocation_year.setVisible(true);
                     enregistrerButton.setVisible(true);
                 }
+                FinLocation.setVisible(false);
             }
             catch (Exception exep){
                 JOptionPane.showMessageDialog(this, "ID non valable");

@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Location_voiture.iml" filepath="$PROJECT_DIR$/Location_voiture.iml" />
-      <module fileurl="file://$USER_HOME$/Téléchargements/mariadb-java-client-2.7.3/mariadb-java-client-2.7.3.iml" filepath="$USER_HOME$/Téléchargements/mariadb-java-client-2.7.3/mariadb-java-client-2.7.3.iml" />
     </modules>
   </component>
 </project>
