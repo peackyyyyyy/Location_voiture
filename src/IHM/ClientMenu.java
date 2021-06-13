@@ -46,7 +46,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JButton RechercheClient;
     private JScrollPane ListeRechercheClient;
     private JCheckBox checkBox1;
-    private JTabbedPane tabbedPane3;
+    private JTabbedPane Listelocation;
     private JTextField idVoiturefield;
     private JTextField idclientfield;
     private JComboBox daylocationdebutbox;
@@ -105,12 +105,13 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JTextField textfiledIdTobutton;
     private JButton modifierButton;
     private JButton supprimerButton;
-    private JPanel paneldeliste;
+    private JPanel paneldelistelocation;
     private JTable ClientTable;
     private JButton ajouterUnClientButton;
     private JButton rechercherUnClientButton;
     private JButton supprimerUnClientButton;
     private DefaultTableModel model;
+    private DefaultTableModel model_locations;
     private DefaultTableModel mod;
     private DefaultTableModel mod2;
     private ClientPersistence clientPersistence;
@@ -152,6 +153,22 @@ public class ClientMenu extends JFrame implements ActionListener{
         client_pane.setBounds(0, 0, 1200, 800);
         setClient_table();
         Listedesclients.add(client_pane);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+        JTable location_table = new JTable();
+        Object[] columns_location = {"Id", "Id Client", "Nom", "Prenom", "Id Voiture", "Model", "Marque", "Début", "Fin"};
+        model_locations = new DefaultTableModel();
+        model_locations.setColumnIdentifiers(columns_location);
+        location_table.setModel(model_locations);
+        location_table.setBackground(Color.LIGHT_GRAY);
+        location_table.setForeground(Color.black);
+        Font font_location = new Font("",1,14);
+        location_table.setFont(font_location);
+        location_table.setRowHeight(30);
+        JScrollPane location_pane = new JScrollPane(location_table);
+        location_pane.setBounds(0, 0, 1400, 1000);
+        setLocation_table();
+        paneldelistelocation.add(location_pane);
 
         voitureManager.setVoitures(voitureManager.getVoitures());
 
@@ -346,10 +363,33 @@ public class ClientMenu extends JFrame implements ActionListener{
             }
         });
     }
+    private void setLocation_table(){
+        try {
+            for (Devis devis: this.devisManager.getDevis()){
+                Object[] row = new Object[9];
+                row[0] = devis.getId();
+                row[1] = devis.getClient().getId();
+                row[2] = devis.getClient().getName();
+                row[3] = devis.getClient().getSurname();
+                row[4] = devis.getVoiture().getId();
+                row[5] = devis.getVoiture().getModel();
+                row[6] = devis.getVoiture().getMarque();
+                row[7] = devis.getDebut();
+                row[8] = devis.getFin();
+                model_locations.addRow(row);
+
+            }
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+    }
 
     public void setLayoutManager() {
         Listedesclients.setLayout(null);
         listeVoiture.setLayout(null);
+        paneldelistelocation.setLayout(null);
     }
 
     private void populateCombo() throws SQLException{
@@ -535,7 +575,7 @@ public class ClientMenu extends JFrame implements ActionListener{
             Voiture voiture = this.voitureManager.get_voiture_by_id(Integer.parseInt(id_voiture));
             Client client = this.clientManager.get_client_by_id(Integer.parseInt(id_client));
             Date date_debut = new GregorianCalendar(year_debut, return_month(month_debut), day_debut).getTime();
-            System.out.println("date " + date_debut.getYear());
+            Date date_fin = null;
             try {
                 Devis devis = this.devisManager.add_devi(voiture, client, date_debut);
             } catch (SQLException throwables) {
@@ -545,13 +585,24 @@ public class ClientMenu extends JFrame implements ActionListener{
                 int day_fin = Integer.parseInt(String.valueOf(daylocationfinbox.getSelectedItem()));
                 int month_fin = Integer.parseInt(String.valueOf(monthlocationfinbox.getSelectedItem()));
                 int year_fin = Integer.parseInt(String.valueOf(yearlocationfinbox.getSelectedItem()));
-                Date date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
+                date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
                 try {
                     this.devisManager.update_fin_devis_by_id(1, date_fin);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
             }
+            Object[] row = new Object[9];
+            row[0] = 1;
+            row[1] = client.getId();
+            row[2] = client.getName();
+            row[3] = client.getSurname();
+            row[4] = voiture.getId();
+            row[5] = voiture.getModel();
+            row[6] = voiture.getMarque();
+            row[7] = date_debut;
+            row[8] = date_fin;
+            model_locations.addRow(row);
             JOptionPane.showMessageDialog(this, "Location Effectué");
         }
         else if (e.getSource() == enregistrerButton){
