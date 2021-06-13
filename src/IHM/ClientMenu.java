@@ -107,6 +107,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JTextField textfieldbuttonclient;
     private JButton modifierButton1;
     private JButton supprimerButton1;
+    private JPanel paneldelistelocation;
     private JPanel paneldeliste;
     private JTable ClientTable;
     private JButton ajouterUnClientButton;
@@ -122,6 +123,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private AgencePersistence agencePersistence;
     private StatePersistence statePersistence;
     private JTable tablefind;
+    private DefaultTableModel model_locations;
 
     public ClientMenu (ClientManager clientManager, DevisManager devisManager, VoitureManager voitureManager, ClientPersistence clientPersistence, VoiturePersistence voiturePersistence, CarburantPersistence carburantPersistence, CategoriePersistence categoriePersistence, StatePersistence statePersistence, AgencePersistence agencePersistence) throws SQLException {
         super();
@@ -404,11 +406,27 @@ public class ClientMenu extends JFrame implements ActionListener{
                 }
             }
         });
+
+        JTable location_table = new JTable();
+        Object[] columns_location = {"Id", "Id Client", "Nom", "Prenom", "Id Voiture", "Model", "Marque", "Début", "Fin"};
+        model_locations = new DefaultTableModel();
+        model_locations.setColumnIdentifiers(columns_location);
+        location_table.setModel(model_locations);
+        location_table.setBackground(Color.LIGHT_GRAY);
+        location_table.setForeground(Color.black);
+        Font font_location = new Font("",1,14);
+        location_table.setFont(font_location);
+        location_table.setRowHeight(30);
+        JScrollPane location_pane = new JScrollPane(location_table);
+        location_pane.setBounds(0, 0, 1400, 1000);
+        setLocation_table();
+        paneldelistelocation.add(location_pane);
     }
 
     public void setLayoutManager() {
         Listedesclients.setLayout(null);
         listeVoiture.setLayout(null);
+        paneldelistelocation.setLayout(null);
     }
 
     private void populateCombo() throws SQLException{
@@ -455,6 +473,28 @@ public class ClientMenu extends JFrame implements ActionListener{
             row[10] = vt.getAgence();
             row[11] = vt.getAgence_a_etre();
             modele.addRow(row);
+    }
+
+    private void setLocation_table(){
+        try {
+            for (Devis devis: this.devisManager.getDevis()){
+                Object[] row = new Object[9];
+                row[0] = devis.getId();
+                row[1] = devis.getClient().getId();
+                row[2] = devis.getClient().getName();
+                row[3] = devis.getClient().getSurname();
+                row[4] = devis.getVoiture().getId();
+                row[5] = devis.getVoiture().getModel();
+                row[6] = devis.getVoiture().getMarque();
+                row[7] = devis.getDebut();
+                row[8] = devis.getFin();
+                model_locations.addRow(row);
+            }
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     private void setVoiture_table() throws SQLException {

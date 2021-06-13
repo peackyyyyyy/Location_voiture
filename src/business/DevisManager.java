@@ -7,6 +7,7 @@ import value_object.Facture;
 import value_object.Voiture;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -88,8 +89,8 @@ public class DevisManager {
     }
 
 
-    public ArrayList<Devis> getDevis() {
-        return devis;
+    public ArrayList<Devis> getDevis() throws SQLException, ParseException {
+        return devisPersistence.getDevis();
     }
 
     @Override
