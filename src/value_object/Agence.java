@@ -1,7 +1,7 @@
 package value_object;
 
 public class Agence extends Adresse{
-    private final int id;
+    private int id;
     private final String name;
     private final String phone;
     private final String longitude;
@@ -36,6 +36,9 @@ public class Agence extends Adresse{
 
     public String getName() {
         return name;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
