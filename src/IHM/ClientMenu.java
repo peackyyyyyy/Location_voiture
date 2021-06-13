@@ -106,6 +106,9 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JButton modifierButton;
     private JButton supprimerButton;
     private JPanel paneldelistelocation;
+    private JTextField IdLocationFacture;
+    private JButton genererFactureButton;
+    private JTextPane Facturetexte;
     private JTable ClientTable;
     private JButton ajouterUnClientButton;
     private JButton rechercherUnClientButton;
@@ -566,6 +569,14 @@ public class ClientMenu extends JFrame implements ActionListener{
 
 
         }
+        else if(e.getSource() == genererFactureButton){
+            String id_location = IdLocationFacture.getText();
+            Devis devis = null;
+            try {
+                devis = this.devisManager.get_devis_by_id(Integer.parseInt(id_location));
+            }
+
+        }
         else if (e.getSource() == AjouterLocation){
             String id_voiture = idVoiturefield.getText();
             String id_client = idclientfield.getText();
@@ -576,8 +587,9 @@ public class ClientMenu extends JFrame implements ActionListener{
             Client client = this.clientManager.get_client_by_id(Integer.parseInt(id_client));
             Date date_debut = new GregorianCalendar(year_debut, return_month(month_debut), day_debut).getTime();
             Date date_fin = null;
+            Devis devis = null;
             try {
-                Devis devis = this.devisManager.add_devi(voiture, client, date_debut);
+                devis = this.devisManager.add_devi(voiture, client, date_debut);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -587,7 +599,8 @@ public class ClientMenu extends JFrame implements ActionListener{
                 int year_fin = Integer.parseInt(String.valueOf(yearlocationfinbox.getSelectedItem()));
                 date_fin = new GregorianCalendar(year_fin, return_month(month_fin), day_fin).getTime();
                 try {
-                    this.devisManager.update_fin_devis_by_id(1, date_fin);
+                    assert devis != null;
+                    this.devisManager.update_fin_devis_by_id(devis.getId(), date_fin);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
