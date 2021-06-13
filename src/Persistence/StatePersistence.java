@@ -4,7 +4,6 @@ import value_object.model.Enumeration;
 
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 public class StatePersistence {
 
@@ -41,13 +40,5 @@ public class StatePersistence {
 
         }
         return -1;
-    }
-
-    public ArrayList<Enumeration.State> getStats(){
-        ArrayList<Enumeration.State> liste = new ArrayList<>();
-        liste.add(Enumeration.State.Reserver);
-        liste.add(Enumeration.State.Louer);
-        liste.add(Enumeration.State.Libre);
-        return liste;
     }
 }

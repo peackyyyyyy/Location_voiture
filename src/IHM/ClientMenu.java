@@ -1,7 +1,6 @@
 package IHM;
 import Persistence.*;
 import business.ClientManager;
-import business.VoitureManager;
 import value_object.*;
 import value_object.model.Enumeration;
 
@@ -38,7 +37,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JTextField Codepostale;
     private JTextField Ville;
     private JTabbedPane tabbedPane3;
-    private JTable tablefind;
+    private JTable table1;
     private JComboBox comboModele;
     private JTable ClientTable;
     private JButton ajouterUnClientButton;
@@ -46,7 +45,6 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JButton supprimerUnClientButton;
     private  DefaultTableModel modele;
     private  DefaultTableModel mod;
-    private  DefaultTableModel mod2;
     private JLabel agenceA_Etre;
     private JLabel marque;
     private JLabel categorie;
@@ -76,12 +74,10 @@ public class ClientMenu extends JFrame implements ActionListener{
     private JTextField modelTextField;
     private JComboBox comboAgence2;
     private JLabel agencelabel;
+    private JLabel idlabel;
     private JLabel modelLabel;
     private JComboBox comboEtat2;
     private JButton searchButton;
-    private JPanel trouveVoiture;
-    private JScrollPane scronnpane;
-    private JScrollPane scronnpan;
     private JPanel listevoiture;
     private ClientPersistence clientPersistence;
     private VoiturePersistence voiturePersistence;
@@ -90,11 +86,10 @@ public class ClientMenu extends JFrame implements ActionListener{
     private CarburantPersistence carburantPersistence;
     private AgencePersistence agencePersistence;
     private StatePersistence statePersistence;
-    private VoitureManager voitureManager;
-    public ClientMenu (ClientManager clientManager, VoitureManager voitureManager, ClientPersistence clientPersistence, VoiturePersistence voiturePersistence, CarburantPersistence carburantPersistence, CategoriePersistence categoriePersistence, StatePersistence statePersistence, AgencePersistence agencePersistence) throws SQLException {
+
+    public ClientMenu (ClientManager clientManager, ClientPersistence clientPersistence,VoiturePersistence voiturePersistence,  CarburantPersistence carburantPersistence, CategoriePersistence categoriePersistence, StatePersistence statePersistence, AgencePersistence agencePersistence) throws SQLException {
         super();
         this.clientPersistence = clientPersistence;
-        this.voitureManager = voitureManager;
         this.voiturePersistence = voiturePersistence;
         this.clientManager = clientManager;
         this.carburantPersistence = carburantPersistence;
@@ -124,7 +119,7 @@ public class ClientMenu extends JFrame implements ActionListener{
 
 
         this.liste = voiturePersistence.getVoitures();
-        voitureManager.setVoitures(liste);
+
 
         Voiture vt = liste.get(0);
         lemodele.setText("Modele : " + vt.getModel());
@@ -162,7 +157,7 @@ public class ClientMenu extends JFrame implements ActionListener{
         mod.setColumnIdentifiers(columnss);
         listevoiture = new JPanel();
         listevoiture.setVisible(true);
-        tablefind =  new JTable(mod)
+        table1 =  new JTable(mod)
         {
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
             {
@@ -179,16 +174,16 @@ public class ClientMenu extends JFrame implements ActionListener{
                 return comp;
             }
         };
-        tablefind.setModel(mod);
-        tablefind.setBackground(Color.LIGHT_GRAY);
-        tablefind.setForeground(Color.black);
-        tablefind.setSize(1400,1000);
+        table1.setModel(mod);
+        table1.setBackground(Color.LIGHT_GRAY);
+        table1.setForeground(Color.black);
+        table1.setSize(1400,1000);
         Font fonti = new Font("",1,14);
-        tablefind.setFont(fonti);
-        tablefind.setRowHeight(30);
-        tablefind.setVisible(true);
+        table1.setFont(fonti);
+        table1.setRowHeight(30);
+        table1.setVisible(true);
 
-        JScrollPane voi_pane = new JScrollPane(tablefind);
+        JScrollPane voi_pane = new JScrollPane(table1);
         voi_pane.setBounds(0, 0, 1200, 800);
         voi_pane.setVisible(true);
         setVoiture_table();
@@ -218,7 +213,7 @@ public class ClientMenu extends JFrame implements ActionListener{
                     int id = voiturePersistence.insertVoiture(voiture);
                     voiture.setId(id);
                     JOptionPane.showMessageDialog(listevoiture, "Voiture Ajouté");
-                    addRowTableVoiture(mod,voiture);
+                    addRowTableVoiture(voiture);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -235,7 +230,6 @@ public class ClientMenu extends JFrame implements ActionListener{
                 Optional<String> opModele;
                 Optional<Agence> optionalAgence;
                 Optional<Enumeration.State> optionalState;
-
                 if(id.isEmpty()){
                     opid = Optional.empty();
                 }
@@ -261,32 +255,6 @@ public class ClientMenu extends JFrame implements ActionListener{
                 else{
                     optionalState = Optional.of(etat);
                 }
-                ArrayList<Voiture> laliste = voitureManager.findVoiture(opid,opModele,optionalState,optionalAgence);
-
-                JTable tableVoiture = new JTable();
-                Object[] columnss = {"Id", "Modele", "Marque", "Kilometre", "Automatique", "Climatisé","Endommagé","Type de Carburant","Catégorie","Etat","Agence","Agence a etre"};
-                DefaultTableModel mod2 = new DefaultTableModel();
-                mod2.setColumnIdentifiers(columnss);
-                tableVoiture.setModel(mod2);
-
-                tableVoiture.setBackground(Color.LIGHT_GRAY);
-                tableVoiture.setForeground(Color.black);
-                Font font = new Font("",1,14);
-                tableVoiture.setFont(font);
-                tableVoiture.setRowHeight(30);
-
-                JScrollPane voiturescrol = new JScrollPane(tableVoiture);
-                voiturescrol.setBounds(0, 0, 1200, 800);
-
-                try{
-                    for (Voiture vt:laliste) {
-                        System.out.println(vt.getModel());
-                        addRowTableVoiture(mod2,vt);
-                    }
-                }catch (Exception ex){
-                    System.out.println(ex.getMessage());
-                }
-                scronnpane.add(voiturescrol);
             }
         });
     }
@@ -309,12 +277,11 @@ public class ClientMenu extends JFrame implements ActionListener{
             for (value_object.Agence agence: agencePersistence.getAgences()) {
                 comboAgence.addItem(agence);
                 comboAgenceAEtre.addItem(agence);
-                comboAgence2.addItem(agence);
             }
             for (Enumeration.State state: statePersistence.getStats()){
                 comboEtat.addItem(state);
-                comboEtat2.addItem(state);
             }
+
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());
@@ -323,7 +290,7 @@ public class ClientMenu extends JFrame implements ActionListener{
     private void setCombocategorie(){
 
     }
-    private void addRowTableVoiture(DefaultTableModel modele,Voiture vt){
+    private void addRowTableVoiture(Voiture vt){
         try {
             Object[] row;
             row = new Object[12];
@@ -339,7 +306,8 @@ public class ClientMenu extends JFrame implements ActionListener{
             row[9] = vt.getState();
             row[10] = vt.getAgence();
             row[11] = vt.getAgence_a_etre();
-            modele.addRow(row);
+            mod.addRow(row);
+
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());
@@ -450,8 +418,7 @@ public class ClientMenu extends JFrame implements ActionListener{
 
         ArrayList<Client> clientsArrayList = new ArrayList<>();
         ClientManager clientManager = new ClientManager(clientsArrayList);
-        VoitureManager voitureManager  = new VoitureManager();
-        JFrame jFrame = new ClientMenu(clientManager,voitureManager,clientp,vp,carbup,cp,stp,ap);
+        JFrame jFrame = new ClientMenu(clientManager,clientp,vp,carbup,cp,stp,ap);
         jFrame.setVisible(true);
     }
 }

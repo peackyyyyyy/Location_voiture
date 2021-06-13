@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="Fenetre" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="true" same-size-vertically="true" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="800" height="543"/>
+      <xy x="20" y="20" width="758" height="543"/>
     </constraints>
     <properties>
       <preferredSize width="1400" height="1000"/>
@@ -532,7 +532,7 @@
                       </component>
                     </children>
                   </grid>
-                  <grid id="d0885" binding="trouveVoiture" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="d0885" layout-manager="GridLayoutManager" row-count="2" column-count="9" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <tabbedpane title="Trouver une voiture"/>
@@ -540,95 +540,97 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <grid id="eba2e" layout-manager="GridLayoutManager" row-count="1" column-count="22" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                        <margin top="0" left="0" bottom="0" right="0"/>
+                      <vspacer id="365ce">
                         <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </vspacer>
+                      <component id="1ac45" class="javax.swing.JTextField" binding="idTextfield">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
                         </constraints>
                         <properties/>
-                        <border type="none"/>
-                        <children>
-                          <component id="15c81" class="javax.swing.JLabel" binding="modelLabel">
-                            <constraints>
-                              <grid row="0" column="10" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties>
-                              <text value="Modele"/>
-                            </properties>
-                          </component>
-                          <component id="2d26e" class="javax.swing.JTextField" binding="modelTextField">
-                            <constraints>
-                              <grid row="0" column="11" row-span="1" col-span="6" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                <preferred-size width="150" height="-1"/>
-                              </grid>
-                            </constraints>
-                            <properties/>
-                          </component>
-                          <component id="c47f0" class="javax.swing.JLabel">
-                            <constraints>
-                              <grid row="0" column="17" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties>
-                              <text value="Etat"/>
-                            </properties>
-                          </component>
-                          <component id="8e870" class="javax.swing.JComboBox" binding="comboEtat2">
-                            <constraints>
-                              <grid row="0" column="18" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties>
-                              <model/>
-                            </properties>
-                          </component>
-                          <component id="8a1d8" class="javax.swing.JLabel" binding="agencelabel">
-                            <constraints>
-                              <grid row="0" column="19" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties>
-                              <text value="Agence"/>
-                            </properties>
-                          </component>
-                          <component id="42537" class="javax.swing.JComboBox" binding="comboAgence2">
-                            <constraints>
-                              <grid row="0" column="20" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties/>
-                          </component>
-                          <component id="95aa3" class="javax.swing.JButton" binding="searchButton" default-binding="true">
-                            <constraints>
-                              <grid row="0" column="21" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties>
-                              <text value="Search"/>
-                            </properties>
-                          </component>
-                          <component id="1ac45" class="javax.swing.JTextField" binding="idTextfield">
-                            <constraints>
-                              <grid row="0" column="1" row-span="1" col-span="9" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                <preferred-size width="150" height="-1"/>
-                              </grid>
-                            </constraints>
-                            <properties/>
-                          </component>
-                          <component id="af515" class="javax.swing.JLabel">
-                            <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                            </constraints>
-                            <properties>
-                              <text value="Id"/>
-                            </properties>
-                          </component>
-                        </children>
-                      </grid>
-                      <scrollpane id="f0783" binding="scronnpane">
+                      </component>
+                      <component id="2bc57" class="javax.swing.JLabel" binding="idlabel">
                         <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Id"/>
+                        </properties>
+                      </component>
+                      <component id="15c81" class="javax.swing.JLabel" binding="modelLabel">
+                        <constraints>
+                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Modele"/>
+                        </properties>
+                      </component>
+                      <component id="2d26e" class="javax.swing.JTextField" binding="modelTextField">
+                        <constraints>
+                          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
                         </constraints>
                         <properties/>
-                        <border type="none"/>
-                        <children/>
-                      </scrollpane>
+                      </component>
+                      <component id="8a1d8" class="javax.swing.JLabel" binding="agencelabel">
+                        <constraints>
+                          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Agence"/>
+                        </properties>
+                      </component>
+                      <component id="42537" class="javax.swing.JComboBox" binding="comboAgence2">
+                        <constraints>
+                          <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                      </component>
+                      <component id="c47f0" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Etat"/>
+                        </properties>
+                      </component>
+                      <component id="8e870" class="javax.swing.JComboBox" binding="comboEtat2">
+                        <constraints>
+                          <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                      </component>
+                      <component id="a5f65" class="javax.swing.JTable" binding="table1" default-binding="true">
+                        <constraints>
+                          <grid row="1" column="1" row-span="1" col-span="8" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="50"/>
+                          </grid>
+                        </constraints>
+                        <properties/>
+                      </component>
+                      <component id="95aa3" class="javax.swing.JButton" binding="searchButton" default-binding="true">
+                        <constraints>
+                          <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value="Search"/>
+                        </properties>
+                      </component>
                     </children>
+                  </grid>
+                  <grid id="c692c" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <tabbedpane title="Modifier Voiture"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children/>
                   </grid>
                 </children>
               </tabbedpane>
