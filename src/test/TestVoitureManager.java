@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class TestVoitureManager {
     public static void main(String[] args) {
-        ICategorie luxe = new Luxe();
+        /*ICategorie luxe = new Luxe();
         ArrayList<Voiture> voitureArrayList = new ArrayList<>();
         Agence agence = new Agence("rue", "ville", "06", 1, "agence", "0657453434", "longitude", "lattitude");
         VoitureManager voitureManager = new VoitureManager(voitureArrayList);
@@ -25,7 +25,7 @@ public class TestVoitureManager {
             System.out.println(voiture);
         }
 
-
+*/
     }
 
 }

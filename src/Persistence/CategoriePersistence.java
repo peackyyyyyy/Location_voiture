@@ -40,4 +40,12 @@ public class CategoriePersistence extends JdbcConnexion {
             return 3;
         return -1;
     }
+
+    public ArrayList<ICategorie> getCategories(){
+        ArrayList<ICategorie> liste = new ArrayList<>();
+        liste.add(new Confort());
+        liste.add(new Luxe());
+        liste.add(new Economique());
+        return liste;
+    }
 }

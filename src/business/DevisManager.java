@@ -1,25 +1,42 @@
 package business;
 
+import Persistence.DevisPersistence;
 import value_object.Client;
 import value_object.Devis;
 import value_object.Facture;
 import value_object.Voiture;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class DevisManager {
     private final ArrayList<Devis> devis;
+    private DevisPersistence devisPersistence;
 
-    public DevisManager(ArrayList<Devis> devis){
+    public DevisManager(ArrayList<Devis> devis, DevisPersistence devisPersistence){
         this.devis = devis;
+        this.devisPersistence = devisPersistence;
     }
-    public void add_devi(Voiture voiture, Client client, Date debut, int id){
-        //#todo add devis to BDD and get id
+    public void add_devi(Voiture voiture, Client client, Date debut, int id) throws SQLException {
         Devis devi = new Devis(voiture, client, debut, id);
         if (!this.devis.contains(devi)) {
+            int leid = devisPersistence.insertDevis(devi);
+            devi.setId(leid);
             this.devis.add(devi);
         }
+    }
+
+    public void add_devi(Devis devis) throws SQLException {
+        if (!this.devis.contains(devis)) {
+            int leid = devisPersistence.insertDevis(devis);
+            devis.setId(leid);
+            this.devis.add(devis);
+        }
+    }
+
+    public void delete_devis_by_id(int id){
+        this.devis.removeIf(devis -> devis.getId() == id);
     }
 
     public Devis get_devis_by_id(int id){
@@ -29,10 +46,6 @@ public class DevisManager {
             }
         }
         return null;
-    }
-
-    public void delete_devis_by_id(int id){
-        this.devis.removeIf(devis -> devis.getId() == id);
     }
 
     public void generate_facture_by_id(int id){
